@@ -42,12 +42,14 @@ addUserToMap = (user) => {
   });
   userMarkers[user.id] = L.marker(user.loc, {icon : userIcon});
   userMarkers[user.id].addTo(myMap);
+  console.log(userMarkers);
 }
 
 //Socket Handlers
 socket.on('new user', (user) => {
   onlineUsers[user.id] = user;
   addUserToMap(user);
+  console.log(onlineUsers);
 })
 socket.on('user left', (user) => {
   delete onlineUsers[user.id];
