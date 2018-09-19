@@ -1,4 +1,5 @@
 let myMap;
+let userMarkers = {};
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiamFtZXNyZXoiLCJhIjoiY2ptN2FndGl5MDkwbjNwcXg2dG92MXlicCJ9.DFEebRTgSCyUJT9fFfPilQ';
 if (navigator.geolocation) {
@@ -6,9 +7,11 @@ if (navigator.geolocation) {
     function(position) {
       // Get current cordinates
       userLoc = [position.coords.latitude, position.coords.longitude];
+      // Render Map at User Location
       renderMap(userLoc);
-      addUserToMap(userLoc);
-
+      // Emit a new user via socket.io
+      socket.emit('load online users');
+      socket.emit('new user', userLoc);
     },
     function(error) {
       console.log("Failed");
@@ -33,9 +36,27 @@ renderMap = (position) => {
   // }).addTo(myMap);
 }
 
-addUserToMap = (position) => {
+addUserToMap = (user) => {
   let userIcon = L.icon({
     iconUrl : '/client/assets/heart.svg'
   });
-  L.marker(position, {icon: userIcon}).addTo(myMap);
+  userMarkers[user.id] = L.marker(user.loc, {icon : userIcon});
+  userMarkers[user.id].addTo(myMap);
 }
+
+//Socket Handlers
+socket.on('new user', (user) => {
+  onlineUsers[user.id] = user;
+  addUserToMap(user);
+})
+socket.on('user left', (user) => {
+  delete onlineUsers[user.id];
+  myMap.removeLayer(userMarkers[user.id]);
+  delete userMarkers[user.id];
+})
+socket.on('load online users', (users) => {
+  for(id in users){
+    onlineUsers[id] = users[id];
+    addUserToMap(users[id]);
+  }
+})
