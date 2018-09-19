@@ -27,13 +27,13 @@ renderMap = (position) => {
     minZoom : 0
   }).setView(position, 5);
   //Purple Grid Map
-  L.mapbox.styleLayer('mapbox://styles/jamesrez/cjm8bp9f4eo5o2rn6i94e9swj').addTo(myMap);
+  // L.mapbox.styleLayer('mapbox://styles/jamesrez/cjm8bp9f4eo5o2rn6i94e9swj').addTo(myMap);
   // Render Earth Map
-  // L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
-  //   attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-  //   id: 'mapbox.streets',
-  //   accessToken: 'pk.eyJ1IjoiamFtZXNyZXoiLCJhIjoiY2ptN2FndGl5MDkwbjNwcXg2dG92MXlicCJ9.DFEebRTgSCyUJT9fFfPilQ'
-  // }).addTo(myMap);
+  L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1IjoiamFtZXNyZXoiLCJhIjoiY2ptN2FndGl5MDkwbjNwcXg2dG92MXlicCJ9.DFEebRTgSCyUJT9fFfPilQ'
+  }).addTo(myMap);
 }
 
 addUserToMap = (user) => {
