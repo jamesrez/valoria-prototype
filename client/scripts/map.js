@@ -24,8 +24,8 @@ if (navigator.geolocation) {
 
 renderMap = (position) => {
   myMap = L.map('map',{
-    minZoom : 2
-  }).setView(position, 18);
+    minZoom : 0
+  }).setView(position, 5);
   //Purple Grid Map
   L.mapbox.styleLayer('mapbox://styles/jamesrez/cjm8bp9f4eo5o2rn6i94e9swj').addTo(myMap);
   // Render Earth Map
