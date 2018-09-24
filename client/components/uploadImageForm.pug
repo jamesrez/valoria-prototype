@@ -1,0 +1,9 @@
+//uploadImageForm.css 
+link(href='client/styles/uploadImageForm.css' rel='stylesheet')
+//uploadImageForm.js
+script(src='client/scripts/uploadImageForm.js')
+
+form#uploadImageForm(action="/upload" method="post" enctype="multipart/form-data")
+  #uploadImageButton
+    label#uploadImageLabel Upload
+      input#uploadImageInput(hidden type='file' name='upload' onChange="uploadFile()")

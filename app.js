@@ -21,9 +21,10 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     io.emit('user left', onlineUsers[socket.id]);
     delete onlineUsers[socket.id];
-    console.log(onlineUsers);
   })
-})
+});
+//Controllers
+require('./controllers/upload')(app);
 //Server Listen
 server.listen(process.env.PORT || '3000', () => {
   console.log("On");

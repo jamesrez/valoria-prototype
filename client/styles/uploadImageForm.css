@@ -1,0 +1,44 @@
+#uploadImageForm{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #5d8c73;
+  border : 10px solid #536354;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  height : 50%;
+  width : 25%;
+  pointer-events: auto;
+  margin: 0px;
+}
+
+#uploadImageButton{
+  text-align: center;
+  width : 50%;
+  height : 33%;
+  padding: 5px;
+  margin-bottom: 10px;
+  font-family: Futura,Trebuchet MS,Arial,sans-serif;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+  background-color: #a7bca9;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#uploadImageButton:hover{
+  background-color: #f2109f;
+  cursor : pointer;
+  -webkit-transition: background-color 0.5s; /* Safari */
+  transition: background-color 0.5s;
+}
+#uploadImageLabel{
+  cursor: pointer;
+}
+
+#uploadImageInput{
+  display: none;
+}
