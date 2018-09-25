@@ -18,8 +18,9 @@ app.get('/', (req, res) => {
 let onlineUsers = {};
 io.on('connection', (socket) => {
   require('./sockets/user.js')(io, socket, onlineUsers);
+  require('./sockets/image.js')(io, socket, onlineUsers);
   socket.on('disconnect', () => {
-    io.emit('user left', onlineUsers[socket.id]);
+    io.emit('User Left', onlineUsers[socket.id]);
     delete onlineUsers[socket.id];
   })
 });

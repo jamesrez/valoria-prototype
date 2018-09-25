@@ -1,13 +1,14 @@
 module.exports = (io, socket, onlineUsers) => {
-  socket.on('new user', (user) => {
+  socket.on('New User', (pos) => {
     let newUser = {
       id : socket.id,
-      loc : user
+      x : pos.x,
+      y : pos.y
     }
     onlineUsers[socket.id] = newUser;
-    io.emit('new user', newUser);
+    socket.broadcast.emit('New User', newUser);
   });
-  socket.on('load online users', () => {
-    io.emit('load online users', onlineUsers);
+  socket.on('Load Online Users', () => {
+    socket.emit('Load Online Users', onlineUsers);
   })
 }

@@ -1,3 +1,16 @@
+$(document).ready(() => {
+
+  $('.image').on("click", (e) => {
+    let imgSrc = $(e.target).attr("src");
+    socket.emit('New Image', {
+      key : "heart",
+      src : imgSrc
+    });
+  })
+
+})
+
+
 function uploadFile(){
   var upload = $('#uploadImageInput')[0];
   var image = upload.files[0];
@@ -11,7 +24,6 @@ function uploadFile(){
     cache: false,
     processData:false,
     success: (d) => {
-
     }
   });
 }

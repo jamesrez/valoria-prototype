@@ -1,0 +1,17 @@
+//images.css 
+link(href='client/styles/images.css' rel='stylesheet')
+//images.js
+script(src='client/scripts/images.js')
+  
+#imagesContainerHUD
+  
+  #imagesContainer
+    .image
+      img.imageSrc(src='client/assets/uploads/heart.svg')
+      .imageLabel Heart
+  
+  
+  form#uploadImageForm(action="/upload" method="post" enctype="multipart/form-data")
+    #uploadImageButton
+      label#uploadImageLabel Upload
+        input#uploadImageInput(hidden type='file' name='upload' onChange="uploadFile()")
