@@ -25,6 +25,7 @@ let cursor;
 let images = {};
 
 function preload(){
+  this.load.crossOrigin = 'valoria';
   this.load.svg('user', 'client/assets/user.svg', {scale : 1});
 }
 
@@ -32,35 +33,58 @@ function create(){
   //Load Users in Game on Start
   socket.emit('Load Online Users');
   // Add User to Game
+  // console.log(Phaser.Math.Distance);
   let randX = Phaser.Math.Between(400, 1200);
   let randY = Phaser.Math.Between(0, 700);
-  user = this.physics.add.sprite(randX, randY, 'user');
-  user.setScale(0.3, 0.3);
   socket.emit('New User', {x: randX, y: randY});
+  onlineUsers[socket.id] = {
+    sprite : this.physics.add.sprite(randX, randY, 'user')
+  }
+  onlineUsers[socket.id].sprite.setScale(0.3, 0.3);
 
   //WHEN MOUSE DOWN OR SPACE DOWN MOVE USER TO CURSOR
+  keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
   this.input.on('pointerdown', (pointer) => {
-    cursor = pointer;
-    moveToCursor = true;
+    if(!drag){
+      cursor = pointer;
+      moveToCursor = true;
+      socket.emit('User Move', cursor.position);
+    }
   });
-  this.input.on('pointerup', (pointer) => {
-    cursor = pointer;
+  this.input.keyboard.on('keydown_SPACE', () => {
+    if(cursor){
+      moveToCursor = true;
+      socket.emit('User Move', cursor.position);
+    }
+  });
+  this.input.keyboard.on('keyup_SPACE', () => {
     moveToCursor = false;
+    socket.emit('User Stop');
+  })
+  this.input.on('pointerup', (pointer) => {
+    if(!drag){
+      cursor = pointer;
+      moveToCursor = false;
+      socket.emit('User Stop');
+    }
   })
   this.input.on('pointermove', (pointer) => {
-    cursor = pointer;
+    if(moveToCursor){
+      cursor = pointer;
+      socket.emit('User Move', cursor.position);
+    }
   })
-  keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
   //Dragging Images
   this.input.on('dragstart', (pointer, obj) => {
-      drag = true;
+    drag = true;
   });
   this.input.on('drag', (pointer, obj, dragX, dragY) => {
-      obj.setPosition(dragX, dragY);
+    obj.setPosition(dragX, dragY);
   });
   this.input.on('dragend', (pointer, obj) => {
-      drag = false;
+    console.log(obj);
+    drag = false;
   });
 
   //SOCKET LISTENERS
@@ -79,6 +103,9 @@ function create(){
       this.input.setDraggable(images[image.key].setInteractive());
     }
   });
+
+  let doggy = this.physics.add.image(800, 400, 'gif');
+
   //Add Online Users
   socket.on('Load Online Users', (users) => {
     for(userId in users){
@@ -99,13 +126,22 @@ function create(){
   socket.on('User Left', (user) => {
     onlineUsers[user.id].sprite.destroy();
     delete onlineUsers[user.id];
+  });
+  socket.on('User Move', (data) => {
+    this.physics.moveToObject(onlineUsers[data.user.id].sprite, data.cursor, 240);
+  })
+  socket.on('User Stop', (user) => {
+    onlineUsers[user.id].sprite.setVelocity(0,0);
   })
 }
 
+let userStopped = false;
 function update(){
-  if(!drag && moveToCursor || keySpace.isDown){
-    this.physics.moveToObject(user, cursor, 240);
-  }else{
-    user.setVelocity(0,0);
+  if(moveToCursor){
+    let curPos = cursor.position;
+    let userPos = onlineUsers[socket.id].sprite.body.position;
+    if(Phaser.Math.Distance.Between(curPos.x, curPos.y, userPos.x, userPos.y) < 20){
+      socket.emit("User Stop");
+    }
   }
 }

@@ -3,6 +3,8 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+require('dotenv').config()
+
 //App Setting
 app.set('views', './client')
 app.set('view engine', 'pug');
@@ -17,8 +19,12 @@ app.get('/', (req, res) => {
 //Socket.io
 let onlineUsers = {};
 io.on('connection', (socket) => {
+  onlineUsers[socket.id] = {
+    socket : socket.id
+  }
   require('./sockets/user.js')(io, socket, onlineUsers);
   require('./sockets/image.js')(io, socket, onlineUsers);
+  require('./sockets/meme.js')(io, socket, onlineUsers);
   socket.on('disconnect', () => {
     io.emit('User Left', onlineUsers[socket.id]);
     delete onlineUsers[socket.id];

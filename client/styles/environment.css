@@ -1,0 +1,97 @@
+img{
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#environment {
+  width : 100000;
+  height : 100000;
+  position : absolute;
+  z-index: 4;
+  cursor: none;
+  transform: translateZ(0);
+  border : 10px solid white;
+  left : -50000;
+  top : -50000;
+
+}
+
+#thisUser{
+  display: none;
+  width : 40px;
+  height : 40px;
+  position: absolute;
+  pointer-events: none;
+  z-index: 6;
+}
+
+#thisUserAvatar{
+  width : 40px;
+  height : 40px;
+  z-index: 6;
+  position: absolute;
+}
+
+.thisUserScrollImg{
+  width : 100px;
+  height : 100px;
+  z-index: 5;
+  position: absolute;
+  display: none;
+}
+
+#thisUserScrollLeft{
+  top : -22px;
+  left : -7px;
+}
+
+#thisUserScrollRight{
+  left : -45px;
+  top : -20px;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.user{
+  width : 40px;
+  height : 40px;
+  position: absolute;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.userAvatar{
+  width : 40px;
+  height : 40px;
+}
+
+.userScroll{
+  width : 100px;
+  height : 100px;
+  z-index: 5;
+  position: absolute;
+  display: none;
+}
+
+.userScrollLeft{
+  top : -22px;
+  left : -7px;
+}
+
+.userScrollRight{
+  left : -45px;
+  top : -20px;
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+
+.meme{
+  width : 40px;
+  height : 40px;
+  position: absolute;
+  top : 50;
+  left : 50;
+}

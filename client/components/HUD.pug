@@ -1,3 +1,10 @@
 link(rel='stylesheet', href='./styles/HUD.css')
+script(src='./scripts/HUD.js')
 #HUD
-  include images
+  #menuContainer
+    #menu
+      include images
+  #scrollZones
+    #horizontalScrollZones
+      #leftScrollZone.scrollZone(direction='left')
+      #rightScrollZone.scrollZone(direction='right')
