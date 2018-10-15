@@ -32,6 +32,32 @@ class ScrollZone {
             })
           }
           break;
+        case 'up':
+          if(screenPos.top <= 0){
+            screenPos.top += 3;
+            thisUser.pos.y -= 3;
+            thisUser.updatePos(thisUser.pos, 'up');
+            $('#environment').css({
+              top : screenPos.top,
+            });
+            $('#thisUserScrollUp').css({
+              display : "block"
+            })
+          }
+          break;
+        case 'down':
+          if(screenPos.top >= -100000){
+            screenPos.top -= 3;
+            thisUser.pos.y += 3;
+            thisUser.updatePos(thisUser.pos, 'down')
+            $('#environment').css({
+              top : screenPos.top
+            })
+            $('#thisUserScrollDown').css({
+              display : "block"
+            })
+          }
+          break;
       }
   }
 
@@ -42,7 +68,9 @@ $(document).ready(() => {
   //DECLARE SCROLL ZONES
   let scrollZones = {
     left : new ScrollZone('left'),
-    right : new ScrollZone('right')
+    right : new ScrollZone('right'),
+    up : new ScrollZone('up'),
+    down : new ScrollZone('down')
   }
 
   function toggleMenu(){

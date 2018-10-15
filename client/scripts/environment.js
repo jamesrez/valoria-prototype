@@ -50,12 +50,13 @@ $(document).ready(() => {
 
 //Socket Listeners
 socket.on('New User', (newUser) => {
-  console.log(newUser.avatar);
   $('.users').append(`
     <div class='user' id=${newUser.socket}>
       <img class='userAvatar' src=${newUser.avatar}>
       <img class='userScrollRight userScroll' src=${scrollSrc}>
       <img class='userScrollLeft userScroll' src=${scrollSrc}>
+      <img class='userScrollUp userScroll' src=${scrollSrc}>
+      <img class='userScrollDown userScroll' src=${scrollSrc}>
     </div>
   `);
   onlineUsers[newUser.socket] = newUser;
@@ -73,6 +74,12 @@ socket.on('User has moved', (data) => {
         break;
       case 'right':
         $(`#${data.socket}`).find('.userScrollRight').css('display', 'block');
+        break;
+      case 'up':
+        $(`#${data.socket}`).find('.userScrollUp').css('display', 'block');
+        break;
+      case 'down':
+        $(`#${data.socket}`).find('.userScrollDown').css('display', 'block');
         break;
     }
   }

@@ -55,6 +55,20 @@ img{
   transform: scaleX(-1);
 }
 
+#thisUserScrollUp{
+  left : -25px;
+  top : -5px;
+  -webkit-transform:rotate(90deg); /* Chrome, Safari, Opera */
+  transform:rotate(90deg); /* Standard syntax */
+}
+
+#thisUserScrollDown{
+  left : -30px;
+  top : -45px;
+  -webkit-transform:rotate(-90deg); /* Chrome, Safari, Opera */
+  transform:rotate(-90deg); /* Standard syntax */
+}
+
 .user{
   width : 40px;
   height : 40px;
@@ -66,6 +80,8 @@ img{
 .userAvatar{
   width : 40px;
   height : 40px;
+  z-index: 6;
+  position: absolute;
 }
 
 .userScroll{
@@ -86,6 +102,20 @@ img{
   top : -20px;
   -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
+}
+
+.userScrollUp{
+  left : -25px;
+  top : -5px;
+  -webkit-transform:rotate(90deg); /* Chrome, Safari, Opera */
+  transform:rotate(90deg); /* Standard syntax */
+}
+
+.userScrollDown{
+  left : -30px;
+  top : -45px;
+  -webkit-transform:rotate(-90deg); /* Chrome, Safari, Opera */
+  transform:rotate(-90deg); /* Standard syntax */
 }
 
 .meme{

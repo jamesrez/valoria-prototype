@@ -1,7 +1,6 @@
 module.exports = (io, socket, onlineUsers) => {
 
   socket.on('New User', (avatar) => {
-    console.log(avatar);
     onlineUsers[socket.id]["avatar"] = avatar;
     socket.broadcast.emit('New User', onlineUsers[socket.id])
   })
