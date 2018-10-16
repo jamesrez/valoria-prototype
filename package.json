@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "engines" : {
+    "node" : "8.11.2"
+  }
   "dependencies": {
     "@google-cloud/storage": "^2.0.3",
     "dotenv": "^6.1.0",
