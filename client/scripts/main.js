@@ -13,6 +13,7 @@ let scrolling = false;
 let memeSrc = 'https://storage.googleapis.com/valoria/heart.png';
 let scrollSrc = 'https://storage.googleapis.com/valoria/rocket.gif'
 let memeTotal = 0;
+let thisUser = null;
 
 class User {
   constructor(socket) {
@@ -22,17 +23,21 @@ class User {
     this.memeCount = 0;
     this.isVisible = false;
     this.pos = {
-      x : null,
-      y : null
+      x : parseInt($('#thisUser').css('left')),
+      y : parseInt($('#thisUser').css('top'))
     };
     this.width = parseInt($('#thisUser').css('width'));
     this.height = parseInt($('#thisUser').css('height'));
   }
 
-  connect(){
+  connectAtPos(pos){
     this.isVisible = true;
     $('#thisUser').css('display', 'block');
-    socket.emit('New User', this.avatar);
+    socket.emit('Load Online Users');
+    socket.emit('New User', {
+      avatar : this.avatar,
+      pos : pos
+    });
   }
 
   updatePos(newPos, scrollDir){
@@ -43,6 +48,7 @@ class User {
       top : this.pos.y
     });
     socket.emit('User has moved', {
+      socket : socket.id,
       newPos : this.pos,
       scrollDir : scrollDir
     });

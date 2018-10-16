@@ -21,9 +21,13 @@ $(document).ready(() => {
     mousePosition.x = e.pageX - screenPos.left;
     mousePosition.y = e.pageY - screenPos.top;
     if(!thisUser.isVisible){
-      thisUser.connect();
+      let newPos = {
+        x : mousePosition.x - (thisUser.width / 2),
+        y : mousePosition.y - (thisUser.height / 2),
+      }
+      thisUser.connectAtPos(newPos);
     }
-    if(!scrolling){
+    if(!scrolling && thisUser.isVisible){
       let newPos = {
         x : mousePosition.x - (thisUser.width / 2),
         y : mousePosition.y - (thisUser.height / 2),
@@ -47,16 +51,28 @@ $(document).ready(() => {
 
 });
 
-
 //Socket Listeners
+socket.on('Load Online Users', (users) => {
+  for(id in users){
+    $('.users').append(`
+      <div class='user' id=${id}>
+        <img class='userAvatar' src=${users[id].avatar}>
+        <img class='userScroll' src=${scrollSrc}>
+      </div>
+    `);
+    $(`#${id}`).css({
+      left : users[id].pos.x,
+      top : users[id].pos.y
+    })
+    onlineUsers[id] = users[id];
+  }
+})
+
 socket.on('New User', (newUser) => {
   $('.users').append(`
     <div class='user' id=${newUser.socket}>
       <img class='userAvatar' src=${newUser.avatar}>
-      <img class='userScrollRight userScroll' src=${scrollSrc}>
-      <img class='userScrollLeft userScroll' src=${scrollSrc}>
-      <img class='userScrollUp userScroll' src=${scrollSrc}>
-      <img class='userScrollDown userScroll' src=${scrollSrc}>
+      <img class='userScroll' src=${scrollSrc}>
     </div>
   `);
   onlineUsers[newUser.socket] = newUser;
@@ -70,23 +86,92 @@ socket.on('User has moved', (data) => {
   if(data.scrollDir){
     switch(data.scrollDir){
       case 'left':
-        $(`#${data.socket}`).find('.userScrollLeft').css('display', 'block');
+        $(`#${data.socket}`).find('.userScroll').css({
+          display : "block",
+          top : "-22px",
+          left : "-7px",
+        });
         break;
       case 'right':
-        $(`#${data.socket}`).find('.userScrollRight').css('display', 'block');
+        $(`#${data.socket}`).find('.userScroll').css({
+          left : "-45px",
+          top : "-20px",
+          "-webkit-transform": "scaleX(-1)",
+          transform: "scaleX(-1)",
+          display : "block"
+        });
         break;
       case 'up':
-        $(`#${data.socket}`).find('.userScrollUp').css('display', 'block');
+        $(`#${data.socket}`).find('.userScroll').css({
+          display : "block",
+          left : "-25px",
+          top : "-5px",
+          "-webkit-transform": "rotate(90deg)",
+          transform: "rotate(90deg)",
+        })
         break;
       case 'down':
-        $(`#${data.socket}`).find('.userScrollDown').css('display', 'block');
+        $(`#${data.socket}`).find('.userScroll').css({
+          display : "block",
+          left : "-30px",
+          top : "-45px",
+          "-webkit-transform" : "rotate(-90deg)",
+          transform : "rotate(-90deg)"
+        })
+        break;
+      case 'upleft':
+        $(`#${data.socket}`).find('.userScroll').css({
+          display : "block",
+          transform: "rotate(45deg)",
+          "-webkit-transform" : "rotate(45deg)",
+          left : "-15px",
+          top : "-10px"
+        })
+        break;
+      case 'upright':
+        $(`#${data.socket}`).find('.userScroll').css({
+          display : "block",
+          transform: "rotate(135deg) scaleY(-1)",
+          "-webkit-transform" : "rotate(135deg) scaleY(-1)",
+          left : "-40px",
+          top : "-10px"
+        })
+        break;
+      case 'downleft':
+        $(`#${data.socket}`).find('.userScroll').css({
+          display : "block",
+          transform: "rotate(-45deg)",
+          "-webkit-transform" : "rotate(-45deg)",
+          left : "-10px",
+          top : "-40px"
+        })
+        break;
+      case 'downright':
+        $(`#${data.socket}`).find('.userScroll').css({
+          display : "block",
+          transform: "rotate(45deg) scaleX(-1)",
+          "-webkit-transform" : "rotate(45deg) scaleX(-1)",
+          left : "-45px",
+          top : "-45px"
+        })
         break;
     }
   }
 });
 
 socket.on('User stopped scrolling', (user) => {
-  $(`#${user.socket}`).find('.userScroll').css('display', 'none');
+  $(`#${user.socket}`).find('.userScroll').css({
+    display : 'none',
+    "-webkit-transform": "scaleX(1)",
+    transform: "scaleX(1)",
+    "-webkit-transform": "rotate(0deg)",
+    transform: "rotate(0deg)"
+  });
+});
+
+socket.on('User Left', (user) => {
+  $(`#${user.socket}`).remove();
+  delete onlineUsers[user.socket];
 })
 
 socket.on('New Meme', (data) => {

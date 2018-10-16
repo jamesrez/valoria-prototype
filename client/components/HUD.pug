@@ -6,8 +6,20 @@ script(src='./scripts/HUD.js')
       include images
   #scrollZones
     #horizontalScrollZones
-      #leftScrollZone.scrollZone(direction='left')
-      #rightScrollZone.scrollZone(direction='right')
+      #leftZones
+        #leftUpScrollZone.scrollZone(direction='upleft')
+        #leftScrollZone.scrollZone(direction='left')
+        #leftDownScrollZone.scrollZone(direction='downleft')
+      #rightZones
+        #rightUpScrollZone.scrollZone(direction='upright')
+        #rightScrollZone.scrollZone(direction='right')
+        #rightDownScrollZone.scrollZone(direction='downright')
     #verticalScrollZones
-      #upScrollZone.scrollZone(direction='up')
-      #downScrollZone.scrollZone(direction='down')
+      #upZones
+        #upLeftScrollZone.scrollZone(direction='upleft')
+        #upScrollZone.scrollZone(direction='up')
+        #upRightScrollZone.scrollZone(direction='upright')
+      #downZones
+        #downLeftScrollZone.scrollZone(direction='downleft')
+        #downScrollZone.scrollZone(direction='down')
+        #downRightScrollZone.scrollZone(direction='downright')

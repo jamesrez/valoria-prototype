@@ -16,7 +16,6 @@ img{
   border : 10px solid white;
   left : -50000;
   top : -50000;
-
 }
 
 #thisUser{
@@ -35,7 +34,7 @@ img{
   position: absolute;
 }
 
-.thisUserScrollImg{
+#thisUserScroll{
   width : 100px;
   height : 100px;
   z-index: 5;

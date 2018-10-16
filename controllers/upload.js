@@ -4,13 +4,13 @@ const {Storage} = require('@google-cloud/storage');
 const MulterGoogleCloudStorage = require('multer-google-storage')
 
 const storage = new Storage({
-  projectId: '210513905515'
+  projectId: 'valoria-219021'
 });
 
 const multer = Multer({
   storage: Multer.memoryStorage(),
   limits: {
-    fileSize: 5 * 1024 * 1024 // no larger than 5mb, you can change as needed.
+    fileSize: 25 * 1024 * 1024 // no larger than 5mb, you can change as needed.
   }
 });
 
@@ -29,16 +29,12 @@ module.exports = (app) => {
   // });
 
   let bucket = storage.bucket('valoria');
-  // myBucket.upload('./client/assets/uploads/doggy.gif', {
-  //   gzip: true,
-  //   metadata: {
-  //     cacheControl: 'public, max-age=31536000',
-  //   },
-  // }).then((data) => {
-  //   console.log(data)
-  // }).catch((err) => {
-  //   console.log(err);
+  // bucket.getFiles((err, files) => {
+  //   files.forEach((file) => {
+  //     console.log(file.metadata.selfLink);
+  //   })
   // })
+
 
   app.post('/upload', multer.single('upload'), (req, res) => {
     if(!req.file){
@@ -50,10 +46,16 @@ module.exports = (app) => {
         console.log(err);
       });
       blobStream.on('finish', () => {
-        // The public URL can be used to directly access the file via HTTP.
-        blob.makePublic();
-        const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-        console.log(publicUrl);
+        blob.move(`main/${req.file.originalname}`, (err, file, res) => {
+          if(err){
+            console.log(err);
+          }else{
+            file.makePublic((err) => {
+              let publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+              console.log(publicUrl);
+            });
+          }
+        })
       });
       blobStream.end(req.file.buffer);
     }

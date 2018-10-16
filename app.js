@@ -19,9 +19,6 @@ app.get('/', (req, res) => {
 //Socket.io
 let onlineUsers = {};
 io.on('connection', (socket) => {
-  onlineUsers[socket.id] = {
-    socket : socket.id
-  }
   require('./sockets/user.js')(io, socket, onlineUsers);
   require('./sockets/image.js')(io, socket, onlineUsers);
   require('./sockets/meme.js')(io, socket, onlineUsers);
