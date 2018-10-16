@@ -1,7 +1,5 @@
 const Multer  = require('multer')
-const sprite = require('node-sprite');
 const {Storage} = require('@google-cloud/storage');
-const MulterGoogleCloudStorage = require('multer-google-storage')
 
 const storage = new Storage({
   projectId: 'valoria-219021'
@@ -15,7 +13,6 @@ const multer = Multer({
 });
 
 
-var gifFrames = require('gif-frames');
 var fs = require('fs');
 
 module.exports = (app) => {
