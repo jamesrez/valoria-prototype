@@ -3,10 +3,13 @@ script(src='./scripts/HUD.js')
 #HUD
   #menuContainer
     #menu
-      include avatarSelect
-      include objectSelect
-      include menuSelect
-      include backgroundSelect
+      if(currentUser)
+        include avatarSelect
+        include objectSelect
+        include menuSelect
+        include backgroundSelect
+      else
+        include auth
       //- include images
   #scrollZones
     #horizontalScrollZones

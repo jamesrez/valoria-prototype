@@ -105,6 +105,8 @@ class anObject {
 //Load Dimension
 $.get('/dimension/main', (dimension) => {
   thisDimension = dimension;
+  $('#background').css('background-image', `url(${thisDimension.background.src})`);
+  $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', thisDimension.background.src);
 })
 
 const socket = io.connect();

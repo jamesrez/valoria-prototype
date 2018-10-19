@@ -1,0 +1,12 @@
+link(href='./styles/auth.css' rel='stylesheet' )
+  
+script(src='./scripts/auth.js')
+
+.authContainer
+  .authLabel Valoria
+  .authForm
+    input.authUsername(placeholder="Username")
+    input.authPassword(placeholder="Password" type='password')
+  .authBtns
+    .authRegister(onClick="registerUser()") Register
+    .authLogin(onClick="loginUser()") Login

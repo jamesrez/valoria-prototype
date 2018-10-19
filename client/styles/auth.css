@@ -1,0 +1,72 @@
+.authContainer{
+  width : 100%;
+  height : 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: futura;
+  color : white;
+}
+
+.authLabel{
+  color : white;
+  text-shadow: 2px 2px 25px #c83bb2;
+  font-size: 75px;
+  margin-bottom: 15px;
+}
+
+.authForm{
+  display: flex;
+  flex-direction: column;
+  width : 50%;
+}
+
+.authUsername{
+  font-size: 20px;
+  padding: 10px 5px;
+  margin-bottom: 10px;
+}
+
+.authPassword{
+  font-size: 20px;
+  padding: 10px 5px;
+  margin-bottom: 10px;
+}
+
+.authBtns{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 25px;
+  width : 50%;
+}
+
+.authRegister{
+  border : 5px solid white;
+  background-color: #c81c1c;
+  padding: 10px;
+  margin-right: 5px;
+  width : 45%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.authRegister:hover{
+  border : 5px solid yellow;
+}
+
+.authLogin{
+  border: 5px solid white;
+  background-color: #ac49a2;
+  padding: 10px;
+  margin-left: 5px;
+  width : 45%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.authLogin:hover{
+  border : 5px solid yellow;
+}

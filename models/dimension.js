@@ -45,10 +45,12 @@ Dimension.findOne({name : 'main'}).then((dimension) => {
   if(!dimension){
     let main = new Dimension();
     main.name = 'main';
-    main.background = {
+    let mainBackground = {
       src : 'https://i.imgur.com/a4ycklR.png',
       key : "Purple Grid"
-    }
+    };
+    main.background = mainBackground;
+    main.images.backgrounds.push(mainBackground);
     main.save();
   }
 })

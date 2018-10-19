@@ -6,6 +6,9 @@ const io = require('socket.io')(server);
 const mongoose = require('mongoose');
 const Dimension = require('./models/dimension');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const jwt = require('jsonwebtoken');
+
 require('dotenv').config()
 
 //Mongoose
@@ -21,11 +24,26 @@ app.use('/client/styles', express.static(__dirname + '/client/styles'));
 app.use('/client/scripts', express.static(__dirname + '/client/scripts'));
 app.use('/client/assets', express.static(__dirname + '/client/assets'));
 app.use(bodyParser());
+app.use(cookieParser());
+
+// check that a user is logged in
+let checkAuth = function (req, res, next) {
+  if (typeof req.cookies.userToken === 'undefined' || req.cookies.userToken === null) {
+    req.user = null;
+  } else {
+    // if the user has a JWT cookie, decode it and set the user
+    var token = req.cookies.userToken;
+    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    req.user = decodedToken.payload;
+  }
+  next();
+}
+app.use(checkAuth);
 
 //Root Route
 app.get('/', (req, res) => {
   Dimension.findOne({name : 'main'}).then((dimension) => {
-    res.render('main');
+    res.render('main', {currentUser : req.user});
   })
 });
 //Socket.io
@@ -41,6 +59,7 @@ io.on('connection', (socket) => {
   })
 });
 //Controllers
+require('./controllers/user')(app);
 require('./controllers/dimension')(app);
 require('./controllers/upload')(app);
 require('./controllers/avatar')(app);
