@@ -1,0 +1,28 @@
+link(href='./styles/avatar.css' rel='stylesheet' )
+  
+script(src='./scripts/avatar.js')
+
+.avatarContainer
+  .selectYourAvatar
+    .avatarPreview
+      img.avatarPreviewSrc
+    .avatarPreviewKey
+    .avatarBtns
+      .selectYourAvatarBtn Select Avatar
+      //- form.uploadAvatar(action="/upload" method="post" enctype="multipart/form-data")
+      //-   .uploadAvatarBtn
+      //-     label.uploadAvatarLabel Upload Avatar
+      //-       input.uploadAvatarInput(hidden type='file' name='upload' onChange="uploadAvatar()")
+    .uploadAvatar
+      input.uploadAvatarInput(placeholder='Link to Image you are Uploading')
+      input.uploadAvatarKey(placeholder='Name for your Image')
+      .uploadAvatarBtn(onClick = "uploadAvatar()") Upload
+    .availableAvatars
+      //- .avatarSelected
+      //-   img.avatarSrc(src='https://storage.googleapis.com/valoria/main/doggy.gif')
+      //-   .avatarKeyContainer 
+      //-     .avatarKeyMarquee Doggy Corgi Pup
+      //- .avatarSelection
+      //-   img.avatarSrc(src='https://storage.googleapis.com/valoria/main/catfish.gif')
+      //-   .avatarKeyContainer 
+      //-     .avatarKey Catfish

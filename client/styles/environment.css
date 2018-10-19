@@ -20,17 +20,17 @@ img{
 
 #thisUser{
   display: none;
-  width : 40px;
-  height : 40px;
+  width : 70px;
+  height : 70px;
   position: absolute;
   pointer-events: none;
-  z-index: 6;
+  z-index: 7;
 }
 
 #thisUserAvatar{
-  width : 40px;
-  height : 40px;
-  z-index: 6;
+  max-height: 70px;
+  max-width: 70px;
+  z-index: 7;
   position: absolute;
 }
 
@@ -69,16 +69,16 @@ img{
 }
 
 .user{
-  width : 40px;
-  height : 40px;
+  width : 70px;
+  height : 70px;
   position: absolute;
   pointer-events: none;
   z-index: 6;
 }
 
 .userAvatar{
-  width : 40px;
-  height : 40px;
+  max-height: 70px;
+  max-width: 70px;
   z-index: 6;
   position: absolute;
 }
@@ -117,9 +117,9 @@ img{
   transform:rotate(-90deg); /* Standard syntax */
 }
 
-.meme{
-  width : 40px;
-  height : 40px;
+.object{
+  max-width : 50px;
+  max-height : 50px;
   position: absolute;
   top : 50;
   left : 50;

@@ -33,7 +33,7 @@ module.exports = (app) => {
   // })
 
 
-  app.post('/upload', multer.single('upload'), (req, res) => {
+  app.post('/upload/avatar', multer.single('upload'), (req, res) => {
     if(!req.file){
       console.log("No file");
     }else{
@@ -43,19 +43,85 @@ module.exports = (app) => {
         console.log(err);
       });
       blobStream.on('finish', () => {
-        blob.move(`main/${req.file.originalname}`, (err, file, res) => {
-          if(err){
-            console.log(err);
-          }else{
-            file.makePublic((err) => {
-              let publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
-              console.log(publicUrl);
-            });
-          }
-        })
+        blob.setMetadata({metadata : {key : req.file.originalname}}, () => {
+          blob.move(`main/avatar/${req.file.originalname}`, (err, file, apiRes) => {
+            if(err){
+              console.log(err);
+            }else{
+              file.makePublic((err) => {
+                let publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+                res.send({
+                  src : publicUrl,
+                  key : req.file.originalname
+                });
+              });
+            }
+          })
+        });
       });
       blobStream.end(req.file.buffer);
     }
   })
+
+  app.post('/upload/object', multer.single('upload'), (req, res) => {
+    if(!req.file){
+      console.log("No file");
+    }else{
+      const blob = bucket.file(req.file.originalname);
+      const blobStream = blob.createWriteStream();
+      blobStream.on('error', (err) => {
+        console.log(err);
+      });
+      blobStream.on('finish', () => {
+        blob.setMetadata({metadata : {key : req.file.originalname}}, () => {
+          blob.move(`main/object/${req.file.originalname}`, (err, file, apiRes) => {
+            if(err){
+              console.log(err);
+            }else{
+              file.makePublic((err) => {
+                let publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+                res.send({
+                  src : publicUrl,
+                  key : req.file.originalname
+                });
+              });
+            }
+          })
+        });
+      });
+      blobStream.end(req.file.buffer);
+    }
+  });
+
+  app.post('/upload/background', multer.single('upload'), (req, res) => {
+    if(!req.file){
+      console.log("No file");
+    }else{
+      const blob = bucket.file(req.file.originalname);
+      const blobStream = blob.createWriteStream();
+      blobStream.on('error', (err) => {
+        console.log(err);
+      });
+      blobStream.on('finish', () => {
+        blob.setMetadata({metadata : {key : req.file.originalname}}, () => {
+          blob.move(`main/background/${req.file.originalname}`, (err, file, apiRes) => {
+            if(err){
+              console.log(err);
+            }else{
+              file.makePublic((err) => {
+                let publicUrl = `https://storage.googleapis.com/${bucket.name}/${file.name}`;
+                res.send({
+                  src : publicUrl,
+                  key : req.file.originalname
+                });
+              });
+            }
+          })
+        });
+      });
+      blobStream.end(req.file.buffer);
+    }
+  })
+
 
 }

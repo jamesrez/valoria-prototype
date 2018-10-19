@@ -1,0 +1,179 @@
+.backgroundContainer{
+  width : 100%;
+  height : 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.selectYourBackground{
+  width : 100%;
+  height : 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.backgroundPreview{
+  margin-top: 20px;
+  background-color: black;
+  width : 250px;
+  height : 250px;
+  display : flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.backgroundPreviewSrc{
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.selectBackgroundBtn{
+  font-size: 25px;
+  font-family: futura;
+  color : white;
+  font-weight: bold;
+  text-align: center;
+  margin : 20px 0px;
+  background-color: #c81c1c;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border : 5px solid white;
+  cursor: pointer;
+}
+
+.selectBackgroundBtn:hover{
+  border : 5px solid yellow;
+}
+
+.selectBackgroundBtn:active{
+  border : 5px solid #62ed89;
+  background-color: #952c2c;
+}
+
+.selectBackgroundBtnText{
+  font-size: 15px;
+}
+
+.uploadBackground{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 75%;
+}
+
+.uploadBackgroundInput{
+  font-size: 15px;
+  padding: 10px 5px;
+  width : 50%;
+}
+
+.uploadBackgroundKey{
+  font-size: 15px;
+  padding: 10px 5px;
+  width : 30%;
+}
+
+.uploadBackgroundBtn{
+  font-size: 15px;
+  font-family: futura;
+  color : white;
+  font-weight: bold;
+  text-align: center;
+  margin : 20px 0px;
+  background-color: #ac49a2;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border : 5px solid white;
+  cursor: pointer;
+}
+
+.uploadBackgroundBtn:hover{
+  cursor: pointer;
+  border : 5px solid yellow;
+}
+
+.uploadBackgroundLabel{
+  cursor: pointer;
+}
+
+.availableBackgrounds{
+  background-color:#557062;
+  width : 100%;
+  align-self: flex-end;
+  height : 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom-right-radius: 25px;
+  border-bottom-left-radius: 25px;
+}
+
+.backgroundSelection{
+  width : 70px;
+  height : 70px;
+  border : 2px solid white;
+  margin : 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding : 5px 3px 0px 3px;
+}
+
+.backgroundSelection:hover{
+  border : 2px solid yellow;
+  cursor: pointer;
+}
+
+.backgroundSelected{
+  width : 70px;
+  height : 70px;
+  margin : 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding : 5px 3px 0px 3px;
+  border : 0px solid black;
+  box-shadow: 0px 0px 3px 3px #62ed89;
+}
+
+.backgroundSrc{
+  max-width: 70px;
+  max-height : 45px;
+  margin-bottom: 3px;
+}
+
+.backgroundKeyContainer{
+  height : 20px;
+  color : white;
+  font-family: futura;
+  background-color: #5d8c73;
+  width: 100%;
+  text-align: center;
+  padding: 3px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.backgroundKeyContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.backgroundPreviewKey{
+  margin-top: 10px;
+  color: white;
+  font-family: futura;
+  text-align: center;
+  font-size: 25px;
+}

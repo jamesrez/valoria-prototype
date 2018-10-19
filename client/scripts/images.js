@@ -43,6 +43,7 @@ function uploadFile(){
     cache: false,
     processData:false,
     success: (d) => {
+      console.log(d);
     }
   });
 }

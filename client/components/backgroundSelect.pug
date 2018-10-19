@@ -1,0 +1,22 @@
+script(src='//cdn.jsdelivr.net/npm/jquery.marquee@1.5.0/jquery.marquee.min.js', type='text/javascript')
+
+link(href='./styles/backgroundSelect.css' rel='stylesheet' )
+  
+script(src='./scripts/backgroundSelect.js')
+
+.backgroundContainer
+  .selectYourBackground
+    .backgroundPreview
+      img.backgroundPreviewSrc
+    .backgroundPreviewKey
+    .backgroundBtns
+      .selectBackgroundBtn Select Background
+    .uploadBackground
+      input.uploadBackgroundInput(placeholder='Link to Image you are Uploading')
+      input.uploadBackgroundKey(placeholder='Name for your Image')
+      .uploadBackgroundBtn(onClick = "uploadBackground()") Upload
+      //- form.uploadBackground(action="/upload" method="post" enctype="multipart/form-data")
+      //-   .uploadBackgroundBtn
+      //-     label.uploadBackgroundLabel Upload Background
+      //-       input.uploadBackgroundInput(hidden type='file' name='upload' onChange="uploadBackground()")
+    .availableBackgrounds

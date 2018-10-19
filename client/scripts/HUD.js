@@ -1,4 +1,5 @@
-menuIsVisible = false;
+menuIsVisible = true;
+let fromMenuSelection = false;
 
 class ScrollZone {
   constructor(direction) {
@@ -17,11 +18,11 @@ class ScrollZone {
             $('#background').css({
               left : screenPos.left,
             })
-            $('#thisUserScroll').css({
-              display : "block",
-              top : "-22px",
-              left : "-7px",
-            })
+            // $('#thisUserScroll').css({
+            //   display : "block",
+            //   top : "-22px",
+            //   left : "-7px",
+            // })
           }
           break;
         case 'right':
@@ -35,13 +36,13 @@ class ScrollZone {
             $('#background').css({
               left : screenPos.left,
             })
-            $('#thisUserScroll').css({
-              left : "-45px",
-              top : "-20px",
-              "-webkit-transform": "scaleX(-1)",
-              transform: "scaleX(-1)",
-              display : "block"
-            })
+            // $('#thisUserScroll').css({
+            //   left : "-45px",
+            //   top : "-20px",
+            //   "-webkit-transform": "scaleX(-1)",
+            //   transform: "scaleX(-1)",
+            //   display : "block"
+            // })
           }
           break;
         case 'up':
@@ -55,13 +56,13 @@ class ScrollZone {
             $('#background').css({
               top : screenPos.top,
             })
-            $('#thisUserScroll').css({
-              display : "block",
-              left : "-25px",
-              top : "-5px",
-              "-webkit-transform": "rotate(90deg)",
-              transform: "rotate(90deg)",
-            })
+            // $('#thisUserScroll').css({
+            //   display : "block",
+            //   left : "-25px",
+            //   top : "-5px",
+            //   "-webkit-transform": "rotate(90deg)",
+            //   transform: "rotate(90deg)",
+            // })
           }
           break;
         case 'down':
@@ -75,13 +76,13 @@ class ScrollZone {
             $('#background').css({
               top : screenPos.top,
             })
-            $('#thisUserScroll').css({
-              display : "block",
-              left : "-30px",
-              top : "-45px",
-              "-webkit-transform" : "rotate(-90deg)",
-              transform : "rotate(-90deg)"
-            })
+            // $('#thisUserScroll').css({
+            //   display : "block",
+            //   left : "-30px",
+            //   top : "-45px",
+            //   "-webkit-transform" : "rotate(-90deg)",
+            //   transform : "rotate(-90deg)"
+            // })
           }
           break;
         case 'upleft':
@@ -99,13 +100,13 @@ class ScrollZone {
               left : screenPos.left,
               top : screenPos.top
             })
-            $('#thisUserScroll').css({
-              display : "block",
-              transform: "rotate(45deg)",
-              "-webkit-transform" : "rotate(45deg)",
-              left : "-15px",
-              top : "-10px"
-            })
+            // $('#thisUserScroll').css({
+            //   display : "block",
+            //   transform: "rotate(45deg)",
+            //   "-webkit-transform" : "rotate(45deg)",
+            //   left : "-15px",
+            //   top : "-10px"
+            // })
           }
           break
         case 'upright':
@@ -123,13 +124,13 @@ class ScrollZone {
               left : screenPos.left,
               top : screenPos.top
             })
-            $('#thisUserScroll').css({
-              display : "block",
-              transform: "rotate(135deg) scaleY(-1)",
-              "-webkit-transform" : "rotate(135deg) scaleY(-1)",
-              left : "-40px",
-              top : "-10px"
-            })
+            // $('#thisUserScroll').css({
+            //   display : "block",
+            //   transform: "rotate(135deg) scaleY(-1)",
+            //   "-webkit-transform" : "rotate(135deg) scaleY(-1)",
+            //   left : "-40px",
+            //   top : "-10px"
+            // })
           }
           break
         case 'downleft':
@@ -147,13 +148,13 @@ class ScrollZone {
               left : screenPos.left,
               top : screenPos.top
             })
-            $('#thisUserScroll').css({
-              display : "block",
-              transform: "rotate(-45deg)",
-              "-webkit-transform" : "rotate(-45deg)",
-              left : "-10px",
-              top : "-40px"
-            })
+            // $('#thisUserScroll').css({
+            //   display : "block",
+            //   transform: "rotate(-45deg)",
+            //   "-webkit-transform" : "rotate(-45deg)",
+            //   left : "-10px",
+            //   top : "-40px"
+            // })
           }
           break
         case 'downright':
@@ -171,18 +172,17 @@ class ScrollZone {
               left : screenPos.left,
               top : screenPos.top
             })
-            $('#thisUserScroll').css({
-              display : "block",
-              transform: "rotate(45deg) scaleX(-1)",
-              "-webkit-transform" : "rotate(45deg) scaleX(-1)",
-              left : "-45px",
-              top : "-45px"
-            })
+            // $('#thisUserScroll').css({
+            //   display : "block",
+            //   transform: "rotate(45deg) scaleX(-1)",
+            //   "-webkit-transform" : "rotate(45deg) scaleX(-1)",
+            //   left : "-45px",
+            //   top : "-45px"
+            // })
           }
           break
       }
   }
-
 }
 
 $(document).ready(() => {
@@ -198,14 +198,18 @@ $(document).ready(() => {
     downleft : new ScrollZone('downleft'),
     downright : new ScrollZone('downright')
   }
-
   function toggleMenu(){
     if(menuIsVisible){
       $('#menu').css('display', 'none');
       menuIsVisible = false;
     }else{
       $('#menu').css('display', 'flex');
+      $('.menuSelectContainer').css('display', 'flex');
+      $('.objectContainer').css('display', 'none');
+      $('.avatarContainer').css('display', 'none');
+      $('.backgroundContainer').css('display', 'none');
       menuIsVisible = true
+      fromMenuSelection = true;
     }
   }
 
@@ -222,21 +226,23 @@ $(document).ready(() => {
   //WHAT HAPPENS WHEN YOU HAVE THE MOUSE OVER ANY OF THE SCROLL ZONES
   let scrollInterval = null;
   $('.scrollZone').mouseover((e) => {
-    scrolling = true;
-    scrollInterval = setInterval(function () {
-      scrollZones[e.target.attributes[2].nodeValue].startScrolling();
-    }, 10);
+    if(thisUser.isVisible){
+      scrolling = true;
+      scrollInterval = setInterval(function () {
+        scrollZones[e.target.attributes[2].nodeValue].startScrolling();
+      }, 10);
+    }
   });
   $('.scrollZone').mouseout((e) => {
     if(thisUser.isVisible){
       scrolling = false;
-      $('#thisUserScroll').css({
-        display : 'none',
-        "-webkit-transform": "scaleX(1)",
-        transform: "scaleX(1)",
-        "-webkit-transform": "rotate(0deg)",
-        transform: "rotate(0deg)"
-      });
+      // $('#thisUserScroll').css({
+      //   display : 'none',
+      //   "-webkit-transform": "scaleX(1)",
+      //   transform: "scaleX(1)",
+      //   "-webkit-transform": "rotate(0deg)",
+      //   transform: "rotate(0deg)"
+      // });
       socket.emit('User stopped scrolling');
       clearInterval(scrollInterval);
     }

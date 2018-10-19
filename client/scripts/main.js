@@ -1,26 +1,24 @@
 let onlineUsers = {};
-let memes = {};
+let objects = {};
 let mousePosition = {
   x : null,
   y : null
 }
-const socket = io.connect();
 let screenPos = {
   left : -50000,
   top : -50000
 };
 let scrolling = false;
-let memeSrc = 'https://storage.googleapis.com/valoria/heart.png';
-let scrollSrc = 'https://storage.googleapis.com/valoria/rocket.gif'
-let memeTotal = 0;
+let objectTotal = 0;
 let thisUser = null;
+let thisDimension = null;
 
 class User {
   constructor(socket) {
     this.socket = socket;
-    this.avatar = $('#thisUserAvatar').attr('src');
-    this.meme = $('.myMeme').attr('src');
-    this.memeCount = 0;
+    this.avatar = null;
+    this.object = null;
+    this.objectCount = 0;
     this.isVisible = false;
     this.pos = {
       x : parseInt($('#thisUser').css('left')),
@@ -33,6 +31,7 @@ class User {
   connectAtPos(pos){
     this.isVisible = true;
     $('#thisUser').css('display', 'block');
+    $('#thisUserAvatar').attr('src', this.avatar);
     socket.emit('Load Online Users');
     socket.emit('New User', {
       avatar : this.avatar,
@@ -54,19 +53,19 @@ class User {
     });
   }
 
-  dropMeme(meme){
-    let newMeme = new Meme();
-    newMeme.id = this.socket + "-" + this.memeCount;
-    newMeme.socket = this.socket;
-    newMeme.src = memeSrc;
-    newMeme.renderAtPos(this.pos);
-    memes[newMeme.id] = newMeme;
-    this.memeCount += 1;
-    socket.emit('New Meme', (newMeme));
+  dropObject(){
+    let newObject = new anObject();
+    newObject.id = this.socket + "-" + this.objectCount;
+    newObject.socket = this.socket;
+    newObject.src = this.object;
+    newObject.renderAtPos(this.pos);
+    objects[newObject.id] = newObject;
+    this.objectCount += 1;
+    socket.emit('New Object', (newObject));
   }
 }
 
-class Meme {
+class anObject {
   constructor(){
     this.id = null;
     this.socket = socket;
@@ -79,8 +78,8 @@ class Meme {
     this.height = 40;
   }
   renderAtPos(pos){
-    $('.memes').append(`
-      <img id=${this.id} class="myMeme meme" src=${memeSrc} draggable="false"></img>
+    $('.objects').append(`
+      <img id=${this.id} class="myObject object" src=${this.src} draggable="false"></img>
     `);
     $(`#${this.id}`).css({
       left : pos.x,
@@ -95,14 +94,20 @@ class Meme {
       left : this.pos.x,
       top : this.pos.y
     });
-    socket.emit('Meme has moved', {
-      memeId : this.id,
+    socket.emit('Object has moved', {
+      objectId : this.id,
       newPos : this.pos
     })
   }
 }
 
+
+//Load Dimension
+$.get('/dimension/main', (dimension) => {
+  thisDimension = dimension;
+})
+
+const socket = io.connect();
 $(document).ready(() => {
   thisUser = new User(socket.id);
-  onlineUsers[socket.id] = thisUser;
 })

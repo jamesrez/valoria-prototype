@@ -1,0 +1,29 @@
+link(href='./styles/object.css' rel='stylesheet' )
+  
+script(src='./scripts/object.js')
+
+.objectContainer
+  .selectYourobject
+    .objectPreview
+      img.objectPreviewSrc
+    .objectPreviewKey
+    .objectBtns
+      .selectObjectBtn Select Object
+        .selectObjectBtnText Press *space* to Drop Object
+      //- form.uploadObject(action="/upload" method="post" enctype="multipart/form-data")
+      //-   .uploadObjectBtn
+      //-     label.uploadObjectLabel Upload Object
+      //-       input.uploadObjectInput(hidden type='file' name='upload' onChange="uploadObject()")
+    .uploadObject
+      input.uploadObjectInput(placeholder='Link to Image you are Uploading')
+      input.uploadObjectKey(placeholder='Name for your Image')
+      .uploadObjectBtn(onClick = "uploadObject()") Upload
+    .availableObjects
+      //- .objectSelected
+      //-   img.objectSrc(src='https://storage.googleapis.com/valoria/main/doggy.gif')
+      //-   .objectKeyContainer
+      //-     .objectKey Doggy
+      //- .objectSelection
+      //-   img.objectSrc(src='https://storage.googleapis.com/valoria/main/catfish.gif')
+      //-   .objectKeyContainer
+      //-     .objectKey Catfish

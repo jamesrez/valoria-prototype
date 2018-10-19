@@ -24,5 +24,12 @@ module.exports = (io, socket, onlineUsers) => {
   socket.on('User stopped scrolling', () => {
     socket.broadcast.emit('User stopped scrolling', onlineUsers[socket.id]);
   });
+  socket.on('User has changed avatar', newAvatar => {
+    onlineUsers[socket.id].avatar = newAvatar;
+    socket.broadcast.emit('User has changed avatar', {
+      socket : socket.id,
+      newAvatar : newAvatar
+    })
+  })
 
 }
