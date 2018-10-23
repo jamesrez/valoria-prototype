@@ -43,7 +43,10 @@ app.use(checkAuth);
 //Root Route
 app.get('/', (req, res) => {
   Dimension.findOne({name : 'main'}).then((dimension) => {
-    res.render('main', {currentUser : req.user});
+    res.render('main', {
+      currentUser : req.user,
+      dimension : dimension
+    });
   })
 });
 //Socket.io

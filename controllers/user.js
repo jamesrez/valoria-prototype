@@ -12,6 +12,18 @@ module.exports = (app) => {
         let newUser = new User;
         newUser.username = req.body.username;
         newUser.password = newUser.generateHash(req.body.password);
+        newUser.avatars.push({
+          key : "Valorian",
+          src : "https://i.imgur.com/MgPq7Fn.png"
+        })
+        newUser.objects.push({
+          key : "Love",
+          src : "https://i.imgur.com/U7WCZuu.png"
+        });
+        newUser.backgrounds.push({
+          key : "Purple Grid",
+          src : "https://i.imgur.com/a4ycklR.png"
+        })
         newUser.save((err, user) => {
           // generate a JWT for this user from the user's id and the secret key
           let token = jwt.sign({
@@ -42,6 +54,11 @@ module.exports = (app) => {
         res.redirect('/');
       }
     })
+  });
+
+  app.get('/logout', (req, res) => {
+    res.clearCookie('userToken');
+    res.send();
   })
 
 }

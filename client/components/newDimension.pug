@@ -1,0 +1,35 @@
+link(href='styles/newDimension.css' rel='stylesheet')
+  
+
+
+.newDimensionContainer
+  .newDimensionInputForm
+    input.newDimensionName(placeholder="Dimension Name")
+    textarea.newDimensionDesc(placeholder="Dimension Description")
+  .newDimensionRadioForm
+    .radioTitle Dimension Avatars
+    form.radioBtns
+      .radioBtn
+        input(type='radio' name='dimensionAvatar' value="owner-set")
+        .radioLabel Set by Dimension Owner 
+      .radioBtn
+        input(type='radio' name='dimensionAvatar' value="user-chosen")
+        .radioLabel Set by User
+    .radioTitle Dimension Objects
+    form.radioBtns
+      .radioBtn
+        input(type='radio' name='dimensionObject' value="owner-set") 
+        .radioLabel Set by Dimension Owner
+      .radioBtn
+        input(type='radio' name='dimensionAvatarObject' value="user-chosen") 
+        .radioLabel Set by User
+    .radioTitle Who Can Change the Background?
+    form.radioBtns 
+      .radioBtn
+        input(type='radio' name='backgroundChange' value="owner")
+        .radioLabel Only Dimension Owner
+      .radioBtn
+        input(type='radio' name='backgroundChange' value="anybody")
+        .radioLabel Anybody
+  .newDimensionSubmitBtn Create and Go to Dimension
+    

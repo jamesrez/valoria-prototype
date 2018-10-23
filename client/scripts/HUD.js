@@ -218,7 +218,9 @@ $(document).ready(() => {
     switch(e.keyCode){
       //ESC
       case 27:
-        toggleMenu();
+        if(fromMenuSelection){
+          toggleMenu();
+        }
         break;
     }
   });

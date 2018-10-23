@@ -1,11 +1,5 @@
-const {Storage} = require('@google-cloud/storage');
-const storage = new Storage({
-  projectId: 'valoria-219021'
-});
-let bucket = storage.bucket('valoria');
-
+const User = require('../models/user');
 const Dimension = require('../models/dimension');
-
 let imgTypes = ['.png', '.jpg', '.jpeg', '.gif'];
 
 
@@ -18,17 +12,42 @@ module.exports = (app) => {
   });
 
   //Upload new Background
-  app.post('/background/upload', (req, res) => {
-    let thisFileType = req.body.src.substring(req.body.src.lastIndexOf("."));
-    if(imgTypes.indexOf(thisFileType) != -1){
-      Dimension.findOne({name : 'main'}).then((dimension) => {
-        dimension.images.backgrounds.push(req.body);
-        dimension.save(() => {
-          res.send(req.body);
+  // app.post('/background/upload', (req, res) => {
+  //   let thisFileType = req.body.src.substring(req.body.src.lastIndexOf("."));
+  //   if(imgTypes.indexOf(thisFileType) != -1){
+  //     Dimension.findOne({name : 'main'}).then((dimension) => {
+  //       dimension.images.backgrounds.push(req.body);
+  //       dimension.save(() => {
+  //         res.send(req.body);
+  //       });
+  //     })
+  //   }else{
+  //     res.status(400).send("Not an acceptable image");
+  //   }
+  // })
+
+
+  //Get a user's backgrounds
+  app.get('/user/:id/backgrounds', (req, res) => {
+    User.findById(req.params.id).then((user) => {
+      if(user){
+        res.send(user.backgrounds);
+      }
+    })
+  });
+
+  //Add an background to a user
+  app.post('/user/:id/backgrounds', (req, res) => {
+    User.findById(req.params.id).then((user) => {
+      if(user){
+        console.log(req.body);
+        user.backgrounds.push(req.body.newBackground);
+        user.save().then(() => {
+          res.send(req.body.newBackground);
         });
-      })
-    }else{
-      res.status(400).send("Not an acceptable image");
-    }
-  })
+      }
+    })
+  });
+
+
 }

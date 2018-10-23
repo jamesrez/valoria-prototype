@@ -15,6 +15,14 @@ link(rel='stylesheet', href='./styles/main.css')
 //Main.js
 script(src='./client/scripts/main.js')
   
+//USER INFO
+if(currentUser)
+  p#currentUserId(hidden)=currentUser.id
+  p#currentUserName(hidden)=currentUser.username
+  
+//DIMENSION INFO 
+p#dimensionBackgroundSrc(hidden)=dimension.background.src
+  
 //Environment
 include components/environment
   

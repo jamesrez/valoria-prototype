@@ -1,0 +1,77 @@
+.newDimensionContainer{
+  display: none;
+  width : 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  color : white;
+  font-size: 20px;
+  font-family: futura;
+  font-weight: bold;
+  height : 90%;
+}
+
+.newDimensionInputForm{
+  width : 70%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.newDimensionName{
+  width : 80%;
+  font-size: 20px;
+  padding: 5px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.newDimensionDesc{
+  width : 80%;
+  font-size: 18px;
+  padding: 5px;
+}
+
+.newDimensionRadioForm{
+  width : 70%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.radioBtns{
+  width : 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.radioBtn{
+  display: flex;
+  flex-direction: row;
+}
+
+.radioTitle{
+  font-size: 25px;
+}
+
+.radioLabel {
+  margin-left: 5px;
+  font-size: 15px;
+}
+
+.newDimensionSubmitBtn{
+  justify-self: flex-end;
+  font-size: 25px;
+  border : 5px solid white;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.newDimensionSubmitBtn:hover{
+  background-color: #557062;
+}

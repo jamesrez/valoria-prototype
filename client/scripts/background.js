@@ -1,5 +1,6 @@
 $(document).ready(() => {
-  
+  let backgroundSrc = $('#dimensionBackgroundSrc').text();
+   $('#background').css('background-image', `url(${backgroundSrc})`);
 })
 
 socket.on('Background Change', (newBackground) => {

@@ -25,8 +25,9 @@ function addObject(object, i){
 
 $(document).ready(() => {
 
-  //Load All Objects from Google Cloud
-  $.get('/main/objects', (objects) => {
+  //Load All Objects from User
+  let userId = $('#currentUserId').text();
+  $.get(`/user/${userId}/objects`, (objects) => {
     objects.forEach((object, i) => {
       addObject(object, i);
     })
@@ -51,6 +52,9 @@ $(document).ready(() => {
     $('.menuSelectContainer').css('display', 'flex');
     $('#objectScreenSelect').find('.menuSelectionImg').attr('src', selectedObject);
     menuIsVisible = false;
+    if(!fromMenuSelection){
+      fromMenuSelection = true;
+    }
   });
 
 })
@@ -60,6 +64,8 @@ function uploadObject(){
 
   let objectSrc = $('.uploadObjectInput').val();
   let objectKey = $('.uploadObjectKey').val();
+  let userId = $('#currentUserId').text();
+
 
   if(objectSrc.length > 0 && objectKey.length > 0){
     let newObject = {
@@ -67,7 +73,7 @@ function uploadObject(){
       key : objectKey
     }
 
-    axios.post('/object/upload', newObject).then(response => {
+    axios.post(`/user/${userId}/objects`, {newObject}).then(response => {
       $('.uploadObjectInput').val("");
       $('.uploadObjectKey').val("");
       addObject(response.data);

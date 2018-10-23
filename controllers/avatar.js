@@ -1,11 +1,5 @@
-const {Storage} = require('@google-cloud/storage');
-const storage = new Storage({
-  projectId: 'valoria-219021'
-});
-let bucket = storage.bucket('valoria');
-
+const User = require('../models/user');
 const Dimension = require('../models/dimension');
-
 let imgTypes = ['.png', '.jpg', '.jpeg', '.gif'];
 
 
@@ -19,18 +13,39 @@ module.exports = (app) => {
   });
 
   //Upload new Avatar
-  app.post('/avatar/upload', (req, res) => {
-    let thisFileType = req.body.src.substring(req.body.src.lastIndexOf("."));
-    if(imgTypes.indexOf(thisFileType) != -1){
-      Dimension.findOne({name : 'main'}).then((dimension) => {
-        dimension.images.avatars.push(req.body);
-        dimension.save(() => {
-          res.send(req.body);
+  // app.post('/avatar/upload', (req, res) => {
+  //   let thisFileType = req.body.src.substring(req.body.src.lastIndexOf("."));
+  //   if(imgTypes.indexOf(thisFileType) != -1){
+  //     Dimension.findOne({name : 'main'}).then((dimension) => {
+  //       dimension.images.avatars.push(req.body);
+  //       dimension.save(() => {
+  //         res.send(req.body);
+  //       });
+  //     })
+  //   }else{
+  //     res.status(400).send("Not an acceptable image");
+  //   }
+  // });
+
+  //Get a user's avatars
+  app.get('/user/:id/avatars', (req, res) => {
+    User.findById(req.params.id).then((user) => {
+      if(user){
+        res.send(user.avatars);
+      }
+    })
+  });
+
+  //Add an avatar to a user
+  app.post('/user/:id/avatars', (req, res) => {
+    User.findById(req.params.id).then((user) => {
+      if(user){
+        user.avatars.push(req.body.newAvatar);
+        user.save().then(() => {
+          res.send(req.body.newAvatar);
         });
-      })
-    }else{
-      res.status(400).send("Not an acceptable image");
-    }
-  })
+      }
+    })
+  });
 
 }

@@ -3,7 +3,8 @@ let selectedBackground = {};
 function addBackground(background){
   let newBackgroundElement;
 
-  if(background.src == thisDimension.background.src){
+  let backgroundSrc = $('#dimensionBackgroundSrc').text();
+  if(background.src == backgroundSrc){
     newBackgroundElement = `
       <div class='backgroundSelected'>
         <img class='backgroundSrc' src=${background.src}>
@@ -25,9 +26,11 @@ function addBackground(background){
 
 
 $(document).ready(() => {
+  let backgroundSrc = $('#dimensionBackgroundSrc').text();
 
-  //Load All Backgrounds
-  $.get('/main/backgrounds', (backgrounds) => {
+  //Load All Backgrounds of User
+  let userId = $('#currentUserId').text();
+  $.get(`/user/${userId}/backgrounds`, (backgrounds) => {
     backgrounds.forEach((background) => {
       addBackground(background);
     })
@@ -37,6 +40,7 @@ $(document).ready(() => {
     src : $('.backgroundSelected').find('.backgroundSrc').attr('src'),
     key : $('.backgroundPreviewKey').text()
   }
+
   //SELECT background
   $(document).on('click', '.backgroundSelection', function(){
     $('.backgroundSelected').addClass('backgroundSelection', true)
@@ -52,13 +56,15 @@ $(document).ready(() => {
   });
 
   $(document).on('click', '.selectBackgroundBtn', function(){
+    if(selectedBackground.src != backgroundSrc && selectedBackground.src){
+      $('#background').css("background-image", `url(${selectedBackground.src})`)
+      $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', selectedBackground.src);
+      socket.emit('Background Change', selectedBackground);
+    }
     $('.backgroundContainer').css('display', 'none');
     $('#menu').css('display', 'none');
     $('.menuSelectContainer').css('display', 'flex');
-    $('#background').css("background-image", `url(${selectedBackground.src})`)
-    $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', selectedBackground.src);
     menuIsVisible = false;
-    socket.emit('Background Change', selectedBackground);
   })
 
 });
@@ -68,6 +74,7 @@ function uploadBackground(){
 
   let backgroundSrc = $('.uploadBackgroundInput').val();
   let backgroundKey = $('.uploadBackgroundKey').val();
+  let userId = $('#currentUserId').text();
 
   if(backgroundSrc.length > 0 && backgroundKey.length > 0){
     let newBackground = {
@@ -75,7 +82,7 @@ function uploadBackground(){
       key : backgroundKey
     }
 
-    axios.post('/background/upload', newBackground).then(response => {
+    axios.post(`/user/${userId}/backgrounds`, {newBackground}).then(response => {
       $('.uploadBackgroundInput').val("");
       $('.uploadBackgroundKey').val("");
       addBackground(response.data);
@@ -83,20 +90,4 @@ function uploadBackground(){
       console.log(err);
     })
   }
-
-  // var upload = $('.uploadBackgroundInput')[0];
-  // var image = upload.files[0];
-  // var formData = new FormData();
-  // formData.append("upload", image);
-  // $.ajax({
-  //   url:"/upload/background",
-  //   type: "POST",
-  //   data: formData,
-  //   contentType:false,
-  //   cache: false,
-  //   processData:false,
-  //   success: (background) => {
-  //     addBackground(background);
-  //   }
-  // });
 }

@@ -25,8 +25,9 @@ function addAvatar(avatar, i){
 
 $(document).ready(() => {
 
-  //Load All Avatars from Google Cloud
-  $.get('/main/avatars', (avatars) => {
+  //Load All Avatars from User
+  let userId = $('#currentUserId').text();
+  $.get(`/user/${userId}/avatars`, (avatars) => {
     avatars.forEach((avatar, i) => {
       addAvatar(avatar, i);
     })
@@ -65,6 +66,7 @@ $(document).ready(() => {
 function uploadAvatar(){
   let avatarSrc = $('.uploadAvatarInput').val();
   let avatarKey = $('.uploadAvatarKey').val();
+  let userId = $('#currentUserId').text();
 
   if(avatarSrc.length > 0 && avatarKey.length > 0){
     let newAvatar = {
@@ -72,7 +74,7 @@ function uploadAvatar(){
       key : avatarKey
     }
 
-    axios.post('/avatar/upload', newAvatar).then(response => {
+    axios.post(`/user/${userId}/avatars`, {newAvatar}).then(response => {
       $('.uploadAvatarInput').val("");
       $('.uploadAvatarKey').val("");
       addAvatar(response.data);
@@ -80,19 +82,4 @@ function uploadAvatar(){
       console.log(err);
     })
   }
-  // var upload = $('.uploadAvatarInput')[0];
-  // var image = upload.files[0];
-  // var formData = new FormData();
-  // formData.append("upload", image);
-  // $.ajax({
-  //   url:"/upload/avatar",
-  //   type: "POST",
-  //   data: formData,
-  //   contentType:false,
-  //   cache: false,
-  //   processData:false,
-  //   success: (avatar) => {
-  //     addAvatar(avatar);
-  //   }
-  // });
 }

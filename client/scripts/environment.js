@@ -48,7 +48,6 @@ $(document).ready(() => {
         break;
     }
   });
-
 });
 
 //Socket Listeners

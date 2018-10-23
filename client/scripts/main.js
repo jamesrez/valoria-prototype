@@ -54,14 +54,16 @@ class User {
   }
 
   dropObject(){
-    let newObject = new anObject();
-    newObject.id = this.socket + "-" + this.objectCount;
-    newObject.socket = this.socket;
-    newObject.src = this.object;
-    newObject.renderAtPos(this.pos);
-    objects[newObject.id] = newObject;
-    this.objectCount += 1;
-    socket.emit('New Object', (newObject));
+    if(this.isVisible){
+      let newObject = new anObject();
+      newObject.id = this.socket + "-" + this.objectCount;
+      newObject.socket = this.socket;
+      newObject.src = this.object;
+      newObject.renderAtPos(this.pos);
+      objects[newObject.id] = newObject;
+      this.objectCount += 1;
+      socket.emit('New Object', (newObject));
+    }
   }
 }
 
@@ -100,14 +102,6 @@ class anObject {
     })
   }
 }
-
-
-//Load Dimension
-$.get('/dimension/main', (dimension) => {
-  thisDimension = dimension;
-  $('#background').css('background-image', `url(${thisDimension.background.src})`);
-  $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', thisDimension.background.src);
-})
 
 const socket = io.connect();
 $(document).ready(() => {
