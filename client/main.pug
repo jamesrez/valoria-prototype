@@ -1,7 +1,7 @@
 //Socket.io
-script(src='./client/scripts/socket.io.min.js')
+script(src='/client/scripts/socket.io.min.js')
 //Jquery
-script(src='./client/scripts/jquery-3.3.1.min.js')
+script(src='/client/scripts/jquery-3.3.1.min.js')
 //Phaser
 script(src='//cdn.jsdelivr.net/npm/phaser@3.13.0/dist/phaser.min.js')
 //FlexBox
@@ -11,9 +11,9 @@ script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js")
 //Marquee 
 script(src='https://cdn.jsdelivr.net/npm/jquery.marquee@1.5.0/jquery.marquee.min.js')
 //Main.css
-link(rel='stylesheet', href='./styles/main.css')
+link(rel='stylesheet', href='/styles/main.css')
 //Main.js
-script(src='./client/scripts/main.js')
+script(src='/client/scripts/main.js')
   
 //USER INFO
 if(currentUser)
@@ -21,6 +21,7 @@ if(currentUser)
   p#currentUserName(hidden)=currentUser.username
   
 //DIMENSION INFO 
+p#dimensionName(hidden)=dimension.name
 p#dimensionBackgroundSrc(hidden)=dimension.background.src
   
 //Environment

@@ -1,29 +1,49 @@
-link(href='./styles/object.css' rel='stylesheet' )
+link(href='/styles/object.css' rel='stylesheet' )
   
-script(src='./scripts/object.js')
+script(src='/scripts/object.js')
 
 .objectContainer
-  .selectYourobject
-    .objectPreview
-      img.objectPreviewSrc
-    .objectPreviewKey
+  .selectYourObject
+    if dimension.ownerChooseObjects
+      .objectPreview
+        img.objectPreviewSrc(src=dimension.objects[0].src)
+      .objectPreviewKey=dimension.objects[0].key
+    else
+      .avatarPreview
+        img.avatarPreviewSrc(src=currentUser.objects[0].src)
+      .avatarPreviewKey=currentUser.objects[0].key
     .objectBtns
       .selectObjectBtn Select Object
         .selectObjectBtnText Press *space* to Drop Object
-      //- form.uploadObject(action="/upload" method="post" enctype="multipart/form-data")
-      //-   .uploadObjectBtn
-      //-     label.uploadObjectLabel Upload Object
-      //-       input.uploadObjectInput(hidden type='file' name='upload' onChange="uploadObject()")
-    .uploadObject
-      input.uploadObjectInput(placeholder='Link to Image you are Uploading')
-      input.uploadObjectKey(placeholder='Name for your Image')
-      .uploadObjectBtn(onClick = "uploadObject()") Upload
+    if dimension.ownerChooseObjects
+      if currentUser.id == dimension.owner
+        .uploadObject
+          input.uploadObjectInput(placeholder='Link to Image you are Uploading')
+          input.uploadObjectKey(placeholder='Name for your Image')
+          .uploadObjectBtn(onClick = "uploadObjectToDimension()") Upload
+    else 
+      .uploadObject
+        input.uploadObjectInput(placeholder='Link to Image you are Uploading')
+        input.uploadObjectKey(placeholder='Name for your Image')
+        .uploadObjectBtn(onClick = "uploadObjectToUser()") Upload
     .availableObjects
-      //- .objectSelected
-      //-   img.objectSrc(src='https://storage.googleapis.com/valoria/main/doggy.gif')
-      //-   .objectKeyContainer
-      //-     .objectKey Doggy
-      //- .objectSelection
-      //-   img.objectSrc(src='https://storage.googleapis.com/valoria/main/catfish.gif')
-      //-   .objectKeyContainer
-      //-     .objectKey Catfish
+      if dimension.ownerChooseObjects
+        each object, i in dimension.objects
+          if i==0
+            .objectSelected
+              img.objectSrc(src=object.src)
+              p(hidden).objectKey=object.key
+          else
+            .objectSelection
+              img.objectSrc(src=object.src)
+              p(hidden).objectKey=object.key
+      else
+        each object, i in currentUser.objects
+          if i==0
+            .objectSelected
+              img.objectSrc(src=object.src)
+              p(hidden).objectKey=object.key
+          else
+            .objectSelection
+              img.objectSrc(src=object.src)
+              p(hidden).objectKey=object.key

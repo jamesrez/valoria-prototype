@@ -28,7 +28,10 @@ module.exports = (app) => {
           // generate a JWT for this user from the user's id and the secret key
           let token = jwt.sign({
             id: user._id,
-            username : user.username
+            username : user.username,
+            avatars : user.avatars,
+            objects : user.objects,
+            backgrounds : user.backgrounds
           }, process.env.JWT_SECRET, { expiresIn: "60 days"});
           res.cookie('userToken', token);
           res.redirect('/');
@@ -48,7 +51,10 @@ module.exports = (app) => {
         // generate a JWT for this user from the user's id and the secret key
         let token = jwt.sign({
           id: user._id,
-          username : user.username
+          username : user.username,
+          avatars : user.avatars,
+          objects : user.objects,
+          backgrounds : user.backgrounds
         }, process.env.JWT_SECRET, { expiresIn: "60 days"});
         res.cookie('userToken', token);
         res.redirect('/');

@@ -8,21 +8,24 @@ const DimensionSchema = new Schema({
     width : Number,
     height : Number
   },
+  desc : String,
+  owner : String,
+  ownerChooseAvatars : Boolean,
+  ownerChooseObjects : Boolean,
+  ownerChooseBackground : Boolean,
   name : String,
-  images : {
-    avatars : [{
-      src : String,
-      key : String
-    }],
-    objects : [{
-      src : String,
-      key : String
-    }],
-    backgrounds : [{
-      src : String,
-      key : String
-    }]
-  },
+  avatars : {type : Array, default : [{
+    src : "https://i.imgur.com/MgPq7Fn.png",
+    key : "Valorian"
+  }]},
+  objects : {type : Array, default : [{
+    src : "https://i.imgur.com/U7WCZuu.png",
+    key : "Love"
+  }]},
+  backgrounds : {type : Array, default : [{
+    src : "https://i.imgur.com/a4ycklR.png",
+    key : "Purple Grid"
+  }]},
   memes : [{
     id : String,
     pos : {
@@ -33,8 +36,8 @@ const DimensionSchema = new Schema({
   }],
   memeLimit : {type : Number, default : 1000},
   background : {
-    src : String,
-    key : String
+    src : {type : String, default : "https://i.imgur.com/a4ycklR.png"},
+    key : {type : String, default : "Purple Grid"}
   }
 });
 
@@ -45,12 +48,10 @@ Dimension.findOne({name : 'main'}).then((dimension) => {
   if(!dimension){
     let main = new Dimension();
     main.name = 'main';
-    let mainBackground = {
-      src : 'https://i.imgur.com/a4ycklR.png',
-      key : "Purple Grid"
-    };
-    main.background = mainBackground;
-    main.images.backgrounds.push(mainBackground);
+    main.desc = 'The main dimension';
+    main.ownerChooseAvatars = false;
+    main.ownerChooseObjects = false;
+    main.ownerChooseBackground = false;
     main.save();
   }
 })

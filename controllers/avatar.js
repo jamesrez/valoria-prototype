@@ -37,7 +37,7 @@ module.exports = (app) => {
   });
 
   //Add an avatar to a user
-  app.post('/user/:id/avatars', (req, res) => {
+  app.post('/user/:id/avatars/new', (req, res) => {
     User.findById(req.params.id).then((user) => {
       if(user){
         user.avatars.push(req.body.newAvatar);
@@ -46,6 +46,17 @@ module.exports = (app) => {
         });
       }
     })
+  });
+
+  app.post('/dimension/:name/avatars/new', (req, res) => {
+    Dimension.findOne({name : req.params.name.toLower()}).then((dimension) => {
+      if(dimension){
+        dimension.avatars.push(req.body.newAvatar);
+        dimension.save().then(() => {
+          res.send(req.body.newAvatar);
+        });
+      }
+    });
   });
 
 }

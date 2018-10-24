@@ -36,11 +36,10 @@ module.exports = (app) => {
     })
   });
 
-  //Add an background to a user
+  //Add a background to a user
   app.post('/user/:id/backgrounds', (req, res) => {
     User.findById(req.params.id).then((user) => {
       if(user){
-        console.log(req.body);
         user.backgrounds.push(req.body.newBackground);
         user.save().then(() => {
           res.send(req.body.newBackground);

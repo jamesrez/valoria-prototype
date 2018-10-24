@@ -36,7 +36,7 @@ module.exports = (app) => {
   });
 
   //Add an object to a user
-  app.post('/user/:id/objects', (req, res) => {
+  app.post('/user/:id/objects/new', (req, res) => {
     User.findById(req.params.id).then((user) => {
       if(user){
         user.objects.push(req.body.newObject);
@@ -45,6 +45,17 @@ module.exports = (app) => {
         });
       }
     })
+  });
+
+  app.post('/dimension/:name/objects/new', (req, res) => {
+    Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
+      if(dimension){
+        dimension.objects.push(req.body.newObject);
+        dimension.save().then(() => {
+          res.send(req.body.newObject);
+        });
+      }
+    });
   });
 
 

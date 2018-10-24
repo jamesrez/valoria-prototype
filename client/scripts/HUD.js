@@ -208,6 +208,7 @@ $(document).ready(() => {
       $('.objectContainer').css('display', 'none');
       $('.avatarContainer').css('display', 'none');
       $('.backgroundContainer').css('display', 'none');
+      $('.newDimensionContainer').css('display', 'none');
       menuIsVisible = true
       fromMenuSelection = true;
     }

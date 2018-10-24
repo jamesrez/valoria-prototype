@@ -1,5 +1,5 @@
-link(href='styles/menuSelect.css' rel='stylesheet')
-script(src='scripts/menuSelect.js')
+link(href='/client/styles/menuSelect.css' rel='stylesheet')
+script(src='/client/scripts/menuSelect.js')
 
 .menuSelectContainer
   .menuOptions
@@ -13,11 +13,19 @@ script(src='scripts/menuSelect.js')
         img.menuSelectionImg
       .menuSelectionLabelContainer
         .menuSelectionLabel Change Object
-    #backgroundScreenSelect.menuSelection
-      .menuSelectionImgContainer
-        img.menuSelectionImg
-      .menuSelectionLabelContainer
-        .menuSelectionLabel Change Background
+    if dimension.ownerChooseBackground
+      if currentUser.id == dimension.owner
+        #backgroundScreenSelect.menuSelection
+          .menuSelectionImgContainer
+            img.menuSelectionImg
+          .menuSelectionLabelContainer
+            .menuSelectionLabel Change Background
+    else
+      #backgroundScreenSelect.menuSelection
+        .menuSelectionImgContainer
+          img.menuSelectionImg
+        .menuSelectionLabelContainer
+          .menuSelectionLabel Change Background
     #newDimensionScreenSelect.menuSelection
       .menuSelectionImgContainer
         img.menuSelectionImg

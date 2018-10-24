@@ -25,15 +25,6 @@ function addAvatar(avatar, i){
 
 $(document).ready(() => {
 
-  //Load All Avatars from User
-  let userId = $('#currentUserId').text();
-  $.get(`/user/${userId}/avatars`, (avatars) => {
-    avatars.forEach((avatar, i) => {
-      addAvatar(avatar, i);
-    })
-  })
-
-
   selectedAvatar = $('.avatarSelected').find('.avatarSrc').attr('src');
   //SELECT AVATAR
   $(document).on('click', '.avatarSelection', function(){
@@ -62,8 +53,8 @@ $(document).ready(() => {
 
 });
 
-//Uploading Avatar
-function uploadAvatar(){
+//Uploading Avatar to User
+function uploadAvatarToUser(){
   let avatarSrc = $('.uploadAvatarInput').val();
   let avatarKey = $('.uploadAvatarKey').val();
   let userId = $('#currentUserId').text();
@@ -74,7 +65,29 @@ function uploadAvatar(){
       key : avatarKey
     }
 
-    axios.post(`/user/${userId}/avatars`, {newAvatar}).then(response => {
+    axios.post(`/user/${userId}/avatars/new`, {newAvatar}).then(response => {
+      $('.uploadAvatarInput').val("");
+      $('.uploadAvatarKey').val("");
+      addAvatar(response.data);
+    }).catch((err) => {
+      console.log(err);
+    })
+  }
+}
+
+//Uploading Avatar to Dimension
+function uploadAvatarToDimension(){
+  let avatarSrc = $('.uploadAvatarInput').val();
+  let avatarKey = $('.uploadAvatarKey').val();
+  let dimensionName = $('#dimensionName').text()
+
+  if(avatarSrc.length > 0 && avatarKey.length > 0){
+    let newAvatar = {
+      src : avatarSrc,
+      key : avatarKey
+    }
+
+    axios.post(`/dimension/${dimensionName}/avatars/new`, {newAvatar}).then(response => {
       $('.uploadAvatarInput').val("");
       $('.uploadAvatarKey').val("");
       addAvatar(response.data);

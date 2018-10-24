@@ -27,6 +27,7 @@ function addBackground(background){
 
 $(document).ready(() => {
   let backgroundSrc = $('#dimensionBackgroundSrc').text();
+  let dimensionName = $('#dimensionName').text()
 
   //Load All Backgrounds of User
   let userId = $('#currentUserId').text();
@@ -59,7 +60,10 @@ $(document).ready(() => {
     if(selectedBackground.src != backgroundSrc && selectedBackground.src){
       $('#background').css("background-image", `url(${selectedBackground.src})`)
       $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', selectedBackground.src);
-      socket.emit('Background Change', selectedBackground);
+      socket.emit('Background Change', {
+        dimensionName : dimensionName,
+        newBackground : selectedBackground
+      });
     }
     $('.backgroundContainer').css('display', 'none');
     $('#menu').css('display', 'none');
