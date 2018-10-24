@@ -43,10 +43,14 @@ app.use(checkAuth);
 //Root Route
 app.get('/', (req, res) => {
   Dimension.findOne({name : 'main'}).then((dimension) => {
-    res.render('main', {
-      currentUser : req.user,
-      dimension : dimension
-    });
+    if(dimension){
+      res.render('main', {
+        currentUser : req.user,
+        dimension : dimension
+      });
+    }else{
+      res.send("Server restarting, wait a quick second.");
+    }
   })
 });
 //Socket.io
