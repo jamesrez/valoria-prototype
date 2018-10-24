@@ -45,7 +45,9 @@ module.exports = (app) => {
           res.send(req.body.newAvatar);
         });
       }
-    })
+    }).catch(err => {
+      console.log(err);
+    });
   });
 
   app.post('/dimension/:name/avatars/new', (req, res) => {

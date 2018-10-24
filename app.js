@@ -8,6 +8,7 @@ const Dimension = require('./models/dimension');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
+const User = require('./models/user');
 
 require('dotenv').config()
 
@@ -42,16 +43,34 @@ app.use(checkAuth);
 
 //Root Route
 app.get('/', (req, res) => {
-  Dimension.findOne({name : 'main'}).then((dimension) => {
-    if(dimension && dimension.avatars[0]){
-      res.render('main', {
-        currentUser : req.user,
-        dimension : dimension
-      });
-    }else{
-      res.send("Server restarting, wait a quick second.");
-    }
-  })
+  if(req.user){
+    User.findOne({username : req.user.username}).then((user) => {
+      if(!user){
+        res.clearCookie('userToken');
+      }
+      Dimension.findOne({name : 'main'}).then((dimension) => {
+        if(dimension && dimension.avatars[0]){
+          res.render('main', {
+            currentUser : req.user,
+            dimension : dimension
+          });
+        }else{
+          res.send("Server restarting, wait a quick second.");
+        }
+      })
+    })
+  }else{
+    res.clearCookie('userToken');
+    Dimension.findOne({name : 'main'}).then((dimension) => {
+      if(dimension && dimension.avatars[0]){
+        res.render('main', {
+          dimension : dimension
+        });
+      }else{
+        res.send("Server restarting, wait a quick second.");
+      }
+    })
+  }
 });
 //Socket.io
 let onlineUsers = {};

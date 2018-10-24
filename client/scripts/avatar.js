@@ -67,7 +67,6 @@ function uploadAvatarToUser(){
       src : avatarSrc,
       key : avatarKey
     }
-
     axios.post(`/user/${userId}/avatars/new`, {newAvatar}).then(response => {
       $('.uploadAvatarInput').val("");
       $('.uploadAvatarKey').val("");
