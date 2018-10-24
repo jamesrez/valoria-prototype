@@ -43,7 +43,7 @@ app.use(checkAuth);
 //Root Route
 app.get('/', (req, res) => {
   Dimension.findOne({name : 'main'}).then((dimension) => {
-    if(dimension){
+    if(dimension && dimension.avatars[0]){
       res.render('main', {
         currentUser : req.user,
         dimension : dimension
