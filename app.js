@@ -57,8 +57,10 @@ io.on('connection', (socket) => {
   require('./sockets/object.js')(io, socket, onlineUsers);
   require('./sockets/background.js')(io, socket, onlineUsers);
   socket.on('disconnect', () => {
-    io.emit('User Left', onlineUsers[socket.id]);
-    delete onlineUsers[socket.id];
+    if(onlineUsers[socket.dimension]){
+      io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);
+      delete onlineUsers[socket.dimension][socket.id];
+    }
   })
 });
 //Controllers

@@ -47,7 +47,10 @@ $(document).ready(() => {
     }else{
       $('#menu').css('display', 'none');
       menuIsVisible = false;
-      socket.emit('User has changed avatar', thisUser.avatar);
+      socket.emit('User has changed avatar', {
+        newAvatar : thisUser.avatar,
+        dimension : thisUser.dimension
+      });
     }
   });
 

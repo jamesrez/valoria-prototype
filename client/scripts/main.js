@@ -11,7 +11,6 @@ let screenPos = {
 let scrolling = false;
 let objectTotal = 0;
 let thisUser = null;
-let thisDimension = null;
 
 class User {
   constructor(socket) {
@@ -20,6 +19,7 @@ class User {
     this.object = null;
     this.objectCount = 0;
     this.isVisible = false;
+    this.dimension = null;
     this.pos = {
       x : parseInt($('#thisUser').css('left')),
       y : parseInt($('#thisUser').css('top'))
@@ -32,46 +32,52 @@ class User {
     this.isVisible = true;
     $('#thisUser').css('display', 'block');
     $('#thisUserAvatar').attr('src', this.avatar);
-    socket.emit('Load Online Users');
+    socket.emit('Load Online Users', this.dimension);
     socket.emit('New User', {
       avatar : this.avatar,
-      pos : pos
+      pos : pos,
+      dimension : this.dimension
     });
   }
 
   updatePos(newPos, scrollDir){
-    this.pos.x = newPos.x;
-    this.pos.y = newPos.y;
-    $('#thisUser').css({
-      left : this.pos.x,
-      top : this.pos.y
-    });
-    socket.emit('User has moved', {
-      socket : socket.id,
-      newPos : this.pos,
-      scrollDir : scrollDir
-    });
+    if(this.isVisible){
+      this.pos.x = newPos.x;
+      this.pos.y = newPos.y;
+      $('#thisUser').css({
+        left : this.pos.x,
+        top : this.pos.y
+      });
+      socket.emit('User has moved', {
+        socket : socket.id,
+        newPos : this.pos,
+        scrollDir : scrollDir,
+        dimension : this.dimension
+      });
+    }
   }
 
   dropObject(){
     if(this.isVisible){
       let newObject = new anObject();
-      newObject.id = this.socket + "-" + this.objectCount;
+      newObject.elemId = this.socket + "-" + this.objectCount;
       newObject.socket = this.socket;
       newObject.src = this.object;
+      newObject.dimension = this.dimension;
       newObject.renderAtPos(this.pos);
-      objects[newObject.id] = newObject;
+      objects[newObject.elemId] = newObject;
       this.objectCount += 1;
-      socket.emit('New Object', (newObject));
+      socket.emit('New Object', newObject);
     }
   }
 }
 
 class anObject {
   constructor(){
-    this.id = null;
+    this.elemId = null;
     this.socket = socket;
     this.src = null;
+    this.dimension = null;
     this.pos = {
       x : null,
       y : null
@@ -81,9 +87,9 @@ class anObject {
   }
   renderAtPos(pos){
     $('.objects').append(`
-      <img id=${this.id} class="myObject object" src=${this.src} draggable="false"></img>
+      <img id=${this.elemId} class="myObject object" src=${this.src} draggable="false"></img>
     `);
-    $(`#${this.id}`).css({
+    $(`#${this.elemId}`).css({
       left : pos.x,
       top : pos.y
     });
@@ -92,13 +98,14 @@ class anObject {
   updatePos(newPos){
     this.pos.x = newPos.x - (this.width / 2);
     this.pos.y = newPos.y - (this.height / 2);
-    $(`#${this.id}`).css({
+    $(`#${this.elemId}`).css({
       left : this.pos.x,
       top : this.pos.y
     });
     socket.emit('Object has moved', {
-      objectId : this.id,
-      newPos : this.pos
+      objectId : this.elemId,
+      newPos : this.pos,
+      dimension : this.dimension
     })
   }
 }
@@ -106,4 +113,5 @@ class anObject {
 const socket = io.connect();
 $(document).ready(() => {
   thisUser = new User(socket.id);
+  thisUser.dimension = $('#dimensionName').text();
 })

@@ -2,6 +2,7 @@ const Dimension = require('../models/dimension');
 
 module.exports = (app) => {
 
+  //Render a Dimension
   app.get('/dimension/:name', (req, res) => {
     Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
       if(dimension){
@@ -10,6 +11,8 @@ module.exports = (app) => {
     })
   })
 
+
+  //Create a new Dimension
   app.post('/dimension/new', (req, res) => {
     if(req.user){
       Dimension.findOne({name : req.body.name.toLowerCase()}).then((dimension) => {
@@ -29,6 +32,15 @@ module.exports = (app) => {
         }
       })
     }
+  });
+
+  //Get all objects currently in the dimension's environment
+  app.get('/dimension/:name/environment/objects', (req, res) => {
+    Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
+      if(dimension){
+        res.send(dimension.environmentObjects);
+      }
+    })
   })
 
 }

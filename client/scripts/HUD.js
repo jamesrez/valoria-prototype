@@ -246,7 +246,7 @@ $(document).ready(() => {
       //   "-webkit-transform": "rotate(0deg)",
       //   transform: "rotate(0deg)"
       // });
-      socket.emit('User stopped scrolling');
+      socket.emit('User stopped scrolling', thisUser.dimension);
       clearInterval(scrollInterval);
     }
   })

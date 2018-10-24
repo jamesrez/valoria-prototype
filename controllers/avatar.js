@@ -49,7 +49,7 @@ module.exports = (app) => {
   });
 
   app.post('/dimension/:name/avatars/new', (req, res) => {
-    Dimension.findOne({name : req.params.name.toLower()}).then((dimension) => {
+    Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
       if(dimension){
         dimension.avatars.push(req.body.newAvatar);
         dimension.save().then(() => {

@@ -26,15 +26,16 @@ const DimensionSchema = new Schema({
     src : "https://i.imgur.com/a4ycklR.png",
     key : "Purple Grid"
   }]},
-  memes : [{
-    id : String,
+  environmentObjects : [{
+    elemId : String,
+    src : String,
     pos : {
       x : Number,
       y : Number
     },
-    src : String
+    width : Number,
+    height : Number
   }],
-  memeLimit : {type : Number, default : 1000},
   background : {
     src : {type : String, default : "https://i.imgur.com/a4ycklR.png"},
     key : {type : String, default : "Purple Grid"}

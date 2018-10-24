@@ -1,4 +1,22 @@
+
+function addNewObject(newObject){
+  objects[newObject.elemId] = new anObject();
+  objects[newObject.elemId].elemId = newObject.elemId;
+  objects[newObject.elemId].src = newObject.src;
+  objects[newObject.elemId].socket = newObject.socket;
+  objects[newObject.elemId].dimension = newObject.dimension;
+  objects[newObject.elemId].renderAtPos(newObject.pos);
+}
+
+
 $(document).ready(() => {
+  let dimensionName = $('#dimensionName').text();
+  //Load All Objects in Dimension
+  $.get(`/dimension/${dimensionName}/environment/objects`, (objects) => {
+    objects.forEach((anObject) => {
+      addNewObject(anObject);
+    })
+  })
 
   let objectBeingDragged = null;
 
@@ -12,6 +30,7 @@ $(document).ready(() => {
   //RELEASE MEME BEING DRAGGED ON MOUSE UP
   $(document).on('mouseup', (e) => {
     if(objectBeingDragged){
+      socket.emit('Save new position of object', objects[objectBeingDragged]);
       objectBeingDragged = null;
     }
   })
@@ -184,11 +203,7 @@ socket.on('User Left', (user) => {
 });
 
 socket.on('New Object', (data) => {
-  objects[data.id] = new anObject();
-  objects[data.id].id = data.id;
-  objects[data.id].src = data.src;
-  objects[data.id].socket = data.socket;
-  objects[data.id].renderAtPos(data.pos);
+  addNewObject(data);
 })
 
 socket.on('Object has moved', (data) => {
