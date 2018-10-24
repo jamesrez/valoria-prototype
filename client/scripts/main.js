@@ -105,7 +105,6 @@ class anObject {
     socket.emit('Object has moved', {
       objectId : this.elemId,
       newPos : this.pos,
-      dimension : this.dimension
     })
   }
 }

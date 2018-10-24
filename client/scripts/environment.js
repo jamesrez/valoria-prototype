@@ -8,6 +8,10 @@ function addNewObject(newObject){
   objects[newObject.elemId].renderAtPos(newObject.pos);
 }
 
+let mouseOnScreenPos = {
+  x : null,
+  y : null
+};
 
 $(document).ready(() => {
   let dimensionName = $('#dimensionName').text();
@@ -33,12 +37,14 @@ $(document).ready(() => {
       socket.emit('Save new position of object', objects[objectBeingDragged]);
       objectBeingDragged = null;
     }
-  })
+  });
 
   //HAVE USER MOVE AT CURSOR
   $('#environment').on('mousemove', function(e){
     mousePosition.x = e.pageX - screenPos.left;
     mousePosition.y = e.pageY - screenPos.top;
+    mouseOnScreenPos.x = e.pageX;
+    mouseOnScreenPos.y = e.pageY;
     if(!thisUser.isVisible && thisUser.avatar && thisUser.object){
       let newPos = {
         x : mousePosition.x - (thisUser.width / 2),
@@ -65,6 +71,15 @@ $(document).ready(() => {
       case 32:
         thisUser.dropObject();
         break;
+      //F KEY and User Over Object
+      case 70:
+        let mouseElem = document.elementFromPoint(mouseOnScreenPos.x, mouseOnScreenPos.y);
+        if(mouseElem && mouseElem.classList[1] == 'object'){
+          $(`#${mouseElem.id}`).remove();
+          delete objects[mouseElem.id];
+          socket.emit("Object got deleted", mouseElem.id);
+        }
+        break;
     }
   });
 });
@@ -83,7 +98,7 @@ socket.on('Load Online Users', (users) => {
     })
     onlineUsers[id] = users[id];
   }
-})
+});
 
 socket.on('New User', (newUser) => {
   $('.users').append(`
@@ -193,7 +208,7 @@ socket.on('User has changed avatar', (data) => {
     console.log(data);
     $(`#${data.socket}`).find('.userAvatar').attr('src', data.newAvatar);
   }
-})
+});
 
 socket.on('User Left', (user) => {
   if(user){
@@ -204,7 +219,7 @@ socket.on('User Left', (user) => {
 
 socket.on('New Object', (data) => {
   addNewObject(data);
-})
+});
 
 socket.on('Object has moved', (data) => {
   $(`#${data.objectId}`).css({
@@ -212,3 +227,8 @@ socket.on('Object has moved', (data) => {
     top : data.newPos.y
   });
 });
+
+socket.on('Object got deleted', objectElemId => {
+  delete objects[objectElemId];
+  $(`#${objectElemId}`).remove()
+})
