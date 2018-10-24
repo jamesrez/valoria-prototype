@@ -4,7 +4,7 @@ script(src='/scripts/avatar.js')
 
 .avatarContainer
   .selectYourAvatar
-    if dimension.ownerChooseAvatars
+    if dimension.ownerChooseAvatars && dimension.avatars[0]
       .avatarPreview
         img.avatarPreviewSrc(src=dimension.avatars[0].src)
       .avatarPreviewKey=dimension.avatars[0].key
