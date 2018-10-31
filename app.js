@@ -11,7 +11,6 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/user');
 
 require('dotenv').config()
-
 //Mongoose
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/valoria', () => {
   console.log("May the Heavens Bless Thee!");
@@ -27,7 +26,7 @@ app.use('/client/assets', express.static(__dirname + '/client/assets'));
 app.use(bodyParser());
 app.use(cookieParser());
 
-// check that a user is logged in
+//Check that a user is logged in
 let checkAuth = function (req, res, next) {
   if (typeof req.cookies.userToken === 'undefined' || req.cookies.userToken === null) {
     req.user = null;
@@ -51,7 +50,7 @@ app.get('/', (req, res) => {
       Dimension.findOne({name : 'main'}).then((dimension) => {
         if(dimension && dimension.avatars[0]){
           res.render('main', {
-            currentUser : req.user,
+            currentUser : user,
             dimension : dimension
           });
         }else{
@@ -79,6 +78,7 @@ io.on('connection', (socket) => {
   require('./sockets/image.js')(io, socket, onlineUsers);
   require('./sockets/object.js')(io, socket, onlineUsers);
   require('./sockets/background.js')(io, socket, onlineUsers);
+  require('./sockets/livechat.js')(io, socket, onlineUsers)
   socket.on('disconnect', () => {
     if(onlineUsers[socket.dimension]){
       io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);

@@ -1,3 +1,23 @@
+let mouseOnScreenPos = {
+  x : null,
+  y : null
+};
+
+function addNewLivechat(livechat){
+  things[livechat.elemId] = new Thing()
+  things[livechat.elemId].elemId = livechat.elemId;
+  things[livechat.elemId].docId = livechat._id;
+  things[livechat.elemId].renderAtPos(livechat.pos);
+  livechat.messages.forEach((message) => {
+    let newMessageElement = `
+      <div class='livechatMessage'>
+        <div class='livechatSender'>${message.sender}</div>
+        <div class='livechatText'>${message.text}</div>
+      </div>
+    `;
+    $(`#${livechat.elemId}`).find('.livechatMessageContainer').append(newMessageElement);
+  })
+}
 
 function addNewObject(newObject){
   objects[newObject.elemId] = new anObject();
@@ -8,13 +28,17 @@ function addNewObject(newObject){
   objects[newObject.elemId].renderAtPos(newObject.pos);
 }
 
-let mouseOnScreenPos = {
-  x : null,
-  y : null
-};
-
 $(document).ready(() => {
   let dimensionName = $('#dimensionName').text();
+
+  //Load All Livechats in Dimension
+  $.get(`/dimension/${dimensionName}/environment/livechats`, (livechats) => {
+    livechats.forEach((livechat) => {
+      addNewLivechat(livechat);
+    })
+    $('.livechatMessageContainer').scrollTop($('.livechatMessageContainer')[0].scrollHeight);
+  })
+
   //Load All Objects in Dimension
   $.get(`/dimension/${dimensionName}/environment/objects`, (objects) => {
     objects.forEach((anObject) => {
@@ -22,6 +46,7 @@ $(document).ready(() => {
     })
   })
 
+  let thingBeingDragged = null;
   let objectBeingDragged = null;
 
   //HAVE MEME BE DRAGGED WHEN HOLDING click
@@ -31,11 +56,21 @@ $(document).ready(() => {
     }
   });
 
+  $(document).on('mousedown', '.thing', (e) => {
+    thingBeingDragged = e.target.offsetParent.id;
+  })
+
   //RELEASE MEME BEING DRAGGED ON MOUSE UP
   $(document).on('mouseup', (e) => {
     if(objectBeingDragged){
       socket.emit('Save new position of object', objects[objectBeingDragged]);
       objectBeingDragged = null;
+    }else if(thingBeingDragged){
+      socket.emit('Save new position of livechat', {
+        docId : things[thingBeingDragged].docId,
+        newPos : things[thingBeingDragged].pos
+      });
+      thingBeingDragged = null;
     }
   });
 
@@ -61,6 +96,8 @@ $(document).ready(() => {
     }
     if(objectBeingDragged){
       objects[objectBeingDragged].updatePos(mousePosition);
+    }else if(thingBeingDragged){
+      things[thingBeingDragged].updatePos(mousePosition);
     }
   });
 
@@ -82,6 +119,7 @@ $(document).ready(() => {
         break;
     }
   });
+
 });
 
 //Socket Listeners
@@ -231,4 +269,23 @@ socket.on('Object has moved', (data) => {
 socket.on('Object got deleted', objectElemId => {
   delete objects[objectElemId];
   $(`#${objectElemId}`).remove()
+})
+
+socket.on('New livechat', data => {
+  things[data.elemId] = new Thing();
+  things[data.elemId].elemId = data.elemId;
+  things[data.elemId].docId = data.docId;
+  things[data.elemId].renderAtPos(thisUser.pos);
+})
+
+socket.on('New message', message => {
+  let newMessageElement = `
+    <div class='livechatMessage'>
+      <div class='livechatSender'>${message.sender}</div>
+      <div class='livechatText'>${message.content}</div>
+    </div>
+  `;
+  let thisMessageContainer = $(`#${message.elemId}`).find('.livechatMessageContainer');
+  thisMessageContainer.append(newMessageElement);
+  thisMessageContainer.scrollTop(thisMessageContainer[0].scrollHeight);
 })

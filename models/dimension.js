@@ -39,7 +39,8 @@ const DimensionSchema = new Schema({
   background : {
     src : {type : String, default : "https://i.imgur.com/a4ycklR.png"},
     key : {type : String, default : "Purple Grid"}
-  }
+  },
+  livechats : [String]
 });
 
 

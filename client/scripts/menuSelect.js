@@ -13,6 +13,17 @@ $(document).ready(() => {
     $('.objectContainer').css('display', 'flex');
   });
 
+  $(document).on('click', '#thingScreenSelect', function() {
+    $('.menuSelectContainer').css('display', 'none');
+    $('#menu').css('display', 'none');
+    //Spawn Livechat for the moment
+    let dimensionName = $('#dimensionName').text();
+    socket.emit('New livechat', {
+      dimensionName : dimensionName,
+      pos : thisUser.pos
+    });
+  })
+
   $(document).on('click', '#backgroundScreenSelect', function(){
     $('.menuSelectContainer').css('display', 'none');
     $('.backgroundContainer').css('display', 'flex');
