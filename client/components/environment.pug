@@ -9,4 +9,8 @@ script(src='/client/scripts/environment.js')
     #thisUser
       img#thisUserAvatar
   .objects
-  
+  .dimensionalDoors
+    if(dimension.name == 'main')
+      iframe.dimensionalDoor(src='http://localhost:3000/dimension/fruit/door' id="fruit")
+    else
+      iframe.dimensionalDoor(src='http://localhost:3000/dimension/main/door' id="main")

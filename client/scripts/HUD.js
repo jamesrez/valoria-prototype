@@ -187,6 +187,13 @@ class ScrollZone {
 
 $(document).ready(() => {
 
+  //ONLY LOAD THE MENU IF RENDERING FROM MAIN. Otherwise load a random avatar and object.
+  if($('#dimensionRender').text()){
+    $('#menu').css('display', 'none');
+    menuIsVisible = false;
+    fromMenuSelection = true;
+  }
+
   //DECLARE SCROLL ZONES
   let scrollZones = {
     left : new ScrollZone('left'),

@@ -25,6 +25,7 @@ class User {
     this.isVisible = false;
     this.dimension = null;
     this.username = null;
+    this.direction = 'c';
     this.pos = {
       x : parseInt($('#thisUser').css('left')),
       y : parseInt($('#thisUser').css('top'))
@@ -47,6 +48,16 @@ class User {
 
   updatePos(newPos, scrollDir){
     if(this.isVisible){
+      ////////////MOVING ANIMATION//////////////
+      // if(newPos.x < this.pos.x && this.direction != 'l'){
+      //   this.direction = 'l';
+      //   $('#thisUser').css('transform', 'scaleX(1)')
+      //   $('#thisUserAvatar').attr('src', 'https://i.imgur.com/rQTqkRW.gif')
+      // }else if(newPos.x > this.pos.x && this.direction != 'r'){
+      //   this.direction = 'r';
+      //   $('#thisUser').css('transform', 'scaleX(-1)')
+      //   $('#thisUserAvatar').attr('src', 'https://i.imgur.com/rQTqkRW.gif')
+      // }
       this.pos.x = newPos.x;
       this.pos.y = newPos.y;
       $('#thisUser').css({
@@ -148,8 +159,28 @@ class Thing {
   }
 }
 
+function getRandomAvatar(){
+  let numOfAvatars = $('.availableAvatars').children().length;
+  let randAvatarIndex = Math.floor(Math.random() * numOfAvatars);
+  let randAvatarSrc = $('.availableAvatars').children()[randAvatarIndex].firstElementChild.src;
+  return randAvatarSrc;
+}
+
+function getRandomObject(){
+  let numOfObjects= $('.availableObjects').children().length;
+  let randObjectIndex = Math.floor(Math.random() * numOfObjects);
+  let randObjectSrc = $('.availableObjects').children()[randObjectIndex].firstElementChild.src;
+  return randObjectSrc;
+}
+
 const socket = io.connect();
 $(document).ready(() => {
   thisUser = new User(socket.id);
   thisUser.dimension = $('#dimensionName').text();
+  if($('#dimensionRender').text()){
+    //Get Random Avatar
+    thisUser.avatar = getRandomAvatar();
+    //Get Random Object
+    thisUser.object = getRandomObject();
+  }
 })

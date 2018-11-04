@@ -20,101 +20,33 @@ img{
 
 #thisUser{
   display: none;
-  width : 70px;
-  height : 70px;
+  width : 150px;
+  height : 150px;
   position: absolute;
   pointer-events: none;
   z-index: 7;
 }
 
 #thisUserAvatar{
-  max-height: 70px;
-  max-width: 70px;
+  max-height: 150px;
+  max-width: 150px;
   z-index: 7;
   position: absolute;
 }
 
-#thisUserScroll{
-  width : 100px;
-  height : 100px;
-  z-index: 5;
-  position: absolute;
-  display: none;
-}
-
-#thisUserScrollLeft{
-  top : -22px;
-  left : -7px;
-}
-
-#thisUserScrollRight{
-  left : -45px;
-  top : -20px;
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-}
-
-#thisUserScrollUp{
-  left : -25px;
-  top : -5px;
-  -webkit-transform:rotate(90deg); /* Chrome, Safari, Opera */
-  transform:rotate(90deg); /* Standard syntax */
-}
-
-#thisUserScrollDown{
-  left : -30px;
-  top : -45px;
-  -webkit-transform:rotate(-90deg); /* Chrome, Safari, Opera */
-  transform:rotate(-90deg); /* Standard syntax */
-}
-
 .user{
-  width : 70px;
-  height : 70px;
+  width : 150px;
+  height : 150px;
   position: absolute;
   pointer-events: none;
   z-index: 6;
 }
 
 .userAvatar{
-  max-height: 70px;
-  max-width: 70px;
+  max-height: 150px;
+  max-width: 150px;
   z-index: 6;
   position: absolute;
-}
-
-.userScroll{
-  width : 100px;
-  height : 100px;
-  z-index: 5;
-  position: absolute;
-  display: none;
-}
-
-.userScrollLeft{
-  top : -22px;
-  left : -7px;
-}
-
-.userScrollRight{
-  left : -45px;
-  top : -20px;
-  -webkit-transform: scaleX(-1);
-  transform: scaleX(-1);
-}
-
-.userScrollUp{
-  left : -25px;
-  top : -5px;
-  -webkit-transform:rotate(90deg); /* Chrome, Safari, Opera */
-  transform:rotate(90deg); /* Standard syntax */
-}
-
-.userScrollDown{
-  left : -30px;
-  top : -45px;
-  -webkit-transform:rotate(-90deg); /* Chrome, Safari, Opera */
-  transform:rotate(-90deg); /* Standard syntax */
 }
 
 .object{
@@ -123,4 +55,13 @@ img{
   position: absolute;
   top : 50;
   left : 50;
+}
+
+.dimensionalDoor{
+  top : 51000;
+  left : 50000;
+  width : 800px;
+  height : 800px;
+  position: absolute;
+  z-index: 5;
 }

@@ -28,6 +28,42 @@ function addNewObject(newObject){
   objects[newObject.elemId].renderAtPos(newObject.pos);
 }
 
+function joinDimension(name){
+  $.get(`/api/dimension/${name}`, dimension => {
+    //FIRST WE MUST CLEAR THE CURRENT DIMENSION
+    $('.things').empty()
+    $('.user').remove();
+    $('.objects').empty();
+    objects = {};
+    things = {};
+    //SECOND WE MUST CLEAR THE MENU OPTIONS
+    $('.availableAvatars').empty();
+    $('.availableObjects').empty();
+    //NOW WE LOAD THE DIMENSION
+    dimension.environmentObjects.forEach((object) => {
+      addNewObject(object);
+    });
+    // dimension.livechats.forEach((livechat) => {
+    //   addNewLivechat(livechat);
+    // });
+    dimension.avatars.forEach((avatar) => {
+      addAvatar(avatar);
+    })
+    dimension.objects.forEach((object) => {
+      addObject(object);
+    })
+    $('#background').css('background-image', `url(${dimension.background.src})`)
+    $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', dimension.background.src);
+    let randAvatar = getRandomAvatar()
+    console.log(randAvatar);
+    $('#thisUserAvatar').attr('src', randAvatar);
+    $('#thisUser').css('display', 'block');
+    thisUser.avatar = randAvatar;
+    let randObject = getRandomObject();
+    thisUser.object = randObject;
+  })
+}
+
 $(document).ready(() => {
   let dimensionName = $('#dimensionName').text();
 
@@ -49,7 +85,7 @@ $(document).ready(() => {
   let thingBeingDragged = null;
   let objectBeingDragged = null;
 
-  //HAVE MEME BE DRAGGED WHEN HOLDING click
+  //HAVE Object BE DRAGGED WHEN HOLDING click
   $(document).on('mousedown', (e) => {
     if(e.target.classList[1] == 'object'){
       objectBeingDragged = e.target.id;
@@ -75,6 +111,7 @@ $(document).ready(() => {
   });
 
   //HAVE USER MOVE AT CURSOR
+  //let mouseMoveTimer;
   $('#environment').on('mousemove', function(e){
     mousePosition.x = e.pageX - screenPos.left;
     mousePosition.y = e.pageY - screenPos.top;
@@ -88,6 +125,15 @@ $(document).ready(() => {
       thisUser.connectAtPos(newPos);
     }
     if(!scrolling && thisUser ){
+      ////////MOVING ANIMATION///////////
+      // clearTimeout(mouseMoveTimer);
+      // mouseMoveTimer = setTimeout(() => {
+      //   thisUser.direction = 'c';
+      //   $('#thisUserAvatar').attr('src', 'https://i.imgur.com/VHwgE91.png');
+      // }, 50);
+      if($('#dimensionRender').text() && $('#thisUser').css('display') == 'none'){
+        $('#thisUser').css('display', 'block');
+      }
       let newPos = {
         x : mousePosition.x - (thisUser.width / 2),
         y : mousePosition.y - (thisUser.height / 2),
@@ -101,8 +147,31 @@ $(document).ready(() => {
     }
   });
 
+  //Dimensional Doors
+  let insideDimensionalDoor = false;
+  $(document).on('mouseover', '.dimensionalDoor', (e) => {
+    insideDimensionalDoor = e.target.id;
+    $('#thisUser').css('display', 'none');
+  })
+  $(document).on('mouseleave', '.dimensionalDoor', (e) => {
+    insideDimensionalDoor = false;
+    $('#thisUser').css('display', 'block');
+  })
+  $(document).on('mouseleave', (e) => {
+    if($('#dimensionRender').text()){
+      $('#thisUser').css('display', 'none');
+    }
+  })
+  $(window).on('blur', (e) => {
+    if(insideDimensionalDoor){
+      joinDimension(insideDimensionalDoor);
+    }
+  })
+
+
   //KEY PRESSES
   $(document).keyup(function(e) {
+    let mouseElem;
     switch(e.keyCode){
       //SPACE
       case 32:
@@ -110,11 +179,17 @@ $(document).ready(() => {
         break;
       //F KEY and User Over Object
       case 70:
-        let mouseElem = document.elementFromPoint(mouseOnScreenPos.x, mouseOnScreenPos.y);
+        mouseElem = document.elementFromPoint(mouseOnScreenPos.x, mouseOnScreenPos.y);
         if(mouseElem && mouseElem.classList[1] == 'object'){
           $(`#${mouseElem.id}`).remove();
           delete objects[mouseElem.id];
           socket.emit("Object got deleted", mouseElem.id);
+        }
+        break;
+      //ENTER KEY and Inside Dimensional Door
+      case 13:
+        if(insideDimensionalDoor){
+          joinDimension(insideDimensionalDoor)
         }
         break;
     }
@@ -152,80 +227,7 @@ socket.on('User has moved', (data) => {
     left:  data.newPos.x,
     top:   data.newPos.y
   });
-  // if(data.scrollDir){
-  //   switch(data.scrollDir){
-  //     case 'left':
-  //       $(`#${data.socket}`).find('.userScroll').css({
-  //         display : "block",
-  //         top : "-22px",
-  //         left : "-7px",
-  //       });
-  //       break;
-  //     case 'right':
-  //       $(`#${data.socket}`).find('.userScroll').css({
-  //         left : "-45px",
-  //         top : "-20px",
-  //         "-webkit-transform": "scaleX(-1)",
-  //         transform: "scaleX(-1)",
-  //         display : "block"
-  //       });
-  //       break;
-  //     case 'up':
-  //       $(`#${data.socket}`).find('.userScroll').css({
-  //         display : "block",
-  //         left : "-25px",
-  //         top : "-5px",
-  //         "-webkit-transform": "rotate(90deg)",
-  //         transform: "rotate(90deg)",
-  //       })
-  //       break;
-  //     case 'down':
-  //       $(`#${data.socket}`).find('.userScroll').css({
-  //         display : "block",
-  //         left : "-30px",
-  //         top : "-45px",
-  //         "-webkit-transform" : "rotate(-90deg)",
-  //         transform : "rotate(-90deg)"
-  //       })
-  //       break;
-  //     case 'upleft':
-  //       $(`#${data.socket}`).find('.userScroll').css({
-  //         display : "block",
-  //         transform: "rotate(45deg)",
-  //         "-webkit-transform" : "rotate(45deg)",
-  //         left : "-15px",
-  //         top : "-10px"
-  //       })
-  //       break;
-  //     case 'upright':
-  //       $(`#${data.socket}`).find('.userScroll').css({
-  //         display : "block",
-  //         transform: "rotate(135deg) scaleY(-1)",
-  //         "-webkit-transform" : "rotate(135deg) scaleY(-1)",
-  //         left : "-40px",
-  //         top : "-10px"
-  //       })
-  //       break;
-  //     case 'downleft':
-  //       $(`#${data.socket}`).find('.userScroll').css({
-  //         display : "block",
-  //         transform: "rotate(-45deg)",
-  //         "-webkit-transform" : "rotate(-45deg)",
-  //         left : "-10px",
-  //         top : "-40px"
-  //       })
-  //       break;
-  //     case 'downright':
-  //       $(`#${data.socket}`).find('.userScroll').css({
-  //         display : "block",
-  //         transform: "rotate(45deg) scaleX(-1)",
-  //         "-webkit-transform" : "rotate(45deg) scaleX(-1)",
-  //         left : "-45px",
-  //         top : "-45px"
-  //       })
-  //       break;
-  //   }
-  //}
+
 });
 
 socket.on('User stopped scrolling', (user) => {

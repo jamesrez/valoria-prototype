@@ -1,5 +1,6 @@
 const Dimension = require('../models/dimension');
 const Livechat = require('../models/livechat');
+const User = require('../models/user');
 
 module.exports = (app) => {
 
@@ -7,7 +8,23 @@ module.exports = (app) => {
   app.get('/dimension/:name', (req, res) => {
     Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
       if(dimension){
-        res.render('main', {currentUser : req.user, dimension : dimension});
+        User.findById(req.user.id).then((user) => {
+          if(user){
+            res.render('main', {currentUser : user, dimension : dimension});
+          }
+        })
+      }
+    })
+  });
+
+  app.get('/dimension/:name/door', (req, res) => {
+    Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
+      if(dimension){
+        User.findById(req.user.id).then((user) => {
+          if(user){
+            res.render('main', {currentUser : user, dimension : dimension, dimensionRender : true});
+          }
+        })
       }
     })
   })
@@ -57,4 +74,13 @@ module.exports = (app) => {
     })
   })
 
+  /////////API SECTION. Returns JSON///////////
+  //Render a Dimension
+  app.get('/api/dimension/:name', (req, res) => {
+    Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
+      if(dimension){
+        res.send(dimension);
+      }
+    })
+  });
 }
