@@ -4,13 +4,13 @@ const User = require('../models/user');
 
 module.exports = (app) => {
 
-  //Render a Dimension
+  //Render a Dimension // SHOW LOGIN SCREEN STILL
   app.get('/dimension/:name', (req, res) => {
     Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
       if(dimension){
         User.findById(req.user.id).then((user) => {
           if(user){
-            res.render('main', {currentUser : user, dimension : dimension});
+            res.render('components/main', {currentUser : user, dimension : dimension});
           }
         })
       }
@@ -22,7 +22,7 @@ module.exports = (app) => {
       if(dimension){
         User.findById(req.user.id).then((user) => {
           if(user){
-            res.render('main', {currentUser : user, dimension : dimension, dimensionRender : true});
+            res.render('components/main', {currentUser : user, dimension : dimension, dimensionRender : true});
           }
         })
       }

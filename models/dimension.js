@@ -46,16 +46,4 @@ const DimensionSchema = new Schema({
 
 const Dimension = mongoose.model('Dimension', DimensionSchema);
 
-Dimension.findOne({name : 'main'}).then((dimension) => {
-  if(!dimension){
-    let main = new Dimension();
-    main.name = 'main';
-    main.desc = 'The main dimension';
-    main.ownerChooseAvatars = false;
-    main.ownerChooseObjects = false;
-    main.ownerChooseBackground = false;
-    main.save();
-  }
-})
-
 module.exports = Dimension;

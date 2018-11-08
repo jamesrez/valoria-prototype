@@ -1,0 +1,41 @@
+//Socket.io
+script(src='/imports/socket.io.min.js')
+//Jquery
+script(src='/imports/jquery-3.3.1.min.js')
+//Jquery-UI
+link(rel='stylesheet' href='/imports/jquery-ui.min.css')
+script(src='/imports/jquery-ui.min.js')
+//Phaser
+script(src='//cdn.jsdelivr.net/npm/phaser@3.13.0/dist/phaser.min.js')
+//FlexBox
+link(href='https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css', rel='stylesheet')
+//Spectrum
+link(rel='stylesheet' href='/imports/spectrum.css')
+script(src='/imports/spectrum.js')
+//Axios 
+script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js")
+//Main.css
+link(rel='stylesheet' href='/components/main.css')
+//Main.js
+script(src='/components/main.js')
+  
+//USER INFO
+if(currentUser)
+  p#currentUserId(hidden)=currentUser.id
+  p#currentUserName(hidden)=currentUser.username
+  
+//DIMENSION INFO 
+p#dimensionName(hidden)=dimension.name
+p#dimensionBackgroundSrc(hidden)=dimension.background.src
+
+//RENDER INFO
+#dimensionRender(hidden)=dimensionRender
+  
+//Environment
+include dimension/dimension
+  
+//Background
+include dimension/background/background
+
+//HUD
+include HUD/HUD

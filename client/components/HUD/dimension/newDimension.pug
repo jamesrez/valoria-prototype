@@ -1,0 +1,35 @@
+link(href='/components/HUD/dimension/newDimension.css' rel='stylesheet')
+
+script(src='/components/HUD/dimension/newDimension.js')  
+
+.newDimensionContainer
+  .newDimensionInputForm
+    input.newDimensionName(placeholder="Dimension Name")
+    textarea.newDimensionDesc(placeholder="Dimension Description")
+  .newDimensionRadioForm
+    .radioTitle Dimension Avatars
+    form.radioBtns
+      .radioBtn
+        input(type='radio' name='ownerChooseAvatars' value="true")
+        .radioLabel Set by Dimension Owner 
+      .radioBtn
+        input(type='radio' name='ownerChooseAvatars' value="false")
+        .radioLabel Set by User
+    .radioTitle Dimension Objects
+    form.radioBtns
+      .radioBtn
+        input(type='radio' name='ownerChooseObjects' value="true") 
+        .radioLabel Set by Dimension Owner
+      .radioBtn
+        input(type='radio' name='ownerChooseObjects' value="false") 
+        .radioLabel Set by User
+    .radioTitle Who Can Change the Background?
+    form.radioBtns 
+      .radioBtn
+        input(type='radio' name='ownerChooseBackground' value="true")
+        .radioLabel Only Dimension Owner
+      .radioBtn
+        input(type='radio' name='ownerChooseBackground' value="false")
+        .radioLabel Anybody
+  .newDimensionSubmitBtn Create and Go to Dimension
+    

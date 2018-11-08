@@ -49,12 +49,23 @@ app.get('/', (req, res) => {
       }
       Dimension.findOne({name : 'main'}).then((dimension) => {
         if(dimension && dimension.avatars[0]){
-          res.render('main', {
+          res.render('components/main', {
             currentUser : user,
             dimension : dimension
           });
         }else{
           res.send("Server restarting, wait a quick second.");
+          Dimension.findOne({name : 'main'}).then((dimension) => {
+            if(!dimension){
+              let main = new Dimension();
+              main.name = 'main';
+              main.desc = 'The main dimension';
+              main.ownerChooseAvatars = false;
+              main.ownerChooseObjects = false;
+              main.ownerChooseBackground = false;
+              main.save();
+            }
+          })
         }
       })
     })
@@ -62,7 +73,7 @@ app.get('/', (req, res) => {
     res.clearCookie('userToken');
     Dimension.findOne({name : 'main'}).then((dimension) => {
       if(dimension && dimension.avatars[0]){
-        res.render('main', {
+        res.render('components/main', {
           dimension : dimension
         });
       }else{

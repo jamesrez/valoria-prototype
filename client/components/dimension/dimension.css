@@ -1,0 +1,88 @@
+img{
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.dimension {
+  width : 100000;
+  height : 100000;
+  position : absolute;
+  z-index: 4;
+  cursor: none;
+  transform: translateZ(0);
+  border : 10px solid white;
+  left : -50000;
+  top : -50000;
+}
+
+#thisUser{
+  display: none;
+  width : 150px;
+  height : 150px;
+  position: absolute;
+  pointer-events: none;
+  z-index: 7;
+}
+
+#thisUserAvatar{
+  max-height: 150px;
+  max-width: 150px;
+  z-index: 7;
+  position: absolute;
+}
+
+.user{
+  width : 150px;
+  height : 150px;
+  position: absolute;
+  pointer-events: none;
+  z-index: 6;
+}
+
+.userAvatar{
+  max-height: 150px;
+  max-width: 150px;
+  z-index: 6;
+  position: absolute;
+}
+
+.object{
+  max-width : 50px;
+  max-height : 50px;
+  position: absolute;
+  top : 50;
+  left : 50;
+}
+
+.thing{
+  width : 100px;
+  height: 100px;
+  background-color: #557062;
+  position: absolute;
+  top : 50000px;
+  left : 50000px;
+  display: none;
+  font-size: 20px;
+  color: white;
+  font-family: futura;
+  font-weight: bold;
+  text-align: center;
+}
+
+.sp-replacer{
+  display: none;
+  position: absolute;
+  left : -50px;
+}
+
+.dimensionalDoor{
+  top : 51000;
+  left : 50000;
+  width : 800px;
+  height : 800px;
+  position: absolute;
+  z-index: 5;
+}

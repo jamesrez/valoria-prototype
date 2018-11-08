@@ -1,0 +1,87 @@
+.livechat {
+  background-color: #557062;
+  width : 300px;
+  height : 300px;
+  display: none;
+  position: absolute;
+  z-index: 4;
+  top : 50000px;
+  left : 50000px;
+  font-size : 18px;
+  font-family: futura;
+  font-weight: bold;
+  flex-direction: column;
+  flex: auto;
+  justify-content: space-between;
+  align-items: center;
+  color : white;
+}
+
+.livechatTop{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.livechatBottom{
+  display: flex;
+  flex-direction: column;
+  width : 100%;
+  display: flex-end;
+  align-items: center;
+  padding-bottom: 0px;
+}
+
+.livechatHeader{
+  width : 95%;
+  text-align : center;
+  padding: 10px 0px;
+  margin-bottom: 10px;
+  height : 25px;
+  border-bottom: 1px solid  white;
+}
+
+.livechatTextAreaContainer{
+  width: 100%;
+  padding: 5px 0px;
+  font-size: 17px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  padding-bottom: 0px;
+}
+
+.livechatMessageContainer{
+  width: 95%;
+  max-height: 200px;
+  height : 80%;
+  -webkit-flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.livechatMessage{
+  width : 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.liveChatSender{
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.livechatText {
+  text-align: left;
+  font-weight: normal;
+}
+
+.livechatTextArea{
+  width: 80%;
+}
+
+.livechatSubmitMessage{
+  width: 20%;
+  border : 3px solid white;
+  text-align: center;
+}
