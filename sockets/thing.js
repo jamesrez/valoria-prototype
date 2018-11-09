@@ -17,14 +17,7 @@ module.exports = (io, socket, onlineUsers) => {
         newThing.save().then((thing) => {
           dimension.things.push(thing._id);
           dimension.save().then(() => {
-            io.to(data.dimensionName).emit('New thing', {
-              elemId : thing.elemId,
-              _id : thing._id,
-              pos : thing.pos,
-              color : thing.color,
-              width : thing.width,
-              height : thing.height
-            });
+            io.to(data.dimensionName).emit('New thing', thing);
           })
         })
       }
