@@ -89,6 +89,7 @@ io.on('connection', (socket) => {
   require('./sockets/image.js')(io, socket, onlineUsers);
   require('./sockets/object.js')(io, socket, onlineUsers);
   require('./sockets/background.js')(io, socket, onlineUsers);
+  require('./sockets/thing.js')(io, socket, onlineUsers);
   require('./sockets/livechat.js')(io, socket, onlineUsers)
   socket.on('disconnect', () => {
     if(onlineUsers[socket.dimension]){

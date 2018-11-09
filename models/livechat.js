@@ -11,7 +11,8 @@ const LivechatSchema = new Schema({
   pos : {
     x : Number,
     y : Number
-  }
+  },
+  color : String,
 });
 
 const Livechat = mongoose.model('Livechat', LivechatSchema);

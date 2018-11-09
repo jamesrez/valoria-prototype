@@ -16,9 +16,8 @@ $(document).ready(() => {
   $(document).on('click', '#thingScreenSelect', function() {
     $('.menuSelectContainer').css('display', 'none');
     $('#menu').css('display', 'none');
-    //Spawn Livechat for the moment
     let dimensionName = $('#dimensionName').text();
-    socket.emit('New livechat', {
+    socket.emit('New thing', {
       dimensionName : dimensionName,
       pos : thisUser.pos
     });

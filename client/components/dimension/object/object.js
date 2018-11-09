@@ -76,7 +76,9 @@ $(document).ready(() => {
       objects[objectBeingDragged].updatePos(mousePosition);
     }
   })
+
 })
+
 
 
 socket.on('New Object', (data) => {

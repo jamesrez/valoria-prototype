@@ -43,6 +43,10 @@ module.exports = (io, socket, onlineUsers) => {
         livechat.save();
       }
     })
+  });
+
+  socket.on('Save new color of livechat', (data) => {
+    console.log(data);
   })
 
 }

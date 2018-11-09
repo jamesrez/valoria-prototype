@@ -12,9 +12,6 @@ script(src='/components/HUD/object/object.js')
       .avatarPreview
         img.avatarPreviewSrc(src=currentUser.objects[0].src)
       .avatarPreviewKey=currentUser.objects[0].key
-    .objectBtns
-      .selectObjectBtn Select Object
-        .selectObjectBtnText Press *space* to Drop Object
     if dimension.ownerChooseObjects
       if currentUser.id == dimension.owner
         .uploadObject
@@ -47,3 +44,6 @@ script(src='/components/HUD/object/object.js')
             .objectSelection
               img.objectSrc(src=object.src)
               p(hidden).objectKey=object.key
+    .objectBtns
+      .selectObjectBtn Select Object
+        .selectObjectBtnText Press *space* to Drop Object

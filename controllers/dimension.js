@@ -1,6 +1,7 @@
 const Dimension = require('../models/dimension');
 const Livechat = require('../models/livechat');
 const User = require('../models/user');
+const Thing = require('../models/thing');
 
 module.exports = (app) => {
 
@@ -60,6 +61,19 @@ module.exports = (app) => {
       }
     })
   });
+
+  //Get all things currently in the dimension's environment
+  app.get('/dimension/:name/environment/things', (req, res) => {
+    Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
+      if(dimension){
+        Thing.find({'_id': { $in: dimension.things}}).then((things) => {
+          if(things){
+            res.send(things);
+          }
+        })
+      }
+    })
+  })
 
   //Get all livechats currently in the dimension's environment
   app.get('/dimension/:name/environment/livechats', (req, res) => {
