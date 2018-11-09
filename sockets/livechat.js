@@ -1,22 +1,31 @@
 const Dimension = require('../models/dimension');
 const Livechat = require('../models/livechat');
+const Thing = require('../models/thing');
 
 module.exports = (io, socket, onlineUsers) => {
 
   socket.on('New livechat', (data) => {
     Dimension.findOne({name : data.dimensionName}).then((dimension) => {
       if(dimension){
-        let livechatCount = dimension.livechats.length;
-        let newLivechat = new Livechat();
-        newLivechat.elemId = `livechat${livechatCount}`;
-        newLivechat.pos = data.pos;
-        newLivechat.save().then((livechat) => {
-          dimension.livechats.push(livechat._id);
+        let livechatCount = dimension.things.length;
+        let newLivechatThing = new Thing();
+        newLivechatThing.elemId = `livechat${livechatCount}`;
+        newLivechatThing.pos = data.pos;
+        newLivechatThing.width = 300;
+        newLivechatThing.height = 300;
+        newLivechatThing.kind = 'livechat';
+        newLivechatThing.color = '#557062';
+        newLivechatThing.save().then((livechatThing) => {
+          let newLivechat = new Livechat();
+          newLivechat.thingId =livechatThing._id;
+          dimension.things.push(livechatThing._id);
           dimension.save().then(() => {
-            io.to(data.dimensionName).emit('New livechat', {
-              elemId : livechat.elemId,
-              docId : livechat._id
-            });
+            newLivechat.save().then((livechat) => {
+              io.to(data.dimensionName).emit('New livechat', {
+                thing : livechatThing,
+                livechat : livechat
+              });
+            })
           })
         })
       }

@@ -2,17 +2,11 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const LivechatSchema = new Schema({
-  elemId : String,
-  dimensionId : String,
+  thingId : String,
   messages : [{
     sender : String,
     text : String
   }],
-  pos : {
-    x : Number,
-    y : Number
-  },
-  color : String,
 });
 
 const Livechat = mongoose.model('Livechat', LivechatSchema);

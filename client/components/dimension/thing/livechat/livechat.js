@@ -1,9 +1,20 @@
+let userIsTypingAMessage = false;
 
-function addNewLivechat(livechat){
-  things[livechat.elemId] = new Thing()
-  things[livechat.elemId].elemId = livechat.elemId;
-  things[livechat.elemId].docId = livechat._id;
-  things[livechat.elemId].renderAtPos(livechat.pos, 'livechat');
+function toggleUserIsTyping(){
+  userIsTypingAMessage = userIsTypingAMessage ? false : true;
+}
+
+function addNewLivechat(thing, livechat){
+  things[thing.elemId] = new Thing()
+  things[thing.elemId].elemId = thing.elemId;
+  things[thing.elemId].thingId = thing._id;
+  things[thing.elemId].docId = livechat._id;
+  things[thing.elemId].pos = thing.pos;
+  things[thing.elemId].width = thing.width;
+  things[thing.elemId].height = thing.height;
+  things[thing.elemId].color = thing.color;
+  things[thing.elemId].kind = thing.kind
+  things[thing.elemId].renderAtPos(thing.kind);
   livechat.messages.forEach((message) => {
     let newMessageElement = `
       <div class='livechatMessage'>
@@ -11,7 +22,7 @@ function addNewLivechat(livechat){
         <div class='livechatText'>${message.text}</div>
       </div>
     `;
-    $(`#${livechat.elemId}`).find('.livechatMessageContainer').append(newMessageElement);
+    $(`#${thing.elemId}`).find('.livechatMessageContainer').append(newMessageElement);
   })
 }
 
@@ -32,14 +43,6 @@ function sendMessage(e) {
 }
 
 $(document).ready(() => {
-  //Load All Livechats in Dimension
-  $.get(`/dimension/${dimensionName}/environment/livechats`, (livechats) => {
-    livechats.forEach((livechat) => {
-      addNewLivechat(livechat);
-    })
-    $('.livechatMessageContainer').scrollTop($('.livechatMessageContainer')[0].scrollHeight);
-  })
-
 
   $(document).on('click', '.livechatSubmitMessage', (e) => {
     sendMessage(e);
@@ -49,15 +52,12 @@ $(document).ready(() => {
     if(e.keyCode == 13){
       sendMessage(e);
     }
-  })
+  });
 })
 
 
 socket.on('New livechat', data => {
-  things[data.elemId] = new Thing();
-  things[data.elemId].elemId = data.elemId;
-  things[data.elemId].docId = data.docId;
-  things[data.elemId].renderAtPos(thisUser.pos);
+  addNewLivechat(data.thing, data.livechat);
 })
 
 socket.on('New message', message => {

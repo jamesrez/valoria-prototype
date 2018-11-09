@@ -8,9 +8,12 @@ module.exports = (io, socket, onlineUsers) => {
       if(dimension){
         let thingCount = dimension.things.length;
         let newThing = new Thing();
-        newThing.elemId = `thing${thingCount}`;
+        newThing.elemId = `${data.kind}${thingCount}`;
         newThing.pos = data.pos;
         newThing.color = '#557062';
+        newThing.width = 100;
+        newThing.height = 100;
+        newThing.kind = data.kind;
         newThing.save().then((thing) => {
           dimension.things.push(thing._id);
           dimension.save().then(() => {
@@ -71,7 +74,5 @@ module.exports = (io, socket, onlineUsers) => {
       })
     })
   })
-
-
 
 }

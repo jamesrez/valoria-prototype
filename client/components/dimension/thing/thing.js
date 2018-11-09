@@ -1,19 +1,20 @@
 let editMode = false;
-let typeMode = false;
 
 function addNewThing(thing){
   things[thing.elemId] = new Thing()
   things[thing.elemId].elemId = thing.elemId;
-  things[thing.elemId].docId = thing._id;
+  things[thing.elemId].thingId = thing._id;
   things[thing.elemId].pos = thing.pos;
   things[thing.elemId].width = thing.width;
   things[thing.elemId].height = thing.height;
   things[thing.elemId].color = thing.color;
-  things[thing.elemId].renderAtPos('square');
+  things[thing.elemId].kind = thing.kind;
+  things[thing.elemId].renderAtPos(thing.kind);
 }
 
 class Thing {
   constructor(){
+    this.thingId = null;
     this.docId = null;
     this.elemId = null;
     this.socket = socket;
@@ -25,6 +26,7 @@ class Thing {
       x : null,
       y : null
     };
+    this.kind = null;
   }
   renderAtPos(typeOfThing){
     let newThing = $(`.thing.prototype.${typeOfThing}`).clone()
@@ -62,14 +64,14 @@ class Thing {
   changeColor(color){
     $(`#${this.elemId}`).css('background-color', color.toRgbString());
     socket.emit('Save new color of thing', {
-      docId : this.docId,
+      docId : this.thingId,
       elemId : this.elemId,
       color : color.toRgbString()
     })
   }
   updateSize(ui){
     socket.emit('Save new size of thing', {
-      docId : this.docId,
+      docId : this.thingId,
       elemId : this.elemId,
       size : ui.size,
       pos : ui.position
@@ -85,7 +87,16 @@ $(document).ready(() => {
   //Load All Things in Dimension
   $.get(`/dimension/${dimensionName}/environment/things`, (things) => {
     things.forEach((thing) => {
-      addNewThing(thing);
+      switch(thing.kind){
+        case "square":
+          addNewThing(thing);
+          break;
+        case "livechat":
+          $.get(`/livechat/${thing._id}`, (livechat) => {
+            addNewLivechat(thing, livechat)
+          })
+          break;
+      }
     })
   })
 
@@ -93,28 +104,24 @@ $(document).ready(() => {
 
   //DRAG THING ON MOUSE DOWN
   $(document).on('mousedown', '.thing', (e) => {
-    if(userIsTyping && e.target.className != 'thingText'){
-      userIsTyping = false;
-      typeMode = false;
-    }
-    else if(typeMode && editMode && !userIsTyping){
-      userIsTyping = true;
-      let thingText = $(`<div class="thingText" contenteditable="true"></div>`);
-      thingText.css({
-        position : "absolute",
-        top : e.pageY - $(`#${thingBeingEdited}`).offset().top,
-        left : e.pageX - $(`#${thingBeingEdited}`).offset().left,
-      })
-      $(`#${thingBeingEdited}`).append(thingText);
-    }else if(e.target.classList[0] != 'ui-resizable-handle'){
-      thingBeingDragged = e.target.id ? e.target.id : e.target.offsetParent.id ;
+    // else if(typeMode && editMode && !userIsTyping){
+    //   userIsTyping = true;
+    //   let thingText = $(`<div class="thingText" contenteditable="true"></div>`);
+    //   thingText.css({
+    //     position : "absolute",
+    //     top : e.pageY - $(`#${thingBeingEdited}`).offset().top,
+    //     left : e.pageX - $(`#${thingBeingEdited}`).offset().left,
+    //   })
+    //   $(`#${thingBeingEdited}`).append(thingText);
+    if(e.target.classList[0] != 'ui-resizable-handle'){
+      thingBeingDragged = e.target.id ? e.target.id : e.target.offsetParent.id;
     }
   })
   //RELEASE OBJECT BEING DRAGGED ON MOUSE UP
   $(document).on('mouseup', '.thing', (e) => {
     if(thingBeingDragged){
       socket.emit('Save new position of thing', {
-        docId : things[thingBeingDragged].docId,
+        docId : things[thingBeingDragged].thingId,
         elemId : thingBeingDragged,
         newPos : things[thingBeingDragged].pos
       });
@@ -150,23 +157,25 @@ $(document).ready(() => {
   //KEY PRESSES
   $(document).keydown(function(e) {
     //Type some text with T in EditMode
-    if(e.keyCode == 84 && editMode && !typeMode){
-      typeMode = true;
-      $(`#${thingBeingEdited}`).css('cursor', 'text')
-    }
-    //Pressing Enter
-    else if(e.keyCode == 13 && userIsTyping){
-      userIsTyping = false;
-      typeMode = false;
-      $(`#${thingBeingEdited}`).css('cursor', 'grab')
-    }
-    else if(e.keyCode == 70 && editMode){
+    // if(e.keyCode == 84 && editMode && !typeMode){
+    //   typeMode = true;
+    //   $(`#${thingBeingEdited}`).css('cursor', 'text')
+    // }
+    // //Pressing Enter
+    // else if(e.keyCode == 13 && userIsTyping){
+    //   userIsTyping = false;
+    //   typeMode = false;
+    //   $(`#${thingBeingEdited}`).css('cursor', 'grab')
+    // }
+    if(e.keyCode == 70 && editMode && !userIsTypingAMessage){
       $(`#${thingBeingEdited}`).remove();
       socket.emit('Thing got deleted', {
-        docId : things[thingBeingEdited].docId,
+        docId : things[thingBeingEdited].thingId,
         elemId : things[thingBeingEdited].elemId
       });
       delete things[thingBeingEdited];
+      editMode = false;
+      $('#thisUserAvatar').css('display', 'block');
     }
   });
 

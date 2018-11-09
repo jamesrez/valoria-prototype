@@ -1,0 +1,65 @@
+.thingSelectContainer{
+  width : 100%;
+  height : 100%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.thingSelectOptions{
+  width : 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap : wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.thingSelection{
+  width : 15%;
+  height : 30%;
+  /*border : 2px solid yellow;*/
+  display: flex;
+  flex-direction: column;
+  border : 2px solid white;
+  cursor: pointer;
+}
+
+.thingSelection:hover{
+  background-color: #557062;
+}
+
+.thingSelectionImgContainer{
+  width : 100%;
+  height : 80%;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.thingSelectionImg{
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.thingSelectionLabelContainer{
+  width : 100%;
+  height : 20%;
+  font-size: 15px;
+  font-weight: bold;
+  font-family: futura;
+  color : white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top: 2px solid white;
+  padding-top : 5px;
+  padding-bottom: 5px;
+}
+
+.thingSelectionLabel{
+  text-align: center;
+}

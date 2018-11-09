@@ -105,6 +105,7 @@ require('./controllers/upload')(app);
 require('./controllers/avatar')(app);
 require('./controllers/object')(app);
 require('./controllers/background')(app);
+require('./controllers/things/livechat')(app);
 //Server Listen
 server.listen(process.env.PORT || '3000', () => {
   console.log("Glory to Valoria!");

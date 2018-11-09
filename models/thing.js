@@ -9,7 +9,8 @@ const ThingSchema = new Schema({
     y : Number
   },
   color : String,
-  elemId : String
+  elemId : String,
+  kind : String
 });
 
 const Thing = mongoose.model('Thing', ThingSchema);

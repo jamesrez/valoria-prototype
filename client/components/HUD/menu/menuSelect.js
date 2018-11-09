@@ -15,12 +15,7 @@ $(document).ready(() => {
 
   $(document).on('click', '#thingScreenSelect', function() {
     $('.menuSelectContainer').css('display', 'none');
-    $('#menu').css('display', 'none');
-    let dimensionName = $('#dimensionName').text();
-    socket.emit('New thing', {
-      dimensionName : dimensionName,
-      pos : thisUser.pos
-    });
+    $('.thingSelectContainer').css('display', 'flex');
   })
 
   $(document).on('click', '#backgroundScreenSelect', function(){

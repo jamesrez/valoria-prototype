@@ -7,6 +7,6 @@ script(src='/components/dimension/thing/livechat/livechat.js')
     .livechatMessageContainer
   .livechatBottom
     .livechatTextAreaContainer
-      textarea.livechatTextArea(placeholder="Type a message")
+      textarea.livechatTextArea(placeholder="Type a message" onfocus="toggleUserIsTyping()" onblur="toggleUserIsTyping()")
       .livechatSubmitMessage Send
   
