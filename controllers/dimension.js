@@ -23,7 +23,7 @@ module.exports = (app) => {
       if(dimension){
         User.findById(req.user.id).then((user) => {
           if(user){
-            res.render('components/main', {currentUser : user, dimension : dimension, dimensionRender : true});
+            res.render('components/main', {currentUser : user, dimension : dimension, doorRender : true});
           }
         })
       }

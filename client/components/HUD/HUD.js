@@ -188,7 +188,7 @@ class ScrollZone {
 $(document).ready(() => {
 
   //ONLY LOAD THE MENU IF RENDERING FROM MAIN. Otherwise load a random avatar and object.
-  if($('#dimensionRender').text()){
+  if($('#doorRender').text()){
     $('#menu').css('display', 'none');
     menuIsVisible = false;
     fromMenuSelection = true;
@@ -216,6 +216,7 @@ $(document).ready(() => {
       $('.avatarContainer').css('display', 'none');
       $('.backgroundContainer').css('display', 'none');
       $('.newDimensionContainer').css('display', 'none');
+      $('.thingSelectContainer').css('display', 'none');
       menuIsVisible = true
       fromMenuSelection = true;
     }

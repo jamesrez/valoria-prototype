@@ -1,0 +1,10 @@
+link(rel='stylesheet' href='/components/dimension/thing/door/door.css')
+script(src='/components/dimension/thing/door/door.js')
+
+.door.prototype.thing
+  input.thingColorInput
+  .doorLabel(contenteditable="true") Dimensional Door
+  .doorForm
+    input.doorInput(placeholder="Dimension Name" onfocus="toggleUserIsTyping()" onblur="toggleUserIsTyping()")
+    .doorInputBtn Open Door to Dimension
+  iframe.doorDimension

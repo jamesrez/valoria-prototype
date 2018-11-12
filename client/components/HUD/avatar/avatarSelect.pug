@@ -23,26 +23,26 @@ script(src='/components/HUD/avatar/avatar.js')
         input.uploadAvatarInput(placeholder='Link to Image you are Uploading')
         input.uploadAvatarKey(placeholder='Name for your Image')
         .uploadAvatarBtn(onClick = "uploadAvatarToUser()") Upload
-      .availableAvatars
-        if dimension.ownerChooseAvatars
-          each avatar, i in dimension.avatars
-            if i==0
-              .avatarSelected
-                img.avatarSrc(src=avatar.src)
-                p(hidden).avatarKey=avatar.key
-            else
-              .avatarSelection
-                img.avatarSrc(src=avatar.src)
-                p(hidden).avatarKey=avatar.key
-        else
-          each avatar, i in currentUser.avatars
-            if i==0
-              .avatarSelected
-                img.avatarSrc(src=avatar.src)
-                p(hidden).avatarKey=avatar.key
-            else
-              .avatarSelection
-                img.avatarSrc(src=avatar.src)
-                p(hidden).avatarKey=avatar.key
+    .availableAvatars
+      if dimension.ownerChooseAvatars
+        each avatar, i in dimension.avatars
+          if i==0
+            .avatarSelected
+              img.avatarSrc(src=avatar.src)
+              p(hidden).avatarKey=avatar.key
+          else
+            .avatarSelection
+              img.avatarSrc(src=avatar.src)
+              p(hidden).avatarKey=avatar.key
+      else
+        each avatar, i in currentUser.avatars
+          if i==0
+            .avatarSelected
+              img.avatarSrc(src=avatar.src)
+              p(hidden).avatarKey=avatar.key
+          else
+            .avatarSelection
+              img.avatarSrc(src=avatar.src)
+              p(hidden).avatarKey=avatar.key
     .avatarBtns
       .selectYourAvatarBtn Select Avatar

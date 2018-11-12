@@ -20,6 +20,17 @@ $(document).ready(() => {
       pos : thisUser.pos,
       kind : 'livechat'
     });
+  });
+
+  $(document).on('click', '#dimensionalDoorThingSelect', () => {
+    $('.thingSelectContainer').css('display', 'none');
+    $('#menu').css('display', 'none');
+    let dimensionName = $('#dimensionName').text();
+    socket.emit('New door', {
+      dimensionName : dimensionName,
+      pos : thisUser.pos,
+      kind : 'door'
+    });
   })
 
 })

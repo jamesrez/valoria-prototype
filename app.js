@@ -62,7 +62,7 @@ app.get('/', (req, res) => {
               main.desc = 'The main dimension';
               main.ownerChooseAvatars = false;
               main.ownerChooseObjects = false;
-              main.ownerChooseBackground = false;
+              main.ownerChooseBackground = true;
               main.save();
             }
           })
@@ -91,6 +91,7 @@ io.on('connection', (socket) => {
   require('./sockets/background.js')(io, socket, onlineUsers);
   require('./sockets/thing.js')(io, socket, onlineUsers);
   require('./sockets/livechat.js')(io, socket, onlineUsers)
+  require('./sockets/door.js')(io, socket, onlineUsers)
   socket.on('disconnect', () => {
     if(onlineUsers[socket.dimension]){
       io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);
@@ -106,6 +107,7 @@ require('./controllers/avatar')(app);
 require('./controllers/object')(app);
 require('./controllers/background')(app);
 require('./controllers/things/livechat')(app);
+require('./controllers/things/door')(app);
 //Server Listen
 server.listen(process.env.PORT || '3000', () => {
   console.log("Glory to Valoria!");

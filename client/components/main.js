@@ -34,7 +34,7 @@ const socket = io.connect();
 $(document).ready(() => {
   thisUser = new User(socket.id);
   thisUser.dimension = $('#dimensionName').text();
-  if($('#dimensionRender').text()){
+  if($('#doorRender').text()){
     //Get Random Avatar
     thisUser.avatar = getRandomAvatar();
     //Get Random Object

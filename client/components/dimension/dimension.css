@@ -77,12 +77,3 @@ img{
   position: absolute;
   left : -50px;
 }
-
-.dimensionalDoor{
-  top : 51000;
-  left : 50000;
-  width : 800px;
-  height : 800px;
-  position: absolute;
-  z-index: 5;
-}

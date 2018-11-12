@@ -1,9 +1,3 @@
-let userIsTypingAMessage = false;
-
-function toggleUserIsTyping(){
-  userIsTypingAMessage = userIsTypingAMessage ? false : true;
-}
-
 function addNewLivechat(thing, livechat){
   things[thing.elemId] = new Thing()
   things[thing.elemId].elemId = thing.elemId;
@@ -53,6 +47,7 @@ $(document).ready(() => {
       sendMessage(e);
     }
   });
+  
 })
 
 

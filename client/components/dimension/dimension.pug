@@ -12,14 +12,10 @@ script(src='/components/dimension/thing/thing.js')
 .dimension
   .things
     include thing/livechat/livechat
+    include thing/door/door
     .thing.prototype.square
       input.thingColorInput
   .users
     #thisUser
       img#thisUserAvatar
   .objects
-  .dimensionalDoors
-    //- if(dimension.name == 'main')
-    //-   iframe.dimensionalDoor(src='http://localhost:3000/dimension/fruit/door' id="fruit")
-    //- else
-    //-   iframe.dimensionalDoor(src='http://localhost:3000/dimension/main/door' id="main")

@@ -1,4 +1,9 @@
 let editMode = false;
+let userIsTyping = false;
+
+function toggleUserIsTyping(){
+  userIsTyping = userIsTyping ? false : true;
+}
 
 function addNewThing(thing){
   things[thing.elemId] = new Thing()
@@ -45,6 +50,9 @@ class Thing {
       handles: 'n, e, s, w, se, ne, sw, nw',
       stop : (e, ui) => this.updateSize(ui)
     });
+    newThing.draggable({
+      stop : (e, ui) => this.updatePos(ui.position)
+    });
     newThing.find('.thingColorInput').spectrum({
       color : this.color,
       showInput : true,
@@ -54,11 +62,12 @@ class Thing {
     })
   }
   updatePos(newPos){
-    this.pos.x = newPos.x - (this.width / 2);
-    this.pos.y = newPos.y - (this.height / 2);
-    $(`#${this.elemId}`).css({
-      left : this.pos.x,
-      top : this.pos.y
+    this.pos.x = newPos.left;
+    this.pos.y = newPos.top;
+    socket.emit('Save new position of thing', {
+      docId : this.thingId,
+      elemId : this.elemId,
+      newPos : this.pos
     });
   }
   changeColor(color){
@@ -96,6 +105,11 @@ $(document).ready(() => {
             addNewLivechat(thing, livechat)
           })
           break;
+        case "door":
+          $.get(`/door/${thing._id}`, (door) => {
+            addNewDoor(thing, door);
+          })
+          break;
       }
     })
   })
@@ -103,37 +117,32 @@ $(document).ready(() => {
 ////////////////////EVENT LISTENERS///////////////
 
   //DRAG THING ON MOUSE DOWN
-  $(document).on('mousedown', '.thing', (e) => {
-    // else if(typeMode && editMode && !userIsTyping){
-    //   userIsTyping = true;
-    //   let thingText = $(`<div class="thingText" contenteditable="true"></div>`);
-    //   thingText.css({
-    //     position : "absolute",
-    //     top : e.pageY - $(`#${thingBeingEdited}`).offset().top,
-    //     left : e.pageX - $(`#${thingBeingEdited}`).offset().left,
-    //   })
-    //   $(`#${thingBeingEdited}`).append(thingText);
-    if(e.target.classList[0] != 'ui-resizable-handle'){
-      thingBeingDragged = e.target.id ? e.target.id : e.target.offsetParent.id;
-    }
-  })
-  //RELEASE OBJECT BEING DRAGGED ON MOUSE UP
-  $(document).on('mouseup', '.thing', (e) => {
-    if(thingBeingDragged){
-      socket.emit('Save new position of thing', {
-        docId : things[thingBeingDragged].thingId,
-        elemId : thingBeingDragged,
-        newPos : things[thingBeingDragged].pos
-      });
-      thingBeingDragged = false;
-    }
-  });
+  // $(document).on('mousedown', '.thing', (e) => {
+  //   if(e.target.classList[0] != 'ui-resizable-handle'){
+  //     thingBeingDragged = e.target.id ? e.target.id : e.target.offsetParent.id;
+  //   }
+  // })
+  // //RELEASE OBJECT BEING DRAGGED ON MOUSE UP
+  // $(document).on('mouseup', '.thing', (e) => {
+  //   if(thingBeingDragged){
+  //     socket.emit('Save new position of thing', {
+  //       docId : things[thingBeingDragged].thingId,
+  //       elemId : thingBeingDragged,
+  //       newPos : things[thingBeingDragged].pos
+  //     });
+  //     thingBeingDragged = false;
+  //   }
+  // });
   //DRAG THING ON MOUSE MOVE
-  $('.dimension').on('mousemove', (e) => {
-    if(thingBeingDragged){
-      things[thingBeingDragged].updatePos(mousePosition);
-    }
-  })
+  // $('.dimension').on('mousemove', (e) => {
+  //   if(thingBeingDragged){
+  //     let newPos = {
+  //       x : mousePosition.x + (mousePosition.x - e.pageX),
+  //       y : mousePosition.y + (mousePosition.y - e.pageY),
+  //     }
+  //     things[thingBeingDragged].updatePos(mousePosition);
+  //   }
+  // })
   //ENTER EDIT MODE ON MOUSE ENTER
   $(document).on('mouseenter', '.thing', (e) => {
     thingBeingEdited = e.currentTarget.id;
@@ -167,12 +176,13 @@ $(document).ready(() => {
     //   typeMode = false;
     //   $(`#${thingBeingEdited}`).css('cursor', 'grab')
     // }
-    if(e.keyCode == 70 && editMode && !userIsTypingAMessage){
+    if(e.keyCode == 70 && editMode && !userIsTyping){
       $(`#${thingBeingEdited}`).remove();
       socket.emit('Thing got deleted', {
         docId : things[thingBeingEdited].thingId,
         elemId : things[thingBeingEdited].elemId
       });
+      socket.emit(`Delete ${things[thingBeingEdited].kind}`, things[thingBeingEdited].docId);
       delete things[thingBeingEdited];
       editMode = false;
       $('#thisUserAvatar').css('display', 'block');

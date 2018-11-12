@@ -58,4 +58,10 @@ module.exports = (io, socket, onlineUsers) => {
     console.log(data);
   })
 
+  socket.on('Delete livechat', docId => {
+    Livechat.findByIdAndDelete(docId).then(() => {
+      
+    });
+  })
+
 }
