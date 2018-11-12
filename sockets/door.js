@@ -1,5 +1,5 @@
 const Dimension = require('../models/dimension');
-const Door = require('../models/Door');
+const Door = require('../models/door');
 const Thing = require('../models/thing');
 
 module.exports = (io, socket, onlineUsers) => {
