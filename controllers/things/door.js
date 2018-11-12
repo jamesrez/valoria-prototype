@@ -1,5 +1,5 @@
 const Thing = require('../../models/thing');
-const Door = require('../../models/Door');
+const Door = require('../../models/door');
 
 module.exports = (app) => {
 
