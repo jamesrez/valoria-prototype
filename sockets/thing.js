@@ -58,6 +58,7 @@ module.exports = (io, socket, onlineUsers) => {
   })
 
   socket.on('Thing got deleted', data => {
+    console.log(socket.dimension);
     socket.broadcast.to(socket.dimension).emit("Thing got deleted", data);
     Thing.findByIdAndDelete(data.docId, () => {
       Dimension.findOne({name : socket.dimension}).then((dimension) => {

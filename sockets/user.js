@@ -45,6 +45,31 @@ module.exports = (io, socket, onlineUsers) => {
         })
       }
     }
+  });
+
+  socket.on("User changed dimension", d => {
+    let thisUser = onlineUsers[socket.dimension][socket.id];
+    //First leave the dimension
+    if(onlineUsers[socket.dimension]){
+      socket.leave(socket.dimension);
+      io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);
+      delete onlineUsers[socket.dimension][socket.id];
+    }
+    //Now join the new one
+    if(!onlineUsers[d.newDimension]){
+      onlineUsers[d.newDimension] = {};
+    }
+    socket.join(d.newDimension);
+    socket.dimension = d.newDimension;
+    onlineUsers[d.newDimension][socket.id] = thisUser;
+    io.to(socket.dimension).emit("New user", thisUser);
+  })
+
+  socket.on("User left dimension", d => {
+    if(onlineUsers[socket.dimension]){
+      io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);
+      delete onlineUsers[socket.dimension][socket.id];
+    }
   })
 
 }

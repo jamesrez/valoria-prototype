@@ -10,7 +10,8 @@ function addNewDoor(thing, door){
   things[thing.elemId].kind = thing.kind
   things[thing.elemId].renderAtPos(thing.kind);
   if(door.dimension){
-    $(`#${thing.elemId}`).find('.doorDimension').attr('src', door.dimension);
+    $(`#${thing.elemId}`).find('.doorDimension').attr('src', door.dimensionLink);
+    $(`#${thing.elemId}`).find('.doorDimensionName').val(door.dimension);
     $(`#${thing.elemId}`).find('.doorForm').css('display', 'none');
   }else{
     $(`#${thing.elemId}`).find('.doorDimension').css('display', 'none');
@@ -47,60 +48,76 @@ function joinDimension(name){
     dimension.environmentObjects.forEach((object) => {
       addNewObject(object);
     });
-    // dimension.livechats.forEach((livechat) => {
-    //   addNewLivechat(livechat);
-    // });
     dimension.avatars.forEach((avatar) => {
       addAvatar(avatar);
     })
     dimension.objects.forEach((object) => {
       addObject(object);
     })
+    //Load All Things in Dimension
+    $.get(`/dimension/${dimension.name}/environment/things`, (things) => {
+      things.forEach((thing) => {
+        switch(thing.kind){
+          case "square":
+            addNewThing(thing);
+            break;
+          case "livechat":
+            $.get(`/livechat/${thing._id}`, (livechat) => {
+              addNewLivechat(thing, livechat)
+            })
+            break;
+          case "door":
+            $.get(`/door/${thing._id}`, (door) => {
+              addNewDoor(thing, door);
+            })
+            break;
+        }
+      })
+    })
     $('#background').css('background-image', `url(${dimension.background.src})`)
     $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', dimension.background.src);
     let randAvatar = getRandomAvatar()
     $('#thisUserAvatar').attr('src', randAvatar);
     $('#thisUser').css('display', 'block');
+    $('#thisUserAvatar').css('display', 'block');
     thisUser.avatar = randAvatar;
     let randObject = getRandomObject();
     thisUser.object = randObject;
+    //LETS CONNECT
+    let data = {
+      oldDimension : dimensionName,
+      newDimension : dimension.name
+    }
+    socket.emit("User changed dimension", data);
+    dimensionName = dimension.name;
+    $('#dimensionName').text(dimension.name);
   })
 }
 
 
 $(document).ready(() => {
-  // let tempDoor = {
-  //   docId : 1,
-  // }
-  // let tempThing = {
-  //   width : 300,
-  //   height : 300,
-  //   pos : {
-  //     x : 50000,
-  //     y : 50000
-  //   },
-  //   color : "rgba(144, 30, 209, 0.57)",
-  //   kind : "door",
-  //   elemId : "door0",
-  //   _id : 1
-  // }
-  // addNewDoor(tempThing, tempDoor);
+
 });
 
 
 //Dimensional Doors
 let insideDimensionalDoor = false;
-$(document).on('mouseover', '.dimensionalDoor', (e) => {
-  insideDimensionalDoor = e.target.id;
+$(document).on('mouseover', '.doorDimension', (e) => {
+  insideDimensionalDoor = e.target.offsetParent.id;
   $('#thisUser').css('display', 'none');
+  let doorDimension = $(`#${insideDimensionalDoor}`).find('.doorDimensionName').val();
+  // socket.emit("User inside door", doorDimension);
 })
-$(document).on('mouseleave', '.dimensionalDoor', (e) => {
+$(document).on('mouseleave', '.doorDimension', (e) => {
   insideDimensionalDoor = false;
   $('#thisUser').css('display', 'block');
 })
+
+//WHEN INSIDE DIMENSIONAL DOOR
 $(document).on('mouseleave', (e) => {
   if($('#doorRender').text()){
     $('#thisUserAvatar').css('display', 'none');
+    socket.emit("User left dimension");
   }
 })
 $(document).on('mouseenter', (e) => {
@@ -112,7 +129,8 @@ $(document).on('mouseenter', (e) => {
 // Click Inside Dimensional Door
 $(window).on('blur', (e) => {
   if(insideDimensionalDoor){
-    joinDimension(insideDimensionalDoor);
+    let doorDimension = $(`#${insideDimensionalDoor}`).find('.doorDimensionName').val();
+    joinDimension(doorDimension);
   }
 })
 
@@ -120,7 +138,8 @@ $(window).on('blur', (e) => {
 $(document).on('keyup', (e) => {
   //ENTER KEY and Inside Dimensional Door
   if(e.keyCode == 13 && insideDimensionalDoor){
-    joinDimension(insideDimensionalDoor)
+    let doorDimension = $(`#${insideDimensionalDoor}`).find('.doorDimensionName').val();
+    joinDimension(doorDimension);
   }
 })
 
@@ -145,7 +164,8 @@ socket.on('Set door dimension', data => {
   if(data.doorDimension){
     $(`#${data.elemId}`).find('.doorForm').css('display', 'none');
     $(`#${data.elemId}`).find('.doorDimension').css('display', 'block');
-    $(`#${data.elemId}`).find('.doorDimension').attr('src', data.doorDimension);
+    $(`#${data.elemId}`).find('.doorDimension').attr('src', data.doorDimensionLink);
+    $(`#${data.elemId}`).find('.doorDimensionName').val(data.doorDimension);
   }else{
     console.log("Dimension Not Found");
   }

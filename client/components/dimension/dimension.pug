@@ -10,9 +10,9 @@ script(src='/components/dimension/object/object.js')
 script(src='/components/dimension/thing/thing.js')
   
 .dimension
+  include thing/livechat/livechat
+  include thing/door/door
   .things
-    include thing/livechat/livechat
-    include thing/door/door
     .thing.prototype.square
       input.thingColorInput
   .users

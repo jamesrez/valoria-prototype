@@ -5,6 +5,7 @@ const Thing = require('../models/thing');
 module.exports = (io, socket, onlineUsers) => {
 
   socket.on('New door', (data) => {
+    console.log(data);
     Dimension.findOne({name : data.dimensionName}).then((dimension) => {
       if(dimension){
         let doorCount = dimension.things.length;
@@ -36,11 +37,13 @@ module.exports = (io, socket, onlineUsers) => {
   socket.on('Set door dimension', data => {
     Door.findById(data.docId).then((door) => {
       Dimension.findOne({name : data.doorDimension}).then((dimension)=>{
-        door.dimension = `/dimension/${data.doorDimension}/door`
+        door.dimension = data.doorDimension;
+        door.dimensionLink = `/dimension/${data.doorDimension}/door`
         door.save().then((door) => {
           let doorData = {
             elemId : data.elemId,
-            doorDimension : dimension ? `/dimension/${data.doorDimension}/door` : false
+            doorDimensionLink : dimension ? `/dimension/${data.doorDimension}/door` : false,
+            doorDimension : dimension ? data.doorDimension : false
           }
           io.to(data.dimensionName).emit('Set door dimension', doorData);
         })
