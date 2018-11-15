@@ -59,10 +59,14 @@ module.exports = (io, socket, onlineUsers) => {
     if(!onlineUsers[d.newDimension]){
       onlineUsers[d.newDimension] = {};
     }
-    socket.join(d.newDimension);
+    onlineUsers[d.newDimension][socket.id] = {
+      socket : socket.id,
+      avatar : d.avatar,
+      pos : d.pos
+    }
     socket.dimension = d.newDimension;
-    onlineUsers[d.newDimension][socket.id] = thisUser;
-    io.to(socket.dimension).emit("New user", thisUser);
+    socket.join(d.newDimension);
+    socket.broadcast.to(d.newDimension).emit('New User', onlineUsers[d.newDimension][socket.id])
   })
 
   socket.on("User left dimension", d => {

@@ -127,6 +127,10 @@ socket.on('New User', (newUser) => {
       <img class='userAvatar' src=${newUser.avatar}>
     </div>
   `);
+  $(`#${newUser.socket}`).css({
+    left : newUser.pos.x,
+    top : newUser.pos.y
+  })
   onlineUsers[newUser.socket] = newUser;
 });
 

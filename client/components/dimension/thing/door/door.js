@@ -83,11 +83,18 @@ function joinDimension(name){
     thisUser.avatar = randAvatar;
     let randObject = getRandomObject();
     thisUser.object = randObject;
+    thisUser.dimension = dimension.name;
     //LETS CONNECT
     let data = {
       oldDimension : dimensionName,
-      newDimension : dimension.name
+      newDimension : dimension.name,
+      pos : {
+        x : 50000,
+        y : 50000
+      },
+      avatar : thisUser.avatar
     }
+    socket.emit('Load Online Users', dimension.name);
     socket.emit("User changed dimension", data);
     dimensionName = dimension.name;
     $('#dimensionName').text(dimension.name);
@@ -106,11 +113,17 @@ $(document).on('mouseover', '.doorDimension', (e) => {
   insideDimensionalDoor = e.target.offsetParent.id;
   $('#thisUser').css('display', 'none');
   let doorDimension = $(`#${insideDimensionalDoor}`).find('.doorDimensionName').val();
-  // socket.emit("User inside door", doorDimension);
+  socket.emit("User left dimension");
 })
 $(document).on('mouseleave', '.doorDimension', (e) => {
   insideDimensionalDoor = false;
   $('#thisUser').css('display', 'block');
+  let data = {
+    dimension : dimensionName,
+    avatar : thisUser.avatar,
+    pos : thisUser.pos
+  }
+  socket.emit("New User", data);
 })
 
 //WHEN INSIDE DIMENSIONAL DOOR
