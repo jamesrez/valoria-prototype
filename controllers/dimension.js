@@ -12,6 +12,8 @@ module.exports = (app) => {
         User.findById(req.user.id).then((user) => {
           if(user){
             res.render('components/main', {currentUser : user, dimension : dimension});
+          }else{
+            res.render('components/main', {dimension : dimension})
           }
         })
       }
