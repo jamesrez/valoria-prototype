@@ -61,7 +61,7 @@ app.get('/', (req, res) => {
               main.name = 'main';
               main.desc = 'The main dimension';
               main.ownerChooseAvatars = false;
-              main.ownerChooseObjects = false;
+              main.ownerChooseObjects = true;
               main.ownerChooseBackground = true;
               main.save();
             }
