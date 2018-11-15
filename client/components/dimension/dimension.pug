@@ -8,15 +8,16 @@ script(src='/components/dimension/user/user.js')
 script(src='/components/dimension/object/object.js')
 //thing.js
 script(src='/components/dimension/thing/thing.js')
-  
+
 .dimension
-  include thing/livechat/livechat
+  if !doorRender
+    include thing/livechat/livechat
+    .things
+      .thing.prototype.square
+        .thingText Welcome to Valoria!
+        input.thingColorInput
+    .users
+    .objects
+  #thisUser
+    img#thisUserAvatar
   include thing/door/door
-  .things
-    .thing.prototype.square
-      .thingText Welcome to Valoria!
-      input.thingColorInput
-  .users
-    #thisUser
-      img#thisUserAvatar
-  .objects

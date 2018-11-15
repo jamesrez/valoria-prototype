@@ -93,7 +93,7 @@ module.exports = (app) => {
   })
 
   /////////API SECTION. Returns JSON///////////
-  //Render a Dimension
+  //Send Dimension Data
   app.get('/api/dimension/:name', (req, res) => {
     Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
       if(dimension){

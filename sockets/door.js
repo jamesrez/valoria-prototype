@@ -5,7 +5,6 @@ const Thing = require('../models/thing');
 module.exports = (io, socket, onlineUsers) => {
 
   socket.on('New door', (data) => {
-    console.log(data);
     Dimension.findOne({name : data.dimensionName}).then((dimension) => {
       if(dimension){
         let doorCount = dimension.things.length;
@@ -46,6 +45,10 @@ module.exports = (io, socket, onlineUsers) => {
             doorDimension : dimension ? data.doorDimension : false
           }
           io.to(data.dimensionName).emit('Set door dimension', doorData);
+          Thing.findById(door.thingId).then((thing) => {
+            thing.color = "rgba(0,0,0,0)";
+            thing.save();
+          })
         })
       })
     })

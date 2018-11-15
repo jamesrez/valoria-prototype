@@ -1,5 +1,7 @@
 let editMode = false;
 let userIsTyping = false;
+let thingBeingDragged = false;
+let thingBeingEdited = false;
 
 function toggleUserIsTyping(){
   userIsTyping = userIsTyping ? false : true;
@@ -89,10 +91,9 @@ class Thing {
   }
 }
 
-$(document).ready(() => {
 
-  let thingBeingDragged = false;
-  let thingBeingEdited = false;
+
+$(document).ready(() => {
 
   //Load All Things in Dimension
   $.get(`/dimension/${dimensionName}/environment/things`, (things) => {
@@ -177,7 +178,7 @@ $(document).ready(() => {
     //   typeMode = false;
     //   $(`#${thingBeingEdited}`).css('cursor', 'grab')
     // }
-    if(e.keyCode == 70 && editMode && !userIsTyping){
+    if(e.keyCode == 70 && editMode && !userIsTyping && !insideDimensionalDoor){
       $(`#${thingBeingEdited}`).remove();
       socket.emit('Thing got deleted', {
         docId : things[thingBeingEdited].thingId,

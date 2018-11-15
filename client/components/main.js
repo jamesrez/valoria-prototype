@@ -16,17 +16,17 @@ let scrolling = false;
 let objectTotal = 0;
 let thisUser = null;
 
-function getRandomAvatar(){
-  let numOfAvatars = $('.availableAvatars').children().length;
+function getRandomAvatar(dimension){
+  let numOfAvatars = dimension.avatars.length;
   let randAvatarIndex = Math.floor(Math.random() * numOfAvatars);
-  let randAvatarSrc = $('.availableAvatars').children()[randAvatarIndex].firstElementChild.src;
+  let randAvatarSrc = dimension.avatars[randAvatarIndex].src;
   return randAvatarSrc;
 }
 
-function getRandomObject(){
-  let numOfObjects= $('.availableObjects').children().length;
+function getRandomObject(dimension){
+  let numOfObjects= dimension.objects.length;
   let randObjectIndex = Math.floor(Math.random() * numOfObjects);
-  let randObjectSrc = $('.availableObjects').children()[randObjectIndex].firstElementChild.src;
+  let randObjectSrc = dimension.objects[randObjectIndex].src;
   return randObjectSrc;
 }
 
@@ -35,9 +35,11 @@ $(document).ready(() => {
   thisUser = new User(socket.id);
   thisUser.dimension = $('#dimensionName').text();
   if($('#doorRender').text()){
-    //Get Random Avatar
-    thisUser.avatar = getRandomAvatar();
-    //Get Random Object
-    thisUser.object = getRandomObject();
+    $.get(`/api/dimension/${thisUser.dimension}`).then((dimension) => {
+      //Get Random Avatar
+      thisUser.avatar = getRandomAvatar(dimension);
+      //Get Random Object
+      thisUser.object = getRandomObject(dimension);
+    })
   }
 })
