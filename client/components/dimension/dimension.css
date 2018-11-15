@@ -72,6 +72,19 @@ img{
   text-align: center;
 }
 
+.square{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.thingText{
+  font-size: 10px;
+  color: white;
+  font-weight: bold;
+}
+
 .sp-replacer{
   display: none;
   position: absolute;

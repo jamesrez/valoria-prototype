@@ -19,15 +19,17 @@ module.exports = (app) => {
   });
 
   app.get('/dimension/:name/door', (req, res) => {
-    Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
-      if(dimension){
-        User.findById(req.user.id).then((user) => {
-          if(user){
-            res.render('components/main', {currentUser : user, dimension : dimension, doorRender : true});
-          }
-        })
-      }
-    })
+    if(req.user){
+      Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
+        if(dimension){
+          User.findById(req.user.id).then((user) => {
+            if(user){
+              res.render('components/main', {currentUser : user, dimension : dimension, doorRender : true});
+            }
+          })
+        }
+      })
+    }
   })
 
 

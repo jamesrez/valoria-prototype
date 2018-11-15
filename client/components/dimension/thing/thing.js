@@ -48,7 +48,8 @@ class Thing {
     newThing.appendTo('.things');
     newThing.resizable({
       handles: 'n, e, s, w, se, ne, sw, nw',
-      stop : (e, ui) => this.updateSize(ui)
+      stop : (e, ui) => this.updateSize(ui),
+      resize :(e, ui) => $(`#${this.elemId}`).find('.thingText').css('font-size', ui.size.width / 3 + "px")
     });
     newThing.draggable({
       stop : (e, ui) => this.updatePos(ui.position)
