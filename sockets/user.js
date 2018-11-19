@@ -48,25 +48,27 @@ module.exports = (io, socket, onlineUsers) => {
   });
 
   socket.on("User changed dimension", d => {
-    let thisUser = onlineUsers[socket.dimension][socket.id];
-    //First leave the dimension
     if(onlineUsers[socket.dimension]){
-      socket.leave(socket.dimension);
-      io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);
-      delete onlineUsers[socket.dimension][socket.id];
+      let thisUser = onlineUsers[socket.dimension][socket.id];
+      //First leave the dimension
+      if(onlineUsers[socket.dimension]){
+        socket.leave(socket.dimension);
+        io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);
+        delete onlineUsers[socket.dimension][socket.id];
+      }
+      //Now join the new one
+      if(!onlineUsers[d.newDimension]){
+        onlineUsers[d.newDimension] = {};
+      }
+      onlineUsers[d.newDimension][socket.id] = {
+        socket : socket.id,
+        avatar : d.avatar,
+        pos : d.pos
+      }
+      socket.dimension = d.newDimension;
+      socket.join(d.newDimension);
+      socket.broadcast.to(d.newDimension).emit('New User', onlineUsers[d.newDimension][socket.id])
     }
-    //Now join the new one
-    if(!onlineUsers[d.newDimension]){
-      onlineUsers[d.newDimension] = {};
-    }
-    onlineUsers[d.newDimension][socket.id] = {
-      socket : socket.id,
-      avatar : d.avatar,
-      pos : d.pos
-    }
-    socket.dimension = d.newDimension;
-    socket.join(d.newDimension);
-    socket.broadcast.to(d.newDimension).emit('New User', onlineUsers[d.newDimension][socket.id])
   })
 
   socket.on("User left dimension", d => {
