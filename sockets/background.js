@@ -6,7 +6,7 @@ module.exports = (io, socket, onlineUsers) => {
     Dimension.findOne({name : data.dimensionName}).then(dimension => {
       dimension.background = data.newBackground;
       dimension.save().then(() => {
-        socket.broadcast.emit('Background Change', data.newBackground);
+        socket.broadcast.to(data.dimensionName).emit('Background Change', data.newBackground);
       });
     })
   })
