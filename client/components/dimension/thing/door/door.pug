@@ -2,7 +2,19 @@ link(rel='stylesheet' href='/components/dimension/thing/door/door.css')
 script(src='/components/dimension/thing/door/door.js')
 
 .door.prototype.thing
-  input.thingColorInput
+  .thingToolbox
+    .thingTools
+      input.thingColorInput
+      .thingMediaBtn Media
+      .thingDeleteBtn Delete
+    .thingMediaContainer
+      .thingImageForm
+        input.thingImageInput(placeholder="Link to Image")
+        .thingImageInputBtn Set to Image
+      .thingVideoForm
+        input.thingVideoInput(placeholder="Link to Video")
+        .thingVideoInputBtn Embed Video
+  iframe.thingVideo
   input.doorDimensionName(hidden)
   .doorForm
     input.doorInput(placeholder="Dimension Name" onfocus="toggleUserIsTyping()" onblur="toggleUserIsTyping()")
