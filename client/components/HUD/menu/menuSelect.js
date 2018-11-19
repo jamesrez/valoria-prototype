@@ -18,6 +18,16 @@ $(document).ready(() => {
     $('.thingSelectContainer').css('display', 'flex');
   })
 
+  $(document).on('click', '#textScreenSelect', function() {
+    $('.menuSelectContainer').css('display', 'none');
+    $('#menu').css('display', 'none');
+    let dimensionName = $('#dimensionName').text();
+    socket.emit('New text', {
+      dimensionName : dimensionName,
+      pos : thisUser.pos,
+    });
+  })
+
   $(document).on('click', '#backgroundScreenSelect', function(){
     $('.menuSelectContainer').css('display', 'none');
     $('.backgroundContainer').css('display', 'flex');

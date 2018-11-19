@@ -63,6 +63,7 @@ app.get('/', (req, res) => {
               main.ownerChooseAvatars = false;
               main.ownerChooseObjects = true;
               main.ownerChooseBackground = true;
+              main.owner = "james";
               main.save();
             }
           })
@@ -92,6 +93,7 @@ io.on('connection', (socket) => {
   require('./sockets/thing.js')(io, socket, onlineUsers);
   require('./sockets/livechat.js')(io, socket, onlineUsers)
   require('./sockets/door.js')(io, socket, onlineUsers)
+  require('./sockets/text.js')(io, socket, onlineUsers)
   socket.on('disconnect', () => {
     if(onlineUsers[socket.dimension]){
       io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);

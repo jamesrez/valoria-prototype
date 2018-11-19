@@ -1,0 +1,29 @@
+link(rel='stylesheet' href='/components/dimension/thing/text/text.css')
+script(src='/components/dimension/thing/text/text.js')
+
+.text.prototype(contenteditable="True") Type Here
+  .textToolbar
+    select.fontSize(onChange="setFontSize(this)")
+      option.fontSizeOption(value=12) 12
+      option.fontSizeOption(value=14) 14
+      option.fontSizeOption(value=16) 16
+      option.fontSizeOption(value=18) 18
+      option.fontSizeOption(value=20) 20
+      option.fontSizeOption(value=24) 24
+      option.fontSizeOption(value=28) 28
+      option.fontSizeOption(value=36) 36
+      option.fontSizeOption(value=44) 44
+      option.fontSizeOption(value=54) 54
+      option.fontSizeOption(value=64) 64
+      option.fontSizeOption(value=84) 84
+    .leftAlignBtn.alignBtn(onclick="leftAlign(this)")
+      img.alignImg(src="/components/dimension/thing/text/left-alignment.svg")
+    .centerAlignBtn.alignBtn(onclick="centerAlign(this)")
+      img.alignImg(src="/components/dimension/thing/text/center-alignment.svg")
+    .rightAlignBtn.alignBtn(onclick="rightAlign(this)")
+      img.alignImg(src="/components/dimension/thing/text/right-alignment.svg")
+    .textColorInput
+  //- input.thingColorInput
+  //- .textContainer
+  //-   .textEditor
+  

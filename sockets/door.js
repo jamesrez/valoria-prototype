@@ -7,9 +7,8 @@ module.exports = (io, socket, onlineUsers) => {
   socket.on('New door', (data) => {
     Dimension.findOne({name : data.dimensionName}).then((dimension) => {
       if(dimension){
-        let doorCount = dimension.things.length;
         let newDoorThing = new Thing();
-        newDoorThing.elemId = `door${doorCount}`;
+        newDoorThing.elemId = `door${dimension.thingCount}`;
         newDoorThing.pos = data.pos;
         newDoorThing.width = 300;
         newDoorThing.height = 300;
@@ -19,6 +18,7 @@ module.exports = (io, socket, onlineUsers) => {
           let newDoor = new Door();
           newDoor.thingId = doorThing._id;
           dimension.things.push(doorThing._id);
+          dimension.thingCount++;
           dimension.save().then(() => {
             newDoor.save().then((door) => {
               io.to(data.dimensionName).emit('New door', {

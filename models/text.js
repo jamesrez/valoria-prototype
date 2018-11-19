@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const ThingSchema = new Schema({
+const TextSchema = new Schema({
   width : Number,
   height : Number,
   pos : {
@@ -10,12 +10,12 @@ const ThingSchema = new Schema({
   },
   color : String,
   elemId : String,
-  kind : String,
-  texts : [String],
-  image : String,
-  video : String
+  content : String,
+  fontSize : Number,
+  align : String,
+  thing : String
 });
 
-const Thing = mongoose.model('Thing', ThingSchema);
+const TextElem = mongoose.model('Text', TextSchema);
 
-module.exports = Thing;
+module.exports = TextElem;

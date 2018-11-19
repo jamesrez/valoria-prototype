@@ -2,6 +2,8 @@ const Dimension = require('../models/dimension');
 const Livechat = require('../models/livechat');
 const User = require('../models/user');
 const Thing = require('../models/thing');
+const TextElem = require('../models/text');
+
 
 module.exports = (app) => {
 
@@ -92,6 +94,19 @@ module.exports = (app) => {
     })
   })
 
+  //Get all texts currently in the dimension's environment
+  app.get('/dimension/:name/environment/texts', (req, res) => {
+    Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
+      if(dimension){
+        TextElem.find({'_id': { $in: dimension.texts}}).then((texts) => {
+          if(texts){
+            res.send(texts);
+          }
+        })
+      }
+    })
+  })
+
   /////////API SECTION. Returns JSON///////////
   //Send Dimension Data
   app.get('/api/dimension/:name', (req, res) => {
@@ -101,4 +116,5 @@ module.exports = (app) => {
       }
     })
   });
+
 }

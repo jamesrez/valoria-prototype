@@ -7,9 +7,8 @@ module.exports = (io, socket, onlineUsers) => {
   socket.on('New livechat', (data) => {
     Dimension.findOne({name : data.dimensionName}).then((dimension) => {
       if(dimension){
-        let livechatCount = dimension.things.length;
         let newLivechatThing = new Thing();
-        newLivechatThing.elemId = `livechat${livechatCount}`;
+        newLivechatThing.elemId = `livechat${dimension.thingCount}`;
         newLivechatThing.pos = data.pos;
         newLivechatThing.width = 300;
         newLivechatThing.height = 300;
@@ -17,8 +16,9 @@ module.exports = (io, socket, onlineUsers) => {
         newLivechatThing.color = '#557062';
         newLivechatThing.save().then((livechatThing) => {
           let newLivechat = new Livechat();
-          newLivechat.thingId =livechatThing._id;
+          newLivechat.thingId = livechatThing._id;
           dimension.things.push(livechatThing._id);
+          dimension.thingCount++;
           dimension.save().then(() => {
             newLivechat.save().then((livechat) => {
               io.to(data.dimensionName).emit('New livechat', {
@@ -60,7 +60,7 @@ module.exports = (io, socket, onlineUsers) => {
 
   socket.on('Delete livechat', docId => {
     Livechat.findByIdAndDelete(docId).then(() => {
-      
+
     });
   })
 

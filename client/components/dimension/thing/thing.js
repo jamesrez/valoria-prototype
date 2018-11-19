@@ -2,6 +2,7 @@ let editMode = false;
 let userIsTyping = false;
 let thingBeingDragged = false;
 let thingBeingEdited = false;
+let textBeingAttached = false;
 
 function toggleUserIsTyping(){
   userIsTyping = userIsTyping ? false : true;
@@ -16,6 +17,24 @@ function addNewThing(thing){
   things[thing.elemId].height = thing.height;
   things[thing.elemId].color = thing.color;
   things[thing.elemId].kind = thing.kind;
+  things[thing.elemId].image = thing.image;
+  things[thing.elemId].video = thing.video;
+  // things[thing.elemId].texts = {
+  //   text0 : {
+  //     elemId : "text0",
+  //     textId : 0,
+  //     pos : {
+  //       x : 50,
+  //       y : 80
+  //     },
+  //     width : 150,
+  //     height : 25,
+  //     fontSize : 14,
+  //     color : "#ffffff",
+  //     kind : "text",
+  //     thing : "square0"
+  //   }
+  // }
   things[thing.elemId].renderAtPos(thing.kind);
 }
 
@@ -34,6 +53,9 @@ class Thing {
       y : null
     };
     this.kind = null;
+    this.texts = null;
+    this.image = null;
+    this.video = null;
   }
   renderAtPos(typeOfThing){
     let newThing = $(`.thing.prototype.${typeOfThing}`).clone()
@@ -45,11 +67,16 @@ class Thing {
       top : this.pos.y,
       backgroundColor : this.color,
       width : this.width,
-      height : this.height
+      height : this.height,
+      backgroundImage : `url("${this.image}")`
     })
+    if(this.video){
+      newThing.find('.thingVideo').css('display', 'block');
+      newThing.find('.thingVideo').attr('src', this.video);
+    }
     newThing.appendTo('.things');
     newThing.resizable({
-      handles: 'n, e, s, w, se, ne, sw, nw',
+      handles: 'e, s, w, se, sw',
       stop : (e, ui) => this.updateSize(ui),
       resize :(e, ui) => $(`#${this.elemId}`).find('.thingText').css('font-size', ui.size.width / 3 + "px")
     });
@@ -61,8 +88,17 @@ class Thing {
       showInput : true,
       showAlpha : true,
       showPalette : true,
-      move : (color) => this.changeColor(color)
-    })
+      move : (color) => this.changeColor(color),
+      change : (color) => {
+        socket.emit('Save new color of thing', {
+          docId : this.thingId,
+          elemId : this.elemId,
+          color : color.toRgbString()
+        })
+      }
+    });
+    // addNewText(this.texts["text0"]);
+    // newThing.append($(`#text0`));
   }
   updatePos(newPos){
     this.pos.x = newPos.left;
@@ -75,11 +111,6 @@ class Thing {
   }
   changeColor(color){
     $(`#${this.elemId}`).css('background-color', color.toRgbString());
-    socket.emit('Save new color of thing', {
-      docId : this.thingId,
-      elemId : this.elemId,
-      color : color.toRgbString()
-    })
   }
   updateSize(ui){
     socket.emit('Save new size of thing', {
@@ -90,8 +121,6 @@ class Thing {
     })
   }
 }
-
-
 
 $(document).ready(() => {
 
@@ -117,41 +146,16 @@ $(document).ready(() => {
   })
 
 ////////////////////EVENT LISTENERS///////////////
-
-  //DRAG THING ON MOUSE DOWN
-  // $(document).on('mousedown', '.thing', (e) => {
-  //   if(e.target.classList[0] != 'ui-resizable-handle'){
-  //     thingBeingDragged = e.target.id ? e.target.id : e.target.offsetParent.id;
-  //   }
-  // })
-  // //RELEASE OBJECT BEING DRAGGED ON MOUSE UP
-  // $(document).on('mouseup', '.thing', (e) => {
-  //   if(thingBeingDragged){
-  //     socket.emit('Save new position of thing', {
-  //       docId : things[thingBeingDragged].thingId,
-  //       elemId : thingBeingDragged,
-  //       newPos : things[thingBeingDragged].pos
-  //     });
-  //     thingBeingDragged = false;
-  //   }
-  // });
-  //DRAG THING ON MOUSE MOVE
-  // $('.dimension').on('mousemove', (e) => {
-  //   if(thingBeingDragged){
-  //     let newPos = {
-  //       x : mousePosition.x + (mousePosition.x - e.pageX),
-  //       y : mousePosition.y + (mousePosition.y - e.pageY),
-  //     }
-  //     things[thingBeingDragged].updatePos(mousePosition);
-  //   }
-  // })
   //ENTER EDIT MODE ON MOUSE ENTER
   $(document).on('mouseenter', '.thing', (e) => {
     thingBeingEdited = e.currentTarget.id;
     editMode = true;
     $('#thisUserAvatar').css('display', 'none');
     $(`#${thingBeingEdited}`).css('cursor', 'grab');
-    $(`#${thingBeingEdited}`).find('.sp-replacer').css('display','block')
+    $(`#${thingBeingEdited}`).find('.thingToolbox').css('display','flex')
+    if(textBeingDragged){
+      $(`#${thingBeingEdited}`).css('border', '2px solid yellow');
+    }
   })
   //EXIT EDIT MODE ON MOUSE LEAVE
   $(document).on('mouseleave', '.thing', (e) => {
@@ -159,26 +163,86 @@ $(document).ready(() => {
       editMode = false;
       $('#thisUserAvatar').css('display', 'block');
       $(`#${thingBeingEdited}`).css('cursor', 'none');
-      $(`#${thingBeingEdited}`).find('.sp-replacer').css('display','none')
+      $(`#${thingBeingEdited}`).find('.thingToolbox').css('display','none')
+      $(`#${thingBeingEdited}`).find('.thingMediaContainer').css('display','none')
+      if(textBeingDragged){
+        $(`#${thingBeingEdited}`).css('border', '0px solid yellow');
+      }
     }else{
       things[thingBeingDragged].updatePos(mousePosition);
     }
-  })
+  });
+  //Release Text on thing
+  $(document).on('mouseup', '.thing', (e) => {
+    if(textBeingDragged && !$(`#${thingBeingEdited}`).find(`#${textBeingDragged}`)[0]){
+      textBeingAttached = true;
+      $(`#${thingBeingEdited}`).append($(`#${textBeingDragged}`));
+      $(`#${textBeingDragged}`).css({
+        top : "auto",
+        left : "auto"
+      });
+      texts[textBeingDragged].pos.x = $(`#${textBeingDragged}`).position().left;
+      texts[textBeingDragged].pos.y = $(`#${textBeingDragged}`).position().top;
+      socket.emit("Text attached to thing", {
+        elemId : textBeingDragged,
+        textId : texts[textBeingDragged].textId,
+        newPos : texts[textBeingDragged].pos,
+        thing : thingBeingEdited,
+        thingId : things[thingBeingEdited].thingId
+      });
+    }
+    $(`#${thingBeingEdited}`).css('border', '0px solid yellow');
+  });
 
-  //KEY PRESSES
-  $(document).keydown(function(e) {
-    //Type some text with T in EditMode
-    // if(e.keyCode == 84 && editMode && !typeMode){
-    //   typeMode = true;
-    //   $(`#${thingBeingEdited}`).css('cursor', 'text')
-    // }
-    // //Pressing Enter
-    // else if(e.keyCode == 13 && userIsTyping){
-    //   userIsTyping = false;
-    //   typeMode = false;
-    //   $(`#${thingBeingEdited}`).css('cursor', 'grab')
-    // }
-    if(e.keyCode == 70 && editMode && !userIsTyping && !insideDimensionalDoor){
+  //Thing Media Container Toggle
+  $(document).on('click', '.thingMediaBtn', function(e) {
+    if(editMode){
+      let thisMedia = $(`#${thingBeingEdited}`).find('.thingMediaContainer');
+      if(thisMedia.css('display') == "none"){
+        thisMedia.css('display', 'flex');
+      }else{
+        thisMedia.css('display', 'none');
+      }
+    }
+  });
+
+  //Set Thing Image
+  $(document).on('click', '.thingImageInputBtn', function(e) {
+    let imageValue = $(`#${thingBeingEdited}`).find('.thingImageInput').val();
+    if(imageValue.length > 0){
+      $(`#${thingBeingEdited}`).css('backgroundImage', `url("${imageValue}")`)
+      things[thingBeingEdited].image = imageValue;
+      $(`#${thingBeingEdited}`).find('.thingImageInput').val("");
+      socket.emit("Set thing image", {
+        elemId : thingBeingEdited,
+        thingId : things[thingBeingEdited].thingId,
+        image : imageValue
+      });
+    }
+  });
+
+  //Set Thing Video
+  $(document).on('click', '.thingVideoInputBtn', function(e) {
+    let videoValue = $(`#${thingBeingEdited}`).find('.thingVideoInput').val();
+    let youtubeLink = 'https://www.youtube.com/watch?v=';
+    if(videoValue.length > 0 && videoValue.startsWith(youtubeLink)){
+      let thingVideoElem = $(`#${thingBeingEdited}`).find('.thingVideo');
+      videoValue = videoValue.replace("watch?v=", "embed/");
+      thingVideoElem.css('display', 'block');
+      thingVideoElem.attr('src', videoValue);
+      things[thingBeingEdited].video = videoValue;
+      $(`#${thingBeingEdited}`).find('.thingVideoInput').val("");
+      socket.emit("Set thing video", {
+        elemId : thingBeingEdited,
+        thingId : things[thingBeingEdited].thingId,
+        video : videoValue
+      });
+    }
+  });
+
+  //Delete Thing
+  $(document).on('click', '.thingDeleteBtn', function(e) {
+    if(editMode && !userIsTyping && !insideDimensionalDoor){
       $(`#${thingBeingEdited}`).remove();
       socket.emit('Thing got deleted', {
         docId : things[thingBeingEdited].thingId,
@@ -226,6 +290,18 @@ socket.on('Update thing size', (data) => {
     height : data.size.height
   })
 });
+
+socket.on("Set thing image", (data) => {
+  things[data.elemId].image = data.image;
+  $(`#${data.elemId}`).css("backgroundImage", `url("${data.image}")`);
+})
+
+socket.on("Set thing video", (data) => {
+  things[data.elemId].video = data.video;
+  $(`#${data.elemId}`).find('.thingVideo').css('display', 'block');
+  $(`#${data.elemId}`).find('.thingVideo').attr('src', data.video);
+
+})
 
 socket.on('Thing got deleted', (data) => {
   $(`#${data.elemId}`).remove();

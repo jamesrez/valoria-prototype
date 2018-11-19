@@ -14,10 +14,22 @@ if !doorRender
 .dimension
   if !doorRender
     include thing/livechat/livechat
+    include thing/text/text
     .things
       .thing.prototype.square
-        .thingText Welcome to Valoria!
-        input.thingColorInput
+        .thingToolbox
+          .thingTools
+            input.thingColorInput
+            .thingMediaBtn Media
+            .thingDeleteBtn Delete
+          .thingMediaContainer
+            .thingImageForm
+              input.thingImageInput(placeholder="Link to Image")
+              .thingImageInputBtn Set to Image
+            .thingVideoForm
+              input.thingVideoInput(placeholder="Link to Video")
+              .thingVideoInputBtn Embed Video
+        iframe.thingVideo
     .users
     .objects
   #thisUser
