@@ -44,6 +44,7 @@ function joinDimension(name){
     $('.objects').empty();
     objects = {};
     things = {};
+    texts = {};
     //SECOND WE MUST CLEAR THE MENU OPTIONS
     $('.availableAvatars').empty();
     $('.availableObjects').empty();
@@ -77,6 +78,13 @@ function joinDimension(name){
         }
       })
     })
+    //Load All Texts in Dimension
+    $.get(`/dimension/${dimension.name}/environment/texts`, (texts) => {
+      texts.forEach((text) => {
+        addNewText(text);
+      })
+    });
+
     $('#background').css('background-image', `url(${dimension.background.src})`)
     $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', dimension.background.src);
     let randAvatar = getRandomAvatar(dimension)
