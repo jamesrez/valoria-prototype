@@ -7,6 +7,7 @@
   font-size: 12px;
   text-align: center;
   z-index: 7;
+  white-space: pre-wrap;
 }
 
 .text:focus{

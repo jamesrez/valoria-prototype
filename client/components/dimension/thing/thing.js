@@ -225,9 +225,12 @@ $(document).ready(() => {
   $(document).on('click', '.thingVideoInputBtn', function(e) {
     let videoValue = $(`#${thingBeingEdited}`).find('.thingVideoInput').val();
     let youtubeLink = 'https://www.youtube.com/watch?v=';
-    if(videoValue.length > 0 && videoValue.startsWith(youtubeLink)){
+    if(videoValue.length > 0){
+      //If youtube
+      if(videoValue.startsWith(youtubeLink)){
+        videoValue = videoValue.replace("watch?v=", "embed/");
+      }
       let thingVideoElem = $(`#${thingBeingEdited}`).find('.thingVideo');
-      videoValue = videoValue.replace("watch?v=", "embed/");
       thingVideoElem.css('display', 'block');
       thingVideoElem.attr('src', videoValue);
       things[thingBeingEdited].video = videoValue;
