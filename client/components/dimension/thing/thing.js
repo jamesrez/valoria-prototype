@@ -225,10 +225,14 @@ $(document).ready(() => {
   $(document).on('click', '.thingVideoInputBtn', function(e) {
     let videoValue = $(`#${thingBeingEdited}`).find('.thingVideoInput').val();
     let youtubeLink = 'https://www.youtube.com/watch?v=';
+    let twitchLink = 'https://www.twitch.tv/';
     if(videoValue.length > 0){
-      //If youtube
+      //Convert Youtube or Twitch to embed link
       if(videoValue.startsWith(youtubeLink)){
         videoValue = videoValue.replace("watch?v=", "embed/");
+      }else if(videoValue.startsWith(twitchLink)){
+        let channelName = videoValue.slice(videoValue.lastIndexOf("/") + 1, videoValue.length);
+        videoValue = `https://player.twitch.tv/?channel=${channelName}`;
       }
       let thingVideoElem = $(`#${thingBeingEdited}`).find('.thingVideo');
       thingVideoElem.css('display', 'block');

@@ -8,8 +8,8 @@ let mousePosition = {
 }
 
 let screenPos = {
-  left : -50000,
-  top : -50000
+  left : 0,
+  top : 0
 };
 
 let scrolling = false;

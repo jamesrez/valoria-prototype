@@ -13,13 +13,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
 }
 
 .avatarPreview{
   margin-top: 20px;
   background-color: black;
-  width : 250px;
+  width: 300px;
   height : 250px;
   display : flex;
   flex-direction: column;
@@ -38,12 +38,22 @@
   color : white;
   font-weight: bold;
   text-align: center;
-  margin : 20px 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin : 30px 0px;
   background-color: #c81c1c;
   padding: 5px 10px;
-  border-radius: 8px;
+  border-radius: 25px;
   border : 5px solid white;
   cursor: pointer;
+  width : 250px;
+  height: 100px;
+}
+
+.selectYourAvatarBtnText{
+
 }
 
 .selectYourAvatarBtn:hover{
@@ -57,22 +67,26 @@
 
 .uploadAvatar{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  width: 75%;
+  width: 300px;
+  height: 150px;
+  margin: 10px 0px;
 }
 
 .uploadAvatarInput{
   font-size: 15px;
   padding: 10px 5px;
-  width : 50%;
+  width : 300px;
+  height: 40px
 }
 
 .uploadAvatarKey{
   font-size: 15px;
   padding: 10px 5px;
-  width : 30%;
+  width : 300px;
+  height: 40px;
 }
 
 .uploadAvatarBtn{
@@ -81,12 +95,12 @@
   color : white;
   font-weight: bold;
   text-align: center;
-  margin : 20px 0px;
   background-color: #ac49a2;
   padding: 5px 10px;
   border-radius: 8px;
   border : 5px solid white;
   cursor: pointer;
+  width: 275px;
 }
 
 .uploadAvatarBtn:hover{
@@ -102,13 +116,11 @@
   background-color:#557062;
   width : 100%;
   align-self: flex-end;
-  height : 200px;
+  height : 150px;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  border-bottom-right-radius: 25px;
-  border-bottom-left-radius: 25px;
 }
 
 .avatarSelection{

@@ -20,7 +20,10 @@ script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js")
 link(rel='stylesheet' href='/components/main.css')
 //Main.js
 script(src='/components/main.js')
-  
+
+meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
+
+
 //USER INFO
 if(currentUser)
   p#currentUserId(hidden)=currentUser.id
@@ -35,9 +38,9 @@ p#dimensionBackgroundSrc(hidden)=dimension.background.src
   
 //Environment
 include dimension/dimension
-  
-//Background
-include dimension/background/background
+//-   
+//- //Background
+//- include dimension/background/background
 
 //HUD
 if !doorRender

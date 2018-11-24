@@ -42,10 +42,12 @@ class User {
       // }
       this.pos.x = newPos.x;
       this.pos.y = newPos.y;
-      $('#thisUser').css({
-        left : this.pos.x,
-        top : this.pos.y
-      });
+      if(!scrollDir){
+        $('#thisUser').css({
+          left : this.pos.x,
+          top : this.pos.y
+        });
+      }
       socket.emit('User has moved', {
         socket : socket.id,
         newPos : this.pos,

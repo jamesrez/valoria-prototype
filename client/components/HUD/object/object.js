@@ -44,6 +44,7 @@ $(document).ready(() => {
     $('.menuSelectContainer').css('display', 'flex');
     $('#objectScreenSelect').find('.menuSelectionImg').attr('src', selectedObject);
     menuIsVisible = false;
+    $('.dimension').css('display', 'block');
     if(!fromMenuSelection){
       fromMenuSelection = true;
     }
