@@ -37,7 +37,7 @@ $(document).ready(() => {
     selectedObject = $('.objectSelected').find('.objectSrc').attr('src');
   });
 
-  $(document).on('click', '.selectObjectBtn', function(){
+  $(document).on('click', '.selectYourObjectBtn', function(){
     thisUser.object = selectedObject;
     $('.objectContainer').css('display', 'none');
     $('#menu').css('display', 'none');

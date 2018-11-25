@@ -6,7 +6,7 @@ $(document).ready(() => {
     let dimensionName = $('#dimensionName').text();
     socket.emit('New thing', {
       dimensionName : dimensionName,
-      pos : thisUser.pos,
+      pos : thisUser.realPos,
       kind : 'square'
     });
   })
@@ -17,7 +17,7 @@ $(document).ready(() => {
     let dimensionName = $('#dimensionName').text();
     socket.emit('New livechat', {
       dimensionName : dimensionName,
-      pos : thisUser.pos,
+      pos : thisUser.realPos,
       kind : 'livechat'
     });
   });
@@ -28,7 +28,7 @@ $(document).ready(() => {
     let dimensionName = $('#dimensionName').text();
     socket.emit('New door', {
       dimensionName : dimensionName,
-      pos : thisUser.pos,
+      pos : thisUser.realPos,
       kind : 'door'
     });
   })

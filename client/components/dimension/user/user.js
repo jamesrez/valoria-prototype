@@ -8,10 +8,14 @@ class User {
     this.dimension = null;
     this.username = null;
     this.direction = 'c';
-    this.pos = {
-      x : parseInt($('#thisUser').css('left')),
-      y : parseInt($('#thisUser').css('top'))
-    };
+    this.localPos = {
+      x : null,
+      y : null
+    },
+    this.realPos = {
+      x : null,
+      y : null
+    },
     this.width = parseInt($('#thisUser').css('width'));
     this.height = parseInt($('#thisUser').css('height'));
   }
@@ -20,6 +24,8 @@ class User {
     this.isVisible = true;
     $('#thisUser').css('display', 'block');
     $('#thisUserAvatar').attr('src', this.avatar);
+    this.realPos.x = $('#thisUser').css('left');
+    this.realPos.y = $('thisUser').css('top');
     socket.emit('Load Online Users', this.dimension);
     socket.emit('New User', {
       avatar : this.avatar,
@@ -40,17 +46,19 @@ class User {
       //   $('#thisUser').css('transform', 'scaleX(-1)')
       //   $('#thisUserAvatar').attr('src', 'https://i.imgur.com/rQTqkRW.gif')
       // }
-      this.pos.x = newPos.x;
-      this.pos.y = newPos.y;
+      this.localPos.x = newPos.x;
+      this.localPos.y = newPos.y;
       if(!scrollDir){
+        this.realPos.x = newPos.x - bpx;
+        this.realPos.y = newPos.y - bpy;
         $('#thisUser').css({
-          left : this.pos.x,
-          top : this.pos.y
+          left : this.localPos.x,
+          top : this.localPos.y
         });
       }
       socket.emit('User has moved', {
         socket : socket.id,
-        newPos : this.pos,
+        newPos : this.realPos,
         scrollDir : scrollDir,
         dimension : this.dimension
       });
@@ -64,7 +72,9 @@ class User {
       newObject.socket = this.socket;
       newObject.src = this.object;
       newObject.dimension = this.dimension;
-      newObject.renderAtPos(this.pos);
+      newObject.localPos = this.localPos;
+      newObject.pos = this.realPos;
+      newObject.renderAtPos(this.realPos);
       objects[newObject.elemId] = newObject;
       this.objectCount += 1;
       socket.emit('New Object', newObject);
@@ -77,14 +87,10 @@ $(document).ready(() => {
   //HAVE USER MOVE AT CURSOR
   //let mouseMoveTimer;
   $('.dimension').on('mousemove', function(e){
-    mousePosition.x = e.pageX - screenPos.left;
-    mousePosition.y = e.pageY - screenPos.top;
-    mouseOnScreenPos.x = e.pageX;
-    mouseOnScreenPos.y = e.pageY;
     if(!thisUser.isVisible && thisUser.avatar && thisUser.object){
       let newPos = {
-        x : mousePosition.x - (thisUser.width / 2),
-        y : mousePosition.y - (thisUser.height / 2),
+        x : e.pageX - (thisUser.width / 2),
+        y : e.pageY - (thisUser.height / 2),
       }
       thisUser.connectAtPos(newPos);
     }
@@ -99,8 +105,8 @@ $(document).ready(() => {
         $('#thisUser').css('display', 'block');
       }
       let newPos = {
-        x : mousePosition.x - (thisUser.width / 2),
-        y : mousePosition.y - (thisUser.height / 2),
+        x : e.pageX - (thisUser.width / 2),
+        y : e.pageY - (thisUser.height / 2),
       }
       thisUser.updatePos(newPos);
     }

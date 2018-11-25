@@ -13,6 +13,10 @@ class anObject {
     this.socket = socket;
     this.src = null;
     this.dimension = null;
+    this.localPos = {
+      x : null,
+      y : null
+    };
     this.pos = {
       x : null,
       y : null
@@ -28,11 +32,13 @@ class anObject {
       left : pos.x,
       top : pos.y
     });
-    this.pos = pos;
+    this.localPos = pos;
   }
   updatePos(newPos){
-    this.pos.x = newPos.x - (this.width / 2);
-    this.pos.y = newPos.y - (this.height / 2);
+    this.localPos.x = newPos.x;
+    this.localPos.y = newPos.y;
+    this.pos.x = newPos.x - bpx;
+    this.pos.y = newPos.y - bpy;
     $(`#${this.elemId}`).css({
       left : this.pos.x,
       top : this.pos.y
@@ -73,7 +79,10 @@ $(document).ready(() => {
 
   $('.dimension').on('mousemove', (e) => {
     if(objectBeingDragged){
-      objects[objectBeingDragged].updatePos(mousePosition);
+      objects[objectBeingDragged].updatePos({
+        x : e.pageX,
+        y : e.pageY
+      });
     }
   })
 

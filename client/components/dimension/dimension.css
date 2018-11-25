@@ -20,6 +20,10 @@ img{
   background-image: url("https://i.imgur.com/a4ycklR.png");
 }
 
+.environment{
+  position: absolute;
+}
+
 #thisUser{
   display: none;
   width : 150px;

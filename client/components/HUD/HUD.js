@@ -6,16 +6,20 @@ class ScrollZone {
     this.direction = direction;
   }
   startScrolling(){
-    let bpx = parseInt($('.dimension').css('backgroundPosition').split(' ')[0]);
-    let bpy = parseInt($('.dimension').css('backgroundPosition').split(' ')[1]);
+    bpx = parseInt($('.dimension').css('backgroundPosition').split(' ')[0]);
+    bpy = parseInt($('.dimension').css('backgroundPosition').split(' ')[1]);
       switch(this.direction){
         case 'left':
           bpx += 3;
-          thisUser.pos.x -= 3;
-          thisUser.updatePos(thisUser.pos, 'left');
+          thisUser.realPos.x -= 3;
+          thisUser.updatePos(thisUser.realPos, 'left');
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
+          $('.environment').css({
+            left : bpx,
+            top : bpy
+          })
           // $('#background').css({
           //   left : screenPos.left,
           // })
@@ -27,11 +31,15 @@ class ScrollZone {
         break;
         case 'right':
           bpx -= 3;
-          thisUser.pos.x += 3;
-          thisUser.updatePos(thisUser.pos, 'right')
+          thisUser.realPos.x += 3;
+          thisUser.updatePos(thisUser.realPos, 'right')
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
+          $('.environment').css({
+            left : bpx,
+            top : bpy
+          })
           // $('#thisUserScroll').css({
           //   left : "-45px",
           //   top : "-20px",
@@ -42,11 +50,15 @@ class ScrollZone {
           break;
         case 'up':
           bpy += 3;
-          thisUser.pos.y -= 3;
-          thisUser.updatePos(thisUser.pos, 'up');
+          thisUser.realPos.y -= 3;
+          thisUser.updatePos(thisUser.realPos, 'up');
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
+          $('.environment').css({
+            left : bpx,
+            top : bpy
+          })
           // $('#thisUserScroll').css({
           //   display : "block",
           //   left : "-25px",
@@ -57,11 +69,15 @@ class ScrollZone {
           break;
         case 'down':
           bpy -= 3;
-          thisUser.pos.y += 3;
-          thisUser.updatePos(thisUser.pos, 'down')
+          thisUser.realPos.y += 3;
+          thisUser.updatePos(thisUser.realPos, 'down')
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
+          $('.environment').css({
+            left : bpx,
+            top : bpy
+          })
           // $('#thisUserScroll').css({
           //   display : "block",
           //   left : "-30px",
@@ -73,12 +89,16 @@ class ScrollZone {
         case 'upleft':
           bpx += 3;
           bpy += 3;
-          thisUser.pos.x -= 3;
-          thisUser.pos.y -= 3;
-          thisUser.updatePos(thisUser.pos, 'upleft');
+          thisUser.realPos.x -= 3;
+          thisUser.realPos.y -= 3;
+          thisUser.updatePos(thisUser.realPos, 'upleft');
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
+          $('.environment').css({
+            left : bpx,
+            top : bpy
+          })
           // $('#thisUserScroll').css({
           //   display : "block",
           //   transform: "rotate(45deg)",
@@ -90,12 +110,16 @@ class ScrollZone {
         case 'upright':
           bpx -= 3;
           bpy += 3;
-          thisUser.pos.x += 3;
-          thisUser.pos.y -= 3;
-          thisUser.updatePos(thisUser.pos, 'upright');
+          thisUser.realPos.x += 3;
+          thisUser.realPos.y -= 3;
+          thisUser.updatePos(thisUser.realPos, 'upright');
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
+          $('.environment').css({
+            left : bpx,
+            top : bpy
+          })
           // $('#thisUserScroll').css({
           //   display : "block",
           //   transform: "rotate(135deg) scaleY(-1)",
@@ -107,12 +131,16 @@ class ScrollZone {
         case 'downleft':
           bpx += 3;
           bpy -= 3;
-          thisUser.pos.x -= 3;
-          thisUser.pos.y += 3;
-          thisUser.updatePos(thisUser.pos, 'downleft');
+          thisUser.realPos.x -= 3;
+          thisUser.realPos.y += 3;
+          thisUser.updatePos(thisUser.realPos, 'downleft');
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
+          $('.environment').css({
+            left : bpx,
+            top : bpy
+          })
           // $('#thisUserScroll').css({
           //   display : "block",
           //   transform: "rotate(-45deg)",
@@ -124,12 +152,16 @@ class ScrollZone {
         case 'downright':
           bpx -= 3;
           bpy -= 3;
-          thisUser.pos.x += 3;
-          thisUser.pos.y += 3;
-          thisUser.updatePos(thisUser.pos, 'downright');
+          thisUser.realPos.x += 3;
+          thisUser.realPos.y += 3;
+          thisUser.updatePos(thisUser.realPos, 'downright');
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
+          $('.environment').css({
+            left : bpx,
+            top : bpy
+          })
           // $('#thisUserScroll').css({
           //   display : "block",
           //   transform: "rotate(45deg) scaleX(-1)",

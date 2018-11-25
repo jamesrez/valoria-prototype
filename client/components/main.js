@@ -7,10 +7,8 @@ let mousePosition = {
   y : null
 }
 
-let screenPos = {
-  left : 0,
-  top : 0
-};
+let bpx = 0;
+let bpy = 0;
 
 let scrolling = false;
 let objectTotal = 0;
