@@ -7,21 +7,21 @@ script(src='/components/HUD/object/object.js')
     if dimension.ownerChooseObjects
       .objectPreview
         img.objectPreviewSrc(src=dimension.objects[0].src)
-      .objectPreviewKey=dimension.objects[0].key
+      //- .objectPreviewKey=dimension.objects[0].key
     else
       .avatarPreview
         img.avatarPreviewSrc(src=currentUser.objects[0].src)
-      .avatarPreviewKey=currentUser.objects[0].key
+      //- .avatarPreviewKey=currentUser.objects[0].key
     if dimension.ownerChooseObjects
       if currentUser.id == dimension.owner
         .uploadObject
           input.uploadObjectInput(placeholder='Link to Image you are Uploading')
-          input.uploadObjectKey(placeholder='Name for your Image')
+          //- input.uploadObjectKey(placeholder='Name for your Image')
           .uploadObjectBtn(onClick = "uploadObjectToDimension()") Upload
     else 
       .uploadObject
         input.uploadObjectInput(placeholder='Link to Image you are Uploading')
-        input.uploadObjectKey(placeholder='Name for your Image')
+        //- input.uploadObjectKey(placeholder='Name for your Image')
         .uploadObjectBtn(onClick = "uploadObjectToUser()") Upload
     .availableObjects
       if dimension.ownerChooseObjects

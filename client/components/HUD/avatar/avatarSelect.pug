@@ -7,21 +7,21 @@ script(src='/components/HUD/avatar/avatar.js')
     if dimension.ownerChooseAvatars && dimension.avatars[0]
       .avatarPreview
         img.avatarPreviewSrc(src=dimension.avatars[0].src)
-      .avatarPreviewKey=dimension.avatars[0].key
+      //- .avatarPreviewKey=dimension.avatars[0].key
     else
       .avatarPreview
         img.avatarPreviewSrc(src=currentUser.avatars[0].src)
-      .avatarPreviewKey=currentUser.avatars[0].key
+      //- .avatarPreviewKey=currentUser.avatars[0].key
     if dimension.ownerChooseAvatars
       if currentUser.id == dimension.owner
         .uploadAvatar
           input.uploadAvatarInput(placeholder='Link to Image you are Uploading')
-          input.uploadAvatarKey(placeholder='Name for your Image')
+          //- input.uploadAvatarKey(placeholder='Name for your Image')
           .uploadAvatarBtn(onClick = "uploadAvatarToDimension()") Upload
     else
       .uploadAvatar
         input.uploadAvatarInput(placeholder='Link to Image you are Uploading')
-        input.uploadAvatarKey(placeholder='Name for your Image')
+        //- input.uploadAvatarKey(placeholder='Name for your Image')
         .uploadAvatarBtn(onClick = "uploadAvatarToUser()") Upload
     .availableAvatars
       if dimension.ownerChooseAvatars

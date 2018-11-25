@@ -56,14 +56,13 @@ $(document).ready(() => {
 function uploadObjectToUser(){
 
   let objectSrc = $('.uploadObjectInput').val();
-  let objectKey = $('.uploadObjectKey').val();
+  // let objectKey = $('.uploadObjectKey').val();
   let userId = $('#currentUserId').text();
 
 
-  if(objectSrc.length > 0 && objectKey.length > 0){
+  if(objectSrc.length > 0){
     let newObject = {
       src : objectSrc,
-      key : objectKey
     }
 
     axios.post(`/user/${userId}/objects/new`, {newObject}).then(response => {
