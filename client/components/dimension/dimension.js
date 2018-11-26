@@ -9,6 +9,11 @@ $(document).ready(() => {
   let backgroundSrc = $('#dimensionBackgroundSrc').text();
   $('.dimension').css('background-image', `url(${backgroundSrc})`);
 
+  $('.dimension').on('mousemove', (e) => {
+    mouseOnScreenPos.x = e.pageX;
+    mouseOnScreenPos.y = e.pageY;
+  })
+
   //KEY PRESSES. *** SHOULD BE SPECIFIC TO EVERY DIMENSION. ***
   $(document).keyup(function(e) {
     let mouseElem;
