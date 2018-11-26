@@ -36,6 +36,7 @@ function loginUser(){
       }
     })
   }
+
 }
 
 $(document).on('keyup', (e) => {
