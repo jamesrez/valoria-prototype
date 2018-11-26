@@ -2,9 +2,9 @@ html, body {
   margin : 0px;
   overflow-y: hidden;
   overflow-x: hidden;
-  overscroll-behavior : none;
 }
 
 body {
   position: relative;
+  overscroll-behavior-y: contain;
 }
