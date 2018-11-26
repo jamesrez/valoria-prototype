@@ -7,7 +7,6 @@ let dimensionName = null;
 $(document).ready(() => {
   dimensionName = $('#dimensionName').text();
   let backgroundSrc = $('#dimensionBackgroundSrc').text();
-  console.log(backgroundSrc);
   $('.dimension').css('background-image', `url(${backgroundSrc})`);
 
   //KEY PRESSES. *** SHOULD BE SPECIFIC TO EVERY DIMENSION. ***

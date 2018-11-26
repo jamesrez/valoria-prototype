@@ -37,12 +37,13 @@ module.exports = (io, socket, onlineUsers) => {
     Door.findById(data.docId).then((door) => {
       Dimension.findOne({name : data.doorDimension}).then((dimension)=>{
         door.dimension = data.doorDimension;
-        door.dimensionLink = `/dimension/${data.doorDimension}/door`
+        door.dimensionLink = `/dimension/${data.doorDimension}/door`;
+        door.dimensionBackground = dimension.background.src;
         door.save().then((door) => {
           let doorData = {
             elemId : data.elemId,
-            doorDimensionLink : dimension ? `/dimension/${data.doorDimension}/door` : false,
-            doorDimension : dimension ? data.doorDimension : false
+            doorDimension : dimension ? data.doorDimension : false,
+            dimensionBackground : dimension.background.src
           }
           io.to(data.dimensionName).emit('Set door dimension', doorData);
           Thing.findById(door.thingId).then((thing) => {

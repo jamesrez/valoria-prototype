@@ -47,7 +47,7 @@ module.exports = (app) => {
           let newDimension = new Dimension;
           newDimension.name = req.body.name.toLowerCase();
           newDimension.desc = req.body.desc;
-          newDimension.owner = req.user.id,
+          newDimension.owner = req.user.username,
           newDimension.ownerChooseAvatars = req.body.ownerChooseAvatars;
           newDimension.ownerChooseObjects = req.body.ownerChooseObjects;
           newDimension.ownerChooseBackground = req.body.ownerChooseBackground;

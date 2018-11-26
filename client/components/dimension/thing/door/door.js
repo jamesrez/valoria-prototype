@@ -11,7 +11,7 @@ function addNewDoor(thing, door){
   things[thing.elemId].renderAtPos(thing.kind);
   if(door.dimension){
     $(`#${thing.elemId}`).css('justify-content', 'center');
-    $(`#${thing.elemId}`).find('.doorDimension').attr('src', door.dimensionLink);
+    $(`#${thing.elemId}`).find('.doorDimension').css('backgroundImage', `url("${door.dimensionBackground}")`);
     $(`#${thing.elemId}`).find('.doorDimensionName').val(door.dimension);
     $(`#${thing.elemId}`).find('.doorForm').css('display', 'none');
     $(`#${thing.elemId}`).find('.doorText').text(`Click to Join ${door.dimension}`);
@@ -85,7 +85,7 @@ function joinDimension(name){
       })
     });
 
-    $('#background').css('background-image', `url(${dimension.background.src})`)
+    $('.dimension').css('background-image', `url(${dimension.background.src})`)
     $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', dimension.background.src);
     let randAvatar = getRandomAvatar(dimension)
     $('#thisUserAvatar').attr('src', randAvatar);
@@ -154,17 +154,8 @@ $(document).on('mouseenter', (e) => {
 })
 
 // Click Inside Dimensional Door
-$(window).on('blur', (e) => {
+$(document).on('mouseup', '.doorDimension', (e) => {
   if(insideDimensionalDoor){
-    let doorDimension = $(`#${insideDimensionalDoor}`).find('.doorDimensionName').val();
-    joinDimension(doorDimension);
-  }
-})
-
-// Press enter inside dimensional door
-$(document).on('keyup', (e) => {
-  //ENTER KEY and Inside Dimensional Door
-  if(e.keyCode == 13 && insideDimensionalDoor){
     let doorDimension = $(`#${insideDimensionalDoor}`).find('.doorDimensionName').val();
     joinDimension(doorDimension);
   }
@@ -186,7 +177,7 @@ socket.on('Set door dimension', data => {
     $(`#${data.elemId}`).css('background-color', 'rgba(0,0,0,0)');
     $(`#${data.elemId}`).find('.doorForm').css('display', 'none');
     $(`#${data.elemId}`).find('.doorDimensionContainer').css('display', 'flex');
-    $(`#${data.elemId}`).find('.doorDimension').attr('src', data.doorDimensionLink);
+    $(`#${data.elemId}`).find('.doorDimension').css('backgroundImage', `url("${data.dimensionBackground}")`);
     $(`#${data.elemId}`).find('.doorDimensionName').val(data.doorDimension);
     $(`#${data.elemId}`).find('.doorText').text(`Click to Join ${data.doorDimension}`);
   }else{
