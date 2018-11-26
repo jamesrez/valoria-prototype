@@ -13,7 +13,7 @@ img{
   z-index: 4;
   cursor: none;
   transform: translateZ(0);
-  display: none;
+  display: flex;
   /*left : -50000;
   top : -50000;*/
   background-position: 0px 0px;
