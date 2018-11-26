@@ -1,3 +1,8 @@
+function showErr(error){
+  $('.authErrorContainer').css('display', 'block');
+  $('.authError').text(error);
+}
+
 function registerUser(){
   let username = $('.authUsername').val();
   let password = $('.authPassword').val();
@@ -5,8 +10,12 @@ function registerUser(){
   if(username.length > 0 && password.length > 0){
     axios.post('/register', {
       username, password
-    }).then(() => {
-      window.location = '/';
+    }).then((res) => {
+      if(res.data.err){
+        showErr(res.data.err);
+      }else{
+        window.location = '/';
+      }
     })
   }
 
@@ -19,8 +28,12 @@ function loginUser(){
   if(username.length > 0 && password.length > 0){
     axios.post('/login', {
       username, password
-    }).then(() => {
-      window.location = '/';
+    }).then((res) => {
+      if(res.data.err){
+        showErr(res.data.err);
+      }else{
+        window.location = '/';
+      }
     })
   }
 }

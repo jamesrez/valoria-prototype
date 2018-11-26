@@ -7,7 +7,7 @@ module.exports = (app) => {
   app.post('/register', (req, res) => {
     User.findOne({username : req.body.username}).then((user) => {
       if(user){
-        res.status(400).send("User Already Exists");
+        res.send({err : "User Already Exists"});
       }else{
         let newUser = new User;
         newUser.username = req.body.username;
@@ -43,10 +43,10 @@ module.exports = (app) => {
   app.post('/login', (req, res) => {
     User.findOne({username : req.body.username}).then((user) => {
       if(!user){
-        res.status(400).send("User does not exist");
+        res.send({err : "Username does not exist" });
       }
       else if(!user.validPassword(req.body.password)){
-        res.status(400).send("Incorrect Password");
+        res.send({err : "Incorrect Password" });
       }else{
         // generate a JWT for this user from the user's id and the secret key
         let token = jwt.sign({
