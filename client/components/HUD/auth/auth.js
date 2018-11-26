@@ -24,3 +24,10 @@ function loginUser(){
     })
   }
 }
+
+$(document).on('keyup', (e) => {
+  if(e.keyCode == 13){
+    e.preventDefault();
+    loginUser();
+  }
+})
