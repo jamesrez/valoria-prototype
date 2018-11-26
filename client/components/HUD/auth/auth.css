@@ -58,11 +58,10 @@
 
 .authRegister{
   border : 5px solid white;
-  background-color: #c81c1c;
+  background-color: rgb(195, 36, 141);
   padding: 10px;
   width : 100%;
   text-align: center;
-  margin-bottom: 10px;
   cursor: pointer;
 }
 
@@ -72,9 +71,10 @@
 
 .authLogin{
   border: 5px solid white;
-  background-color: #ac49a2;
+  background-color: #c81c1c;
   padding: 10px;
   width : 100%;
+  margin-bottom: 10px;
   text-align: center;
   cursor: pointer;
 }
