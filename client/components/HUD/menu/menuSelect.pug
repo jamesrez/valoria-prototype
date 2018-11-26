@@ -24,7 +24,7 @@ script(src='/components/HUD/menu/menuSelect.js')
       .menuSelectionLabelContainer
         .menuSelectionLabel Spawn Text
     if dimension.ownerChooseBackground
-      if currentUser.id == dimension.owner
+      if currentUser.username == dimension.owner
         #backgroundScreenSelect.menuSelection
           .menuSelectionImgContainer
             img.menuSelectionImg

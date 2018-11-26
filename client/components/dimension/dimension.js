@@ -6,6 +6,9 @@ let dimensionName = null;
 
 $(document).ready(() => {
   dimensionName = $('#dimensionName').text();
+  let backgroundSrc = $('#dimensionBackgroundSrc').text();
+  console.log(backgroundSrc);
+  $('.dimension').css('background-image', `url(${backgroundSrc})`);
 
   //KEY PRESSES. *** SHOULD BE SPECIFIC TO EVERY DIMENSION. ***
   $(document).keyup(function(e) {
@@ -28,3 +31,8 @@ $(document).ready(() => {
   });
 
 });
+
+socket.on('Background Change', (newBackground) => {
+  $('.dimension').css('background-image', `url(${newBackground.src})`)
+  $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', newBackground.src);
+})

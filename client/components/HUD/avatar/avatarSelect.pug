@@ -13,7 +13,7 @@ script(src='/components/HUD/avatar/avatar.js')
         img.avatarPreviewSrc(src=currentUser.avatars[0].src)
       //- .avatarPreviewKey=currentUser.avatars[0].key
     if dimension.ownerChooseAvatars
-      if currentUser.id == dimension.owner
+      if currentUser.username == dimension.owner
         .uploadAvatar
           input.uploadAvatarInput(placeholder='Link to Image you are Uploading')
           //- input.uploadAvatarKey(placeholder='Name for your Image')

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-
 //Dimensions should only be as big as needed
 const DimensionSchema = new Schema({
   size : {

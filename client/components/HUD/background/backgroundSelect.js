@@ -58,7 +58,7 @@ $(document).ready(() => {
 
   $(document).on('click', '.selectBackgroundBtn', function(){
     if(selectedBackground.src != backgroundSrc && selectedBackground.src){
-      $('#background').css("background-image", `url(${selectedBackground.src})`)
+      $('.dimension').css("background-image", `url(${selectedBackground.src})`)
       $('#backgroundScreenSelect').find('.menuSelectionImg').attr('src', selectedBackground.src);
       socket.emit('Background Change', {
         dimensionName : dimensionName,
