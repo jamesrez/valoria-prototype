@@ -42,7 +42,7 @@ $(document).ready(() => {
   }
 })
 
-$(document).on("touchmove", function(event) {
+$(document.body).on("touchmove", function(event) {
     event.preventDefault();
     event.stopPropagation();
 });
