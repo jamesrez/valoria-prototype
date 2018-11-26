@@ -5,12 +5,12 @@ const jwt = require('jsonwebtoken');
 module.exports = (app) => {
 
   app.post('/register', (req, res) => {
-    User.findOne({username : req.body.username}).then((user) => {
+    User.findOne({username : req.body.username.toLowerCase()}).then((user) => {
       if(user){
         res.send({err : "User Already Exists"});
       }else{
         let newUser = new User;
-        newUser.username = req.body.username;
+        newUser.username = req.body.username.toLowerCase();
         newUser.password = newUser.generateHash(req.body.password);
         newUser.avatars.push({
           key : "Valorian",
@@ -41,7 +41,7 @@ module.exports = (app) => {
   });
 
   app.post('/login', (req, res) => {
-    User.findOne({username : req.body.username}).then((user) => {
+    User.findOne({username : req.body.username.toLowerCase()}).then((user) => {
       if(!user){
         res.send({err : "Username does not exist" });
       }
