@@ -18,6 +18,13 @@ img{
   top : -50000;*/
   background-position: 0px 0px;
   background-image: url("https://i.imgur.com/a4ycklR.png");
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 .environment{
