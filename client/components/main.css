@@ -6,5 +6,5 @@ html, body {
 
 body {
   position: relative;
-  overscroll-behavior-y: contain;
+  overscroll-behavior: contain;
 }
