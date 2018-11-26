@@ -5,5 +5,5 @@ html, body {
 }
 
 body {
-  position: fixed;
+  position: relative;
 }
