@@ -4,6 +4,9 @@
   position : absolute;
   z-index: 5;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 #menuContainer{

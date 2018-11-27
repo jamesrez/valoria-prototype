@@ -1,6 +1,24 @@
 menuIsVisible = true;
 let fromMenuSelection = false;
 
+function toggleMenu(){
+  if(menuIsVisible){
+    $('#menu').css('display', 'none');
+    menuIsVisible = false;
+    $('.dimension').css('display', 'block');
+  }else{
+    $('#menu').css('display', 'flex');
+    $('.menuSelectContainer').css('display', 'flex');
+    $('.objectContainer').css('display', 'none');
+    $('.avatarContainer').css('display', 'none');
+    $('.backgroundContainer').css('display', 'none');
+    $('.newDimensionContainer').css('display', 'none');
+    $('.thingSelectContainer').css('display', 'none');
+    menuIsVisible = true
+    fromMenuSelection = true;
+  }
+}
+
 class ScrollZone {
   constructor(direction) {
     this.direction = direction;
@@ -193,23 +211,6 @@ $(document).ready(() => {
     upright : new ScrollZone('upright'),
     downleft : new ScrollZone('downleft'),
     downright : new ScrollZone('downright')
-  }
-  function toggleMenu(){
-    if(menuIsVisible){
-      $('#menu').css('display', 'none');
-      menuIsVisible = false;
-      $('.dimension').css('display', 'block');
-    }else{
-      $('#menu').css('display', 'flex');
-      $('.menuSelectContainer').css('display', 'flex');
-      $('.objectContainer').css('display', 'none');
-      $('.avatarContainer').css('display', 'none');
-      $('.backgroundContainer').css('display', 'none');
-      $('.newDimensionContainer').css('display', 'none');
-      $('.thingSelectContainer').css('display', 'none');
-      menuIsVisible = true
-      fromMenuSelection = true;
-    }
   }
 
   //KEY PRESSES

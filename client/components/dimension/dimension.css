@@ -205,3 +205,7 @@ img{
   height :85%;
   border: 0px;
 }
+
+.music{
+  display: none;
+}

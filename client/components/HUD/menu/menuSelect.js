@@ -44,4 +44,8 @@ $(document).ready(() => {
     })
   })
 
+  $(document).on('click', '.closeMenuBtn', function() {
+    toggleMenu();
+  })
+
 })

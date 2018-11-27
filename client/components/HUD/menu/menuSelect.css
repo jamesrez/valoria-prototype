@@ -17,13 +17,14 @@
 }
 
 .menuSelection{
-  width : 15%;
-  height : 30%;
+  width : 150px;
+  height : 150px;
   /*border : 2px solid yellow;*/
   display: flex;
   flex-direction: column;
   border : 2px solid white;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .menuSelection:hover{
@@ -64,17 +65,48 @@
   text-align: center;
 }
 
+.menuBtns{
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  text-align: center;
+}
+
 .logoutBtn{
+  width: 150px;
   font-size: 20px;
   color: white;
   font-family: futura;
   font-weight: bold;
   border : 3px solid white;
   border-radius: 10px;
-  padding : 10px 5px;
+  padding : 10px;
   cursor: pointer;
+  width: 100px;
+  margin-bottom: 50px;
 }
 
 .logoutBtn:hover{
   background-color: #557062;
+}
+
+.closeMenuBtn{
+  font-size: 20px;
+  font-family: futura;
+  color : white;
+  font-weight: bold;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #c81c1c;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border : 5px solid white;
+  cursor: pointer;
+  width : 200px;
+  height: 50px;
 }
