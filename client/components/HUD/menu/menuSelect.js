@@ -24,7 +24,7 @@ $(document).ready(() => {
     let dimensionName = $('#dimensionName').text();
     socket.emit('New text', {
       dimensionName : dimensionName,
-      pos : thisUser.pos,
+      pos : thisUser.realPos,
     });
   })
 
