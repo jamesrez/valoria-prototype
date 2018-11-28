@@ -48,6 +48,7 @@ module.exports = (app) => {
       else if(!user.validPassword(req.body.password)){
         res.send({err : "Incorrect Password" });
       }else{
+        console.log(`${user.username} is trying to log in`);
         // generate a JWT for this user from the user's id and the secret key
         let token = jwt.sign({
           id: user._id,
@@ -57,6 +58,7 @@ module.exports = (app) => {
           backgrounds : user.backgrounds
         }, process.env.JWT_SECRET, { expiresIn: "60 days"});
         res.cookie('userToken', token);
+        console.log(`Cookie created: \n${token}`)
         res.redirect('/');
       }
     })
