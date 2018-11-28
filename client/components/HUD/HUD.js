@@ -1,5 +1,52 @@
 menuIsVisible = true;
 let fromMenuSelection = false;
+let keysBeingPressed = {};
+let movementSpeed = 3;
+
+//MOVING WITH WASD
+let scrollInterval = {};
+function moveScreen(direction){
+  if(thisUser.isVisible){
+    // scrolling = true;
+    scrollInterval[direction] = setInterval(function () {
+      //Move the Screen
+      bpx = parseInt($('.dimension').css('backgroundPosition').split(' ')[0]);
+      bpy = parseInt($('.dimension').css('backgroundPosition').split(' ')[1]);
+      if(direction == 'left'){
+        bpx += movementSpeed;
+        thisUser.realPos.x -= movementSpeed;
+      }
+      if(direction == 'right'){
+        bpx -= movementSpeed;
+        thisUser.realPos.x += movementSpeed;
+      }
+      if(direction == 'up'){
+        bpy += movementSpeed;
+        thisUser.realPos.y -= movementSpeed;
+      }
+      if(direction == 'down'){
+        bpy -= movementSpeed;
+        thisUser.realPos.y += movementSpeed;
+      }
+      thisUser.updatePos(thisUser.realPos, 'left');
+      $('.dimension').css({
+        backgroundPosition : `${bpx} ${bpy}`
+      });
+      $('.environment').css({
+        left : bpx,
+        top : bpy
+      })
+    }, 10);
+  }
+};
+
+function stopScreen(direction){
+  if(thisUser.isVisible){
+    scrolling = false;
+    socket.emit('User stopped scrolling', thisUser.dimension);
+    clearInterval(scrollInterval[direction]);
+  }
+}
 
 function toggleMenu(){
   if(menuIsVisible){
@@ -38,14 +85,6 @@ class ScrollZone {
             left : bpx,
             top : bpy
           })
-          // $('#background').css({
-          //   left : screenPos.left,
-          // })
-          // $('#thisUserScroll').css({
-          //   display : "block",
-          //   top : "-22px",
-          //   left : "-7px",
-          // })
         break;
         case 'right':
           bpx -= 3;
@@ -58,13 +97,6 @@ class ScrollZone {
             left : bpx,
             top : bpy
           })
-          // $('#thisUserScroll').css({
-          //   left : "-45px",
-          //   top : "-20px",
-          //   "-webkit-transform": "scaleX(-1)",
-          //   transform: "scaleX(-1)",
-          //   display : "block"
-          // })
           break;
         case 'up':
           bpy += 3;
@@ -77,13 +109,6 @@ class ScrollZone {
             left : bpx,
             top : bpy
           })
-          // $('#thisUserScroll').css({
-          //   display : "block",
-          //   left : "-25px",
-          //   top : "-5px",
-          //   "-webkit-transform": "rotate(90deg)",
-          //   transform: "rotate(90deg)",
-          // })
           break;
         case 'down':
           bpy -= 3;
@@ -96,13 +121,6 @@ class ScrollZone {
             left : bpx,
             top : bpy
           })
-          // $('#thisUserScroll').css({
-          //   display : "block",
-          //   left : "-30px",
-          //   top : "-45px",
-          //   "-webkit-transform" : "rotate(-90deg)",
-          //   transform : "rotate(-90deg)"
-          // })
           break;
         case 'upleft':
           bpx += 3;
@@ -117,13 +135,6 @@ class ScrollZone {
             left : bpx,
             top : bpy
           })
-          // $('#thisUserScroll').css({
-          //   display : "block",
-          //   transform: "rotate(45deg)",
-          //   "-webkit-transform" : "rotate(45deg)",
-          //   left : "-15px",
-          //   top : "-10px"
-          // })
           break
         case 'upright':
           bpx -= 3;
@@ -138,13 +149,6 @@ class ScrollZone {
             left : bpx,
             top : bpy
           })
-          // $('#thisUserScroll').css({
-          //   display : "block",
-          //   transform: "rotate(135deg) scaleY(-1)",
-          //   "-webkit-transform" : "rotate(135deg) scaleY(-1)",
-          //   left : "-40px",
-          //   top : "-10px"
-          // })
           break
         case 'downleft':
           bpx += 3;
@@ -159,13 +163,6 @@ class ScrollZone {
             left : bpx,
             top : bpy
           })
-          // $('#thisUserScroll').css({
-          //   display : "block",
-          //   transform: "rotate(-45deg)",
-          //   "-webkit-transform" : "rotate(-45deg)",
-          //   left : "-10px",
-          //   top : "-40px"
-          // })
           break
         case 'downright':
           bpx -= 3;
@@ -180,13 +177,6 @@ class ScrollZone {
             left : bpx,
             top : bpy
           })
-          // $('#thisUserScroll').css({
-          //   display : "block",
-          //   transform: "rotate(45deg) scaleX(-1)",
-          //   "-webkit-transform" : "rotate(45deg) scaleX(-1)",
-          //   left : "-45px",
-          //   top : "-45px"
-          // })
           break
       }
   }
@@ -215,36 +205,85 @@ $(document).ready(() => {
 
   //KEY PRESSES
   $(document).keydown(function(e) {
+    if(e.keyCode == 27){
+      toggleMenu();
+    }else{
+      switch(e.keyCode){
+        //W
+        case 87:
+          if(!keysBeingPressed["w"]){
+            keysBeingPressed["w"] = true;
+            moveScreen("up");
+          }
+          break;
+        //A
+        case 65:
+          if(!keysBeingPressed["a"]){
+            keysBeingPressed["a"] = true;
+            moveScreen("left")
+          }
+          break;
+        //S
+        case 83:
+          if(!keysBeingPressed["s"]){
+            keysBeingPressed["s"] = true;
+            moveScreen("down")
+          }
+          break;
+        //D
+        case 68:
+          if(!keysBeingPressed["d"]){
+            keysBeingPressed["d"] = true;
+            moveScreen("right")
+          }
+          break;
+        //Shift
+        case 16:
+          if(!keysBeingPressed["shift"]){
+            keysBeingPressed["shift"] = true;
+            movementSpeed += 5;
+          }
+          break;
+      }
+    }
+  });
+
+  $(document).keyup(function(e) {
     switch(e.keyCode){
-      //ESC
-      case 27:
-        if(fromMenuSelection){
-          toggleMenu();
-        }
+      //W
+      case 87:
+        delete keysBeingPressed["w"];
+        stopScreen("up");
+        break;
+      //A
+      case 65:
+        delete keysBeingPressed["a"];
+        stopScreen("left");
+        break;
+      //S
+      case 83:
+        delete keysBeingPressed["s"];
+        stopScreen("down");
+        break;
+      //D
+      case 68:
+        delete keysBeingPressed["d"];
+        stopScreen("right");
+        break;
+      //Shift
+      case 16:
+        delete keysBeingPressed["shift"];
+        movementSpeed -= 5;
+        stopScreen("shift");
         break;
     }
   });
 
-  //WHAT HAPPENS WHEN YOU HAVE THE MOUSE OVER ANY OF THE SCROLL ZONES
-  let scrollInterval = null;
-  $('.scrollZone').mouseover((e) => {
-    if(thisUser.isVisible){
-      scrolling = true;
-      scrollInterval = setInterval(function () {
-        scrollZones[e.target.attributes[2].nodeValue].startScrolling();
-      }, 10);
-    }
-  });
+
+
   $('.scrollZone').mouseout((e) => {
     if(thisUser.isVisible){
-      scrolling = false;
-      // $('#thisUserScroll').css({
-      //   display : 'none',
-      //   "-webkit-transform": "scaleX(1)",
-      //   transform: "scaleX(1)",
-      //   "-webkit-transform": "rotate(0deg)",
-      //   transform: "rotate(0deg)"
-      // });
+      // scrolling = false;
       socket.emit('User stopped scrolling', thisUser.dimension);
       clearInterval(scrollInterval);
     }
