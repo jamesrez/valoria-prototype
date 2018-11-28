@@ -49,7 +49,7 @@ app.get('/', (req, res) => {
       }
       Dimension.findOne({name : 'main'}).then((dimension) => {
         if(dimension && dimension.avatars[0]){
-          console.log(`\nTime to Render\n${user});
+          console.log(`\nTime to Render\n${user}`);
           res.render('components/main', {
             currentUser : user,
             dimension : dimension
