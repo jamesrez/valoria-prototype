@@ -45,6 +45,9 @@ $(document).ready(() => {
     $('#objectScreenSelect').find('.menuSelectionImg').attr('src', selectedObject);
     menuIsVisible = false;
     $('.dimension').css('display', 'block');
+    if(!thisUser.isVisible){
+      thisUser.connectAtPos({x : 150, y : 300})
+    }
     if(!fromMenuSelection){
       fromMenuSelection = true;
     }
