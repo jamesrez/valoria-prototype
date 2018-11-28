@@ -4,10 +4,59 @@
   height : 100px;
   background-color: #5d8c73;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   pointer-events: all;
+  text-align: center;
+  color : white;
+  font-weight: bold;
+  font-size: 18px;
+  font-family: futura;
 }
+
+.verticalMoveBtns{
+  display: flex;
+  flex-direction: column;
+  width : 130px;
+  justify-content: space-around;
+  height : 80px;
+}
+
+.horizontalMoveBtns{
+  display: flex;
+  flex-direction: row;
+  width : 130px;
+  height: 80px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.moveBtn{
+  border : 2px solid white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.moveUpBtn{
+  height : 40%;
+}
+
+.moveDownBtn{
+  height: 40%;
+}
+
+.moveLeftBtn{
+  height: 90%;
+  width : 45%;
+}
+
+.moveRightBtn{
+  width : 45%;
+  height: 90%;
+}
+
 
 .navMenuBtn{
   font-size: 20px;
@@ -25,8 +74,8 @@
   border-radius: 5px;
   border : 5px solid white;
   cursor: pointer;
-  width : 200px;
-  height: 50px;
+  width : 75px;
+  height: 40px;
 }
 
 .navMenuBtn:hover{
