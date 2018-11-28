@@ -58,7 +58,6 @@ module.exports = (app) => {
           backgrounds : user.backgrounds
         }, process.env.JWT_SECRET, { expiresIn: "60 days"});
         res.cookie('userToken', token);
-        console.log(`Cookie created: \n${token}`)
         res.redirect('/');
       }
     })

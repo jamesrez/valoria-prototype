@@ -44,12 +44,12 @@ app.use(checkAuth);
 app.get('/', (req, res) => {
   if(req.user){
     User.findOne({username : req.user.username}).then((user) => {
+      console.log(user);
       if(!user){
         res.clearCookie('userToken');
       }
       Dimension.findOne({name : 'main'}).then((dimension) => {
         if(dimension && dimension.avatars[0]){
-          console.log(`\nTime to Render\n${user}`);
           res.render('components/main', {
             currentUser : user,
             dimension : dimension
