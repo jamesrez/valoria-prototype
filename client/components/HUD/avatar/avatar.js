@@ -82,10 +82,9 @@ function uploadAvatarToDimension(){
   let avatarKey = $('.uploadAvatarKey').val();
   let dimensionName = $('#dimensionName').text()
 
-  if(avatarSrc.length > 0 && avatarKey.length > 0){
+  if(avatarSrc.length > 0){
     let newAvatar = {
       src : avatarSrc,
-      key : avatarKey
     }
 
     axios.post(`/dimension/${dimensionName}/avatars/new`, {newAvatar}).then(response => {
