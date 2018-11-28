@@ -1,11 +1,11 @@
 html, body {
   margin : 0px;
-  overflow-y: hidden;
-  overflow-x: hidden;
-  overscroll-behavior-y: contain;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 }
 
 body {
   position: relative;
-  overscroll-behavior: contain;
+   -webkit-overflow-scrolling: touch;
 }
