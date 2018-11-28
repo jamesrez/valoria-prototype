@@ -74,8 +74,8 @@
   border-radius: 5px;
   border : 5px solid white;
   cursor: pointer;
-  width : 75px;
-  height: 40px;
+  width : 150px;
+  height: 50px;
 }
 
 .navMenuBtn:hover{

@@ -14,6 +14,34 @@ $(document).ready(() => {
     mouseOnScreenPos.y = e.pageY;
   })
 
+  //If Mobile Make the dimension draggable
+  let initialBpx = bpx;
+  let initialBpy = bpy;
+  $('.dimension').backgroundDraggable({
+    bound : false,
+    start: function() {
+      initialBpx = parseInt($('.dimension').css('backgroundPosition').split(' ')[0]);
+      initialBpy = parseInt($('.dimension').css('backgroundPosition').split(' ')[1]);
+    },
+    drag: function() {
+      let newBpx = parseInt($('.dimension').css('backgroundPosition').split(' ')[0]);
+      let newBpy = parseInt($('.dimension').css('backgroundPosition').split(' ')[1]);
+      bpx = newBpx;
+      bpy = newBpy;
+      $('.environment').css({
+        left : newBpx,
+        top : newBpy
+      })
+    },
+    done: function() {
+      let newBpx = parseInt($('.dimension').css('backgroundPosition').split(' ')[0]);
+      let newBpy = parseInt($('.dimension').css('backgroundPosition').split(' ')[1]);
+      thisUser.realPos.x -= newBpx - initialBpx;
+      thisUser.realPos.y -= newBpy - initialBpy;
+      thisUser.updatePos(thisUser.realPos, "whatever");
+    }
+  });
+
   //KEY PRESSES. *** SHOULD BE SPECIFIC TO EVERY DIMENSION. ***
   $(document).keyup(function(e) {
     let mouseElem;
