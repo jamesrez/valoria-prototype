@@ -5,6 +5,7 @@ let mouseOnScreenPos = {
 let dimensionName = null;
 
 $(document).ready(() => {
+
   dimensionName = $('#dimensionName').text();
   let backgroundSrc = $('#dimensionBackgroundSrc').text();
   $('.dimension').css('background-image', `url(${backgroundSrc})`);

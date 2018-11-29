@@ -210,3 +210,8 @@ img{
 .music{
   display: none;
 }
+
+.terminal{
+  pointer-events: all;
+
+}

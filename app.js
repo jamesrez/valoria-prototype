@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser');
 const jwt = require('jsonwebtoken');
 const User = require('./models/user');
 
+
 require('dotenv').config()
 //Mongoose
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/valoria', () => {
@@ -42,6 +43,7 @@ app.use(checkAuth);
 
 //Root Route
 app.get('/', (req, res) => {
+
   if(req.user){
     User.findOne({username : req.user.username}).then((user) => {
       if(!user){
@@ -84,6 +86,7 @@ app.get('/', (req, res) => {
     })
   }
 });
+
 //Socket.io
 let onlineUsers = {};
 io.on('connection', (socket) => {
@@ -92,9 +95,10 @@ io.on('connection', (socket) => {
   require('./sockets/object.js')(io, socket, onlineUsers);
   require('./sockets/background.js')(io, socket, onlineUsers);
   require('./sockets/thing.js')(io, socket, onlineUsers);
-  require('./sockets/livechat.js')(io, socket, onlineUsers)
-  require('./sockets/door.js')(io, socket, onlineUsers)
-  require('./sockets/text.js')(io, socket, onlineUsers)
+  require('./sockets/livechat.js')(io, socket, onlineUsers);
+  require('./sockets/door.js')(io, socket, onlineUsers);
+  require('./sockets/text.js')(io, socket, onlineUsers);
+  require('./sockets/code.js')(io, socket, onlineUsers)
   socket.on('disconnect', () => {
     if(onlineUsers[socket.dimension]){
       io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);
