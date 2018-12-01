@@ -58,7 +58,6 @@ app.get('/', (req, res) => {
             dimension : dimension
           });
         }else{
-          res.send("Server restarting, wait a quick second.");
           Dimension.findOne({name : 'main'}).then((dimension) => {
             if(!dimension){
               let main = new Dimension();
@@ -68,7 +67,12 @@ app.get('/', (req, res) => {
               main.ownerChooseObjects = true;
               main.ownerChooseBackground = true;
               main.owner = "james";
-              main.save();
+              main.save().then((dimension) => {
+                res.render('components/main', {
+                  currentUser : user,
+                  dimension : dimension
+                });
+              });
             }
           })
         }
@@ -134,6 +138,8 @@ require('./controllers/object')(app);
 require('./controllers/background')(app);
 require('./controllers/things/livechat')(app);
 require('./controllers/things/door')(app);
+require('./controllers/things/code')(app);
+
 //Server Listen
 server.listen(process.env.PORT || '3000', () => {
   console.log("Glory to Valoria!");

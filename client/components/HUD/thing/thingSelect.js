@@ -33,4 +33,15 @@ $(document).ready(() => {
     });
   })
 
+  $(document).on('click', '#codeThingSelect', () => {
+    $('.thingSelectContainer').css('display', 'none');
+    $('#menu').css('display', 'none');
+    let dimensionName = $('#dimensionName').text();
+    socket.emit('New code', {
+      dimensionName : dimensionName,
+      pos : thisUser.realPos,
+      kind : 'code'
+    });
+  })
+
 })

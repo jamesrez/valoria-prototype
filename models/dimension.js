@@ -3,10 +3,8 @@ const { Schema } = mongoose;
 
 //Dimensions should only be as big as needed
 const DimensionSchema = new Schema({
-  size : {
-    width : Number,
-    height : Number
-  },
+  width : String,
+  height : String,
   desc : String,
   owner : String,
   ownerChooseAvatars : Boolean,

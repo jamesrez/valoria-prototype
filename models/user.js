@@ -16,7 +16,8 @@ const UserSchema = new Schema({
   backgrounds : [{
     src : String,
     key : String
-  }]
+  }],
+  admin : Boolean
 });
 
 // generating a hash

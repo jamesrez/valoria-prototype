@@ -141,6 +141,10 @@ $(document).ready(() => {
             addNewDoor(thing, door);
           })
           break;
+        case "code":
+          $.get(`/code/${thing._id}`, (code) => {
+            addNewCode(thing, code);
+          })
       }
     })
   })
