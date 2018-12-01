@@ -3,10 +3,12 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const jwtAuth = require('socketio-jwt-auth');
 const mongoose = require('mongoose');
 const Dimension = require('./models/dimension');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const socketCookieParser = require('socket.io-cookie-parser');
 const jwt = require('jsonwebtoken');
 const User = require('./models/user');
 
@@ -87,7 +89,24 @@ app.get('/', (req, res) => {
   }
 });
 
+
 //Socket.io
+function checkSocketAuth(socket, next){
+  if (typeof socket.request.cookies.userToken === 'undefined' || socket.request.cookies.userToken === null) {
+    socket["user"] = null;
+  } else {
+    // if the user has a JWT cookie, decode it and set the user
+    var token = socket.request.cookies.userToken;
+    var decodedToken = jwt.decode(token, { complete: true }) || {};
+    socket["user"] = decodedToken.payload;
+    if(decodedToken.payload.username == 'james'){
+      socket["admin"] = true;
+    }
+  }
+  next();
+}
+io.use(socketCookieParser());
+io.use(checkSocketAuth)
 let onlineUsers = {};
 io.on('connection', (socket) => {
   require('./sockets/user.js')(io, socket, onlineUsers);

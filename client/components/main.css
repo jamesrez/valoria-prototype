@@ -9,4 +9,5 @@ html, body {
 body {
   position: relative;
    -webkit-overflow-scrolling: touch;
+   overflow: auto;
 }

@@ -1,0 +1,27 @@
+.code{
+  width : 500px;
+  height: 500px;
+  top : 50px;
+  left : 50px;
+  position: absolute;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.codeContainer{
+  width: 90%;
+  height: 90%;
+  font-size: 15px;
+  text-align: left;
+  cursor: text;
+}
+
+.CodeMirror{
+  width: 100%;
+  height: 100%;
+}
+
+#code0{
+  display: flex;
+}

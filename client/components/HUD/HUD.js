@@ -6,7 +6,7 @@ let movementSpeed = 3;
 //MOVING WITH WASD
 let scrollInterval = {};
 function moveScreen(direction){
-  if(thisUser.isVisible){
+  if(thisUser.isVisible && !userIsTyping){
     // scrolling = true;
     scrollInterval[direction] = setInterval(function () {
       //Move the Screen

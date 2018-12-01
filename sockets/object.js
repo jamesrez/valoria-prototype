@@ -24,13 +24,15 @@ module.exports = (io, socket, onlineUsers) => {
   });
 
   socket.on("Object got deleted", objectElemId => {
-    socket.broadcast.to(socket.dimension).emit('Object got deleted', objectElemId);
-    Dimension.findOne({name : socket.dimension.toLowerCase()}).then((dimension) => {
-      thisObject = dimension.environmentObjects.find( object => objectElemId === objectElemId);
-      thisObjectIndex = dimension.environmentObjects.indexOf(thisObject);
-      dimension.environmentObjects.splice(thisObjectIndex, 1);
-      dimension.save();
-    })
+    if(socket.dimension){
+      socket.broadcast.to(socket.dimension).emit('Object got deleted', objectElemId);
+      Dimension.findOne({name : socket.dimension.toLowerCase()}).then((dimension) => {
+        thisObject = dimension.environmentObjects.find( object => objectElemId === objectElemId);
+        thisObjectIndex = dimension.environmentObjects.indexOf(thisObject);
+        dimension.environmentObjects.splice(thisObjectIndex, 1);
+        dimension.save();
+      })
+    }
   })
 
 }

@@ -16,6 +16,8 @@
 		"node-sprite": "^0.1.2",
 		"pug": "^2.0.3",
 		"socket.io": "^2.1.1",
+		"socket.io-cookie-parser": "^1.0.0",
+		"socketio-jwt-auth": "0.0.6",
 		"xterm": "^3.8.0"
 	},
 	"engines": {

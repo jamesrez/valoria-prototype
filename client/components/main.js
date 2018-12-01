@@ -30,7 +30,7 @@ function getRandomObject(dimension){
 
 const socket = io.connect();
 $(document).ready(() => {
-  console.log(`Are Cookies enabled? ${navigator.cookieEnabled}`)
+  //console.log(`Are Cookies enabled? ${navigator.cookieEnabled}`)
   thisUser = new User(socket.id);
   thisUser.dimension = $('#dimensionName').text();
   if($('#doorRender').text()){
