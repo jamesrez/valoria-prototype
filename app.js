@@ -45,7 +45,6 @@ app.use(checkAuth);
 
 //Root Route
 app.get('/', (req, res) => {
-
   if(req.user){
     User.findOne({username : req.user.username}).then((user) => {
       if(!user){
@@ -136,6 +135,7 @@ require('./controllers/upload')(app);
 require('./controllers/avatar')(app);
 require('./controllers/object')(app);
 require('./controllers/background')(app);
+require('./controllers/things/thing')(app);
 require('./controllers/things/livechat')(app);
 require('./controllers/things/door')(app);
 require('./controllers/things/code')(app);

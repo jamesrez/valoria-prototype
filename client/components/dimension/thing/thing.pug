@@ -1,0 +1,33 @@
+//thing.css
+link(href='/components/dimension/thing/thing.css' rel='stylesheet')
+//thing.js
+script(src='/components/dimension/thing/thing.js')
+
+include livechat/livechat
+include text/text
+include code/code
+include door/door
+
+.thing.prototype
+  .thingToolbox
+    .thingTools
+      input.thingColorInput
+      .thingMediaBtn Media
+      .thingSettingsBtn Settings
+    .thingMediaContainer
+      .thingImageForm
+        input.thingImageInput(placeholder="Link to Image")
+        .thingImageInputBtn Set to Image
+      .thingVideoForm
+        input.thingVideoInput(placeholder="Link to Video")
+        .thingVideoInputBtn Embed Video
+      .thingAudioForm
+        input.thingAudioInput(placeholder="Embed Audio Link")
+        .thingAudioInputBtn Embed Audio
+    .thingSettingsContainer
+      .thingPrivateForm
+        input.thingPrivateInput(type="checkbox")
+        .thingPrivateLabel Thing is Private
+      .thingDeleteBtn Delete Thing
+  iframe.thingVideo
+  iframe.thingAudio(allow="autoplay")

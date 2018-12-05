@@ -3,38 +3,16 @@ link(rel='stylesheet', href='/components/dimension/dimension.css')
 //dimension.js
 script(src='/components/dimension/dimension.js')
 //user.js
-script(src='/components/dimension/user/user.js')
-  
-if !doorRender
-  //object.js
-  script(src='/components/dimension/object/object.js')
-  //thing.js
-  script(src='/components/dimension/thing/thing.js')
+script(src='/components/dimension/user/user.js')  
+//object.js
+script(src='/components/dimension/object/object.js')
 
 .dimension
-  if !doorRender
-    include thing/livechat/livechat
-    include thing/text/text
-    include thing/code/code
-    .thing.prototype.square
-      .thingToolbox
-        .thingTools
-          input.thingColorInput
-          .thingMediaBtn Media
-          .thingDeleteBtn Delete
-        .thingMediaContainer
-          .thingImageForm
-            input.thingImageInput(placeholder="Link to Image")
-            .thingImageInputBtn Set to Image
-          .thingVideoForm
-            input.thingVideoInput(placeholder="Link to Video")
-            .thingVideoInputBtn Embed Video
-      iframe.thingVideo
-    .environment
-      .things
-      .users
-      .objects
-    //iframe.music(allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/148056341&auto_play=true")
+  include thing/thing
+  .environment
+    .things
+    .users
+    .objects
+      
   #thisUser
     img#thisUserAvatar
-  include thing/door/door

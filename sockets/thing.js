@@ -15,6 +15,7 @@ module.exports = (io, socket, onlineUsers) => {
         newThing.width = 100;
         newThing.height = 100;
         newThing.kind = data.kind;
+        newThing.creator = socket["user"].username;
         newThing.save().then((thing) => {
           dimension.things.push(thing._id);
           dimension.thingCount++;
@@ -76,6 +77,24 @@ module.exports = (io, socket, onlineUsers) => {
         thing.video = data.video;
         thing.save();
       }
+    })
+  })
+
+  socket.on("Set thing audio", (data) => {
+    socket.broadcast.to(socket.dimension).emit('Set thing audio', data);
+    Thing.findById(data.thingId).then((thing) => {
+      if(thing){
+        thing.audio = data.audio;
+        thing.save();
+      }
+    })
+  })
+
+  socket.on('Toggle thing privacy', (data) => {
+    socket.broadcast.to(socket.dimension).emit("Toggle thing privacy", data);
+    Thing.findById(data.thingId).then((thing) => {
+      thing.isPrivate = data.isPrivate;
+      thing.save();
     })
   })
 

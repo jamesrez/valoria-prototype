@@ -8,6 +8,28 @@ function toggleUserIsTyping(){
   userIsTyping = userIsTyping ? false : true;
 }
 
+function loadThing(thing){
+  switch(thing.kind){
+    case "square":
+      addNewThing(thing);
+      break;
+    case "livechat":
+      $.get(`/livechat/${thing._id}`, (livechat) => {
+        addNewLivechat(thing, livechat)
+      })
+      break;
+    case "door":
+      $.get(`/door/${thing._id}`, (door) => {
+        addNewDoor(thing, door);
+      })
+      break;
+    case "code":
+      $.get(`/code/${thing._id}`, (code) => {
+        addNewCode(thing, code);
+      })
+  }
+}
+
 function addNewThing(thing){
   things[thing.elemId] = new Thing()
   things[thing.elemId].elemId = thing.elemId;
@@ -19,22 +41,9 @@ function addNewThing(thing){
   things[thing.elemId].kind = thing.kind;
   things[thing.elemId].image = thing.image;
   things[thing.elemId].video = thing.video;
-  // things[thing.elemId].texts = {
-  //   text0 : {
-  //     elemId : "text0",
-  //     textId : 0,
-  //     pos : {
-  //       x : 50,
-  //       y : 80
-  //     },
-  //     width : 150,
-  //     height : 25,
-  //     fontSize : 14,
-  //     color : "#ffffff",
-  //     kind : "text",
-  //     thing : "square0"
-  //   }
-  // }
+  things[thing.elemId].audio = thing.audio;
+  things[thing.elemId].creator = thing.creator;
+  things[thing.elemId].isPrivate = thing.isPrivate;
   things[thing.elemId].renderAtPos(thing.kind);
 }
 
@@ -56,9 +65,10 @@ class Thing {
     this.texts = null;
     this.image = null;
     this.video = null;
+    this.audio = null;
   }
   renderAtPos(typeOfThing){
-    let newThing = $(`.thing.prototype.${typeOfThing}`).clone()
+    let newThing = $(`.thing.prototype`).clone();
     newThing.removeClass('prototype');
     newThing.attr('id', this.elemId);
     newThing.css('display', 'flex');
@@ -74,6 +84,11 @@ class Thing {
       newThing.find('.thingVideo').css('display', 'block');
       newThing.find('.thingVideo').attr('src', this.video);
     }
+    if(this.audio){
+      newThing.find('.thingAudio').css('display', 'block');
+      newThing.find('.thingAudio').attr('src', this.audio);
+    }
+    newThing.find('.thingPrivateInput').attr('checked', this.isPrivate);
     newThing.appendTo('.things');
     newThing.resizable({
       handles: 'e, s, w, se, sw',
@@ -97,8 +112,6 @@ class Thing {
         })
       }
     });
-    // addNewText(this.texts["text0"]);
-    // newThing.append($(`#text0`));
   }
   updatePos(newPos){
     this.pos.x = newPos.left;
@@ -127,25 +140,7 @@ $(document).ready(() => {
   //Load All Things in Dimension
   $.get(`/dimension/${dimensionName}/environment/things`, (things) => {
     things.forEach((thing) => {
-      switch(thing.kind){
-        case "square":
-          addNewThing(thing);
-          break;
-        case "livechat":
-          $.get(`/livechat/${thing._id}`, (livechat) => {
-            addNewLivechat(thing, livechat)
-          })
-          break;
-        case "door":
-          $.get(`/door/${thing._id}`, (door) => {
-            addNewDoor(thing, door);
-          })
-          break;
-        case "code":
-          $.get(`/code/${thing._id}`, (code) => {
-            addNewCode(thing, code);
-          })
-      }
+      loadThing(thing);
     })
   })
 
@@ -169,6 +164,7 @@ $(document).ready(() => {
       $(`#${thingBeingEdited}`).css('cursor', 'none');
       $(`#${thingBeingEdited}`).find('.thingToolbox').css('display','none')
       $(`#${thingBeingEdited}`).find('.thingMediaContainer').css('display','none')
+      $(`#${thingBeingEdited}`).find('.thingSettingsContainer').css('display','none')
       if(textBeingDragged){
         $(`#${thingBeingEdited}`).css('border', '0px solid yellow');
       }
@@ -202,10 +198,26 @@ $(document).ready(() => {
   $(document).on('click', '.thingMediaBtn', function(e) {
     if(editMode){
       let thisMedia = $(`#${thingBeingEdited}`).find('.thingMediaContainer');
+      let thisSettings = $(`#${thingBeingEdited}`).find('.thingSettingsContainer');
       if(thisMedia.css('display') == "none"){
         thisMedia.css('display', 'flex');
+        thisSettings.css('display', 'none');
       }else{
         thisMedia.css('display', 'none');
+      }
+    }
+  });
+
+  //Thing Settings Container Toggle
+  $(document).on('click', '.thingSettingsBtn', function(e) {
+    if(editMode){
+      let thisSettings = $(`#${thingBeingEdited}`).find('.thingSettingsContainer');
+      let thisMedia = $(`#${thingBeingEdited}`).find('.thingMediaContainer');
+      if(thisSettings.css('display') == "none"){
+        thisSettings.css('display', 'flex');
+        thisMedia.css('display', 'none');
+      }else{
+        thisSettings.css('display', 'none');
       }
     }
   });
@@ -250,6 +262,35 @@ $(document).ready(() => {
       });
     }
   });
+
+
+  //Set Thing Audio
+  $(document).on('click', '.thingAudioInputBtn', function(e) {
+    let audioValue = $(`#${thingBeingEdited}`).find('.thingAudioInput').val();
+    if(audioValue.length > 0){
+      let thingAudioElem = $(`#${thingBeingEdited}`).find('.thingAudio');
+      thingAudioElem.css('display', 'block')
+      thingAudioElem.attr('src', audioValue);
+      things[thingBeingEdited].audio = audioValue;
+      $(`#${thingBeingEdited}`).find('.thingAudioInput').val("");
+      socket.emit("Set thing audio", {
+        elemId : thingBeingEdited,
+        thingId : things[thingBeingEdited].thingId,
+        audio : audioValue
+      });
+    }
+  });
+
+  // Toggle Thing Privacy
+  $(document).on('click', '.thingPrivateInput', (e) => {
+    let isThingPrivate = e.target.checked;
+    things[thingBeingEdited].isPrivate = isThingPrivate;
+    socket.emit("Toggle thing privacy", {
+      elemId : thingBeingEdited,
+      thingId : things[thingBeingEdited].thingId,
+      isPrivate : isThingPrivate
+    })
+  })
 
   //Delete Thing
   $(document).on('click', '.thingDeleteBtn', function(e) {
@@ -311,7 +352,23 @@ socket.on("Set thing video", (data) => {
   things[data.elemId].video = data.video;
   $(`#${data.elemId}`).find('.thingVideo').css('display', 'block');
   $(`#${data.elemId}`).find('.thingVideo').attr('src', data.video);
+})
 
+socket.on("Set thing audio", (data) => {
+  things[data.elemId].audio = data.audio;
+  $(`#${data.elemId}`).find('.thingAudio').css('display', 'block');
+  $(`#${data.elemId}`).find('.thingAudio').attr('src', data.audio);
+})
+
+socket.on('Toggle thing privacy', (data) => {
+  if(data.isPrivate){
+    $(`#${data.elemId}`).remove()
+    delete things[data.elemId];
+  }else{
+    $.get(`/things/${data.thingId}`, (thing) => {
+      loadThing(thing);
+    })
+  }
 })
 
 socket.on('Thing got deleted', (data) => {

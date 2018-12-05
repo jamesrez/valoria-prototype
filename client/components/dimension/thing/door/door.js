@@ -1,14 +1,10 @@
 function addNewDoor(thing, door){
-  things[thing.elemId] = new Thing()
-  things[thing.elemId].elemId = thing.elemId;
-  things[thing.elemId].thingId = thing._id;
+  addNewThing(thing)
   things[thing.elemId].docId = door._id;
-  things[thing.elemId].pos = thing.pos;
-  things[thing.elemId].width = thing.width;
-  things[thing.elemId].height = thing.height;
-  things[thing.elemId].color = thing.color;
-  things[thing.elemId].kind = thing.kind
-  things[thing.elemId].renderAtPos(thing.kind);
+  let newDoor = $('.door').clone();
+  newDoor.removeClass('prototype');
+  newDoor.css('display', 'flex');
+  $(`#${thing.elemId}`).append(newDoor);
   if(door.dimension){
     $(`#${thing.elemId}`).css('justify-content', 'center');
     $(`#${thing.elemId}`).find('.doorDimension').css('backgroundImage', `url("${door.dimensionBackground}")`);

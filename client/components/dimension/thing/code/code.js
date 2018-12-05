@@ -1,16 +1,12 @@
 let codes = {};
 
 function addNewCode(thing, code){
-  things[thing.elemId] = new Thing()
+  addNewThing(thing);
   things[thing.elemId].docId = code._id;
-  things[thing.elemId].elemId = thing.elemId;
-  things[thing.elemId].thingId = thing._id;
-  things[thing.elemId].pos = thing.pos;
-  things[thing.elemId].width = thing.width;
-  things[thing.elemId].height = thing.height;
-  things[thing.elemId].color = thing.color;
-  things[thing.elemId].kind = thing.kind;
-  things[thing.elemId].renderAtPos(thing.kind);
+  let newCode = $('.code').clone();
+  newCode.removeClass('prototype');
+  newCode.css('display', 'flex');
+  $(`#${thing.elemId}`).append(newCode);
   codes[thing.elemId] = {
     mirror : CodeMirror($(`#${thing.elemId}`).find('.codeContainer')[0], {
       mode:  "javascript",

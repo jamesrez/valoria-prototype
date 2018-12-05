@@ -71,11 +71,18 @@ module.exports = (app) => {
   //Get all things currently in the dimension's environment
   app.get('/dimension/:name/environment/things', (req, res) => {
     Dimension.findOne({name : req.params.name.toLowerCase()}).then((dimension) => {
-      if(dimension){
-        Thing.find({'_id': { $in: dimension.things}}).then((things) => {
-          if(things){
-            res.send(things);
-          }
+      if(dimension  && req.user){
+        Thing.find({'_id': { $in: dimension.things}, isPrivate : false}).then((publicThings) => {
+          Thing.find({
+            '_id' : { $in: dimension.things},
+            isPrivate : true,
+            creator : req.user.username
+          }).then((privateThings) => {
+            things = publicThings.concat(privateThings);
+            if(things){
+              res.send(things);
+            }
+          })
         })
       }
     })

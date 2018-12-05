@@ -1,14 +1,10 @@
 function addNewLivechat(thing, livechat){
-  things[thing.elemId] = new Thing()
-  things[thing.elemId].elemId = thing.elemId;
-  things[thing.elemId].thingId = thing._id;
+  addNewThing(thing);
   things[thing.elemId].docId = livechat._id;
-  things[thing.elemId].pos = thing.pos;
-  things[thing.elemId].width = thing.width;
-  things[thing.elemId].height = thing.height;
-  things[thing.elemId].color = thing.color;
-  things[thing.elemId].kind = thing.kind
-  things[thing.elemId].renderAtPos(thing.kind);
+  let newLivechat = $('.livechat').clone();
+  newLivechat.removeClass('prototype');
+  newLivechat.css('display', 'flex');
+  $(`#${thing.elemId}`).append(newLivechat);
   livechat.messages.forEach((message) => {
     let newMessageElement = `
       <div class='livechatMessage'>
@@ -47,9 +43,8 @@ $(document).ready(() => {
       sendMessage(e);
     }
   });
-  
-})
 
+})
 
 socket.on('New livechat', data => {
   addNewLivechat(data.thing, data.livechat);

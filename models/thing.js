@@ -13,7 +13,10 @@ const ThingSchema = new Schema({
   kind : String,
   texts : [String],
   image : String,
-  video : String
+  video : String,
+  audio : String,
+  creator : String,
+  isPrivate : {type : Boolean, default : false}
 });
 
 const Thing = mongoose.model('Thing', ThingSchema);

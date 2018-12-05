@@ -1,0 +1,198 @@
+.thing{
+  width : 100px;
+  height: 100px;
+  background-color: #557062;
+  position: absolute;
+  top : 50000px;
+  left : 50000px;
+  display: none;
+  font-size: 20px;
+  color: white;
+  font-family: futura;
+  font-weight: bold;
+  text-align: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 5;
+}
+
+.thingToolbox{
+  display: none;
+  position: absolute;
+  background-color: #ECECEC;
+  flex-direction: column;
+  top : -30px;
+  min-width: 325px;
+  width : 100%;
+  color: black;
+  z-index: 6;
+}
+
+.thingTools{
+  width : 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.sp-replacer{
+  width : 33%;
+  border : 2px solid black;
+}
+
+.sp-rep-label{
+  margin-top: -3px;
+  color : black;
+}
+
+.thingMediaBtn{
+  width : 33%;
+  border : 2px solid black;
+  cursor: pointer;
+}
+
+.thingMediaBtn:hover{
+  border : 2px solid yellow;
+}
+
+.thingSettingsBtn{
+  width : 33%;
+  border : 2px solid black;
+  cursor: pointer;
+}
+
+.thingSettingsBtn:hover{
+  border : 2px solid yellow;
+}
+
+.thingSettingsContainer{
+  width : 100%;
+  height : 100px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  cursor : default;
+  font-weight: normal;
+  font-size: 15px;
+}
+
+.thingPrivateForm{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.thingDeleteBtn{
+  border : 4px solid black;
+  cursor : pointer;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 5px;
+}
+
+.thingDeleteBtn:hover{
+  border : 4px solid red;
+  color : red;
+}
+
+.thingMediaContainer{
+  width : 100%;
+  height : 100px;
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  cursor : default;
+}
+
+.thingImageForm{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width : 100%;
+  font-size: 14px;
+}
+
+.thingImageInput{
+  width : 50%;
+  padding : 5px;
+}
+
+.thingImageInputBtn{
+  width : 35%;
+  border: 2px solid black;
+  padding : 5px;
+  cursor: pointer;
+}
+.thingImageInputBtn:hover{
+  border : 2px solid yellow;
+}
+
+.thingVideoForm{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width : 100%;
+  font-size: 14px;
+}
+
+.thingVideoInput{
+  width : 50%;
+  padding : 5px;
+}
+
+.thingVideoInputBtn{
+  width : 35%;
+  border : 2px solid black;
+  padding : 5px;
+  cursor: pointer;
+}
+.thingVideoInputBtn:hover{
+  border : 2px solid yellow;
+}
+
+.thingVideo{
+  display: none;
+  width: 90%;
+  height :85%;
+  border: 0px;
+}
+
+.thingAudioForm{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width : 100%;
+  font-size: 14px;
+}
+
+.thingAudioInput{
+  width : 50%;
+  padding : 5px;
+}
+
+.thingAudioInputBtn{
+  width : 35%;
+  border : 2px solid black;
+  padding : 5px;
+  cursor: pointer;
+}
+.thingAudioInputBtn:hover{
+  border : 2px solid yellow;
+}
+
+.thingAudio{
+  display: none;
+  width: 90%;
+  border: 0px;
+}
+
+.music{
+  display: none;
+}
