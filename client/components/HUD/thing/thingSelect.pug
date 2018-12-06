@@ -18,9 +18,14 @@ script(src='/components/HUD/thing/thingSelect.js')
         img.thingSelectionImg
       .thingSelectionLabelContainer
         .thingSelectionLabel Spawn a Dimensional Door
-  if currentUser.admin
-    #codeThingSelect.thingSelection
-      .thingSelectionImgContainer
-        img.thingSelectionImg
-      .thingSelectionLabelContainer
-        .thingSelectionLabel Spawn a Code
+    if currentUser.admin
+      #codeThingSelect.thingSelection
+        .thingSelectionImgContainer
+          img.thingSelectionImg
+        .thingSelectionLabelContainer
+          .thingSelectionLabel Spawn a Code
+      #consoleThingSelect.thingSelection
+        .thingSelectionImgContainer
+          img.thingSelectionImg
+        .thingSelectionLabelContainer
+          .thingSelectionLabel Spawn a Console

@@ -18,6 +18,7 @@ class User {
     },
     this.width = parseInt($('#thisUser').css('width'));
     this.height = parseInt($('#thisUser').css('height'));
+    this.voiceId = null;
   }
 
   connectAtPos(pos){
@@ -26,11 +27,13 @@ class User {
     $('#thisUserAvatar').attr('src', this.avatar);
     this.realPos.x = $('#thisUser').css('left');
     this.realPos.y = $('thisUser').css('top');
+    this.voiceId = thisPeerId;
     socket.emit('Load Online Users', this.dimension);
     socket.emit('New User', {
       avatar : this.avatar,
       pos : pos,
-      dimension : this.dimension
+      dimension : this.dimension,
+      voiceId : this.voiceId
     });
   }
 
@@ -126,6 +129,11 @@ socket.on('Load Online Users', (users) => {
       top : users[id].pos.y
     })
     onlineUsers[id] = users[id];
+    peerCall = peer.call(users[id].voiceId, thisAudioStream);
+    peerCall.on('stream', (stream) => {
+      console.log(stream)
+      $('.voiceStream')[0].srcObject = stream;
+    })
   }
 });
 
@@ -176,3 +184,10 @@ socket.on('User Left', (user) => {
     delete onlineUsers[user.socket];
   }
 });
+
+peer.on('call', (thisCall) => {
+  thisCall.answer(thisAudioStream);
+  thisCall.on('stream', (stream) => {
+    $('.voiceStream')[0].srcObject = stream;
+  })
+})

@@ -1,6 +1,6 @@
-const Thing = require('../models/thing');
-const Dimension = require('../models/dimension')
-const TextElem = require('../models/text');
+const Thing = require('../../models/thing');
+const Dimension = require('../../models/dimension')
+const TextElem = require('../../models/text');
 
 
 module.exports = (io, socket, onlineUsers) => {

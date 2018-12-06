@@ -1,6 +1,6 @@
-const Dimension = require('../models/dimension');
-const Thing = require('../models/thing');
-const Code = require('../models/code');
+const Dimension = require('../../models/dimension');
+const Thing = require('../../models/thing');
+const Code = require('../../models/code');
 const { exec } = require('child_process');
 
 let tempPath = './client/components/dimension/thing/code/test.js';

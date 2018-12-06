@@ -1,6 +1,6 @@
-const Dimension = require('../models/dimension');
-const Livechat = require('../models/livechat');
-const Thing = require('../models/thing');
+const Dimension = require('../../models/dimension');
+const Livechat = require('../../models/livechat');
+const Thing = require('../../models/thing');
 
 module.exports = (io, socket, onlineUsers) => {
 

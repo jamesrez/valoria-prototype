@@ -1,7 +1,9 @@
 //Packages
 const express = require('express');
 const app = express();
+const ExpressPeerServer = require('peer').ExpressPeerServer;
 const server = require('http').Server(app);
+const peerServer = ExpressPeerServer(server);
 const io = require('socket.io')(server);
 const jwtAuth = require('socketio-jwt-auth');
 const mongoose = require('mongoose');
@@ -11,6 +13,7 @@ const cookieParser = require('cookie-parser');
 const socketCookieParser = require('socket.io-cookie-parser');
 const jwt = require('jsonwebtoken');
 const User = require('./models/user');
+
 
 
 require('dotenv').config()
@@ -28,6 +31,7 @@ app.use('/client/scripts', express.static(__dirname + '/client/scripts'));
 app.use('/client/assets', express.static(__dirname + '/client/assets'));
 app.use(bodyParser());
 app.use(cookieParser());
+app.use('/peerjs', peerServer);
 
 //Check that a user is logged in
 let checkAuth = function (req, res, next) {
@@ -78,7 +82,6 @@ app.get('/', (req, res) => {
       })
     })
   }else{
-    console.log("This Line will only show if a cookie is not being saved");
     res.clearCookie('userToken');
     Dimension.findOne({name : 'main'}).then((dimension) => {
       if(dimension && dimension.avatars[0]){
@@ -111,16 +114,18 @@ function checkSocketAuth(socket, next){
 io.use(socketCookieParser());
 io.use(checkSocketAuth)
 let onlineUsers = {};
+let voices = {};
 io.on('connection', (socket) => {
-  require('./sockets/user.js')(io, socket, onlineUsers);
+  require('./sockets/user.js')(io, socket, onlineUsers, voices);
   require('./sockets/image.js')(io, socket, onlineUsers);
   require('./sockets/object.js')(io, socket, onlineUsers);
   require('./sockets/background.js')(io, socket, onlineUsers);
-  require('./sockets/thing.js')(io, socket, onlineUsers);
-  require('./sockets/livechat.js')(io, socket, onlineUsers);
-  require('./sockets/door.js')(io, socket, onlineUsers);
-  require('./sockets/text.js')(io, socket, onlineUsers);
-  require('./sockets/code.js')(io, socket, onlineUsers)
+  require('./sockets/things/thing.js')(io, socket, onlineUsers);
+  require('./sockets/things/livechat.js')(io, socket, onlineUsers);
+  require('./sockets/things/door.js')(io, socket, onlineUsers);
+  require('./sockets/things/text.js')(io, socket, onlineUsers);
+  require('./sockets/things/code.js')(io, socket, onlineUsers);
+  require('./sockets/things/console.js')(io, socket, onlineUsers);
   socket.on('disconnect', () => {
     if(onlineUsers[socket.dimension]){
       io.to(socket.dimension).emit('User Left', onlineUsers[socket.dimension][socket.id]);
@@ -139,6 +144,13 @@ require('./controllers/things/thing')(app);
 require('./controllers/things/livechat')(app);
 require('./controllers/things/door')(app);
 require('./controllers/things/code')(app);
+require('./controllers/things/console')(app);
+
+//
+// peerServer.on('connection', function(id) {
+//
+// });
+
 
 //Server Listen
 server.listen(process.env.PORT || '3000', () => {

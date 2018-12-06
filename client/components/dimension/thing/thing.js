@@ -27,6 +27,10 @@ function loadThing(thing){
       $.get(`/code/${thing._id}`, (code) => {
         addNewCode(thing, code);
       })
+    case "console":
+      $.get(`/code/${thing._id}`, (thisConsole) => {
+        addNewConsole(thing, thisConsole);
+      })
   }
 }
 

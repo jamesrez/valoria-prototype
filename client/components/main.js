@@ -29,6 +29,17 @@ function getRandomObject(dimension){
 }
 
 const socket = io.connect();
+const peer = new Peer({secure: true,
+                host: 'valoria.us',
+                port: 443,
+                path:'/peerjs'});
+let peerCall = null;
+let thisPeerId = null;
+let thisAudioStream = null;
+navigator.mediaDevices.getUserMedia({audio : true, video : false}).then((stream) => {
+  thisAudioStream = stream;
+})
+
 $(document).ready(() => {
   //console.log(`Are Cookies enabled? ${navigator.cookieEnabled}`)
   thisUser = new User(socket.id);
@@ -47,3 +58,7 @@ $(document.body).on("touchmove", function(event) {
     event.preventDefault();
     event.stopPropagation();
 });
+
+peer.on('open', (id) => {
+  thisPeerId = id;
+})

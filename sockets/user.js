@@ -7,7 +7,8 @@ module.exports = (io, socket, onlineUsers) => {
     onlineUsers[data.dimension][socket.id] = {
       socket : socket.id,
       avatar : data.avatar,
-      pos : data.pos
+      pos : data.pos,
+      voiceId : data.voiceId
     }
     socket["dimension"] = data.dimension;
     socket.join(data.dimension);

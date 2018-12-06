@@ -44,4 +44,15 @@ $(document).ready(() => {
     });
   })
 
+  $(document).on('click', '#consoleThingSelect', () => {
+    $('.thingSelectContainer').css('display', 'none');
+    $('#menu').css('display', 'none');
+    let dimensionName = $('#dimensionName').text();
+    socket.emit('New console', {
+      dimensionName : dimensionName,
+      pos : thisUser.realPos,
+      kind : 'console'
+    });
+  })
+
 })
