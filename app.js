@@ -146,12 +146,6 @@ require('./controllers/things/door')(app);
 require('./controllers/things/code')(app);
 require('./controllers/things/console')(app);
 
-//
-// peerServer.on('connection', function(id) {
-//
-// });
-
-
 //Server Listen
 server.listen(process.env.PORT || '3000', () => {
   console.log(process.env.PORT)
