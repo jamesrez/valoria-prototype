@@ -148,6 +148,5 @@ require('./controllers/things/console')(app);
 
 //Server Listen
 server.listen(process.env.PORT || '3000', () => {
-  console.log(process.env.PORT)
   console.log("Glory to Valoria!");
 });
