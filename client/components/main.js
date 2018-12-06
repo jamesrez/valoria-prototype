@@ -29,7 +29,7 @@ function getRandomObject(dimension){
 }
 
 const socket = io.connect();
-const peer = new Peer({host: '/', port: '',
+const peer = new Peer({host: 'valoria.us',
                 path:'/peerjs'});
 let peerCall = null;
 let thisPeerId = null;
