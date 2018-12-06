@@ -30,7 +30,7 @@ function getRandomObject(dimension){
 
 const socket = io.connect();
 const peer = new Peer({host: 'valoria.us',
-                port: 443,
+                port: 8080,
                 path:'/peerjs'});
 let peerCall = null;
 let thisPeerId = null;
