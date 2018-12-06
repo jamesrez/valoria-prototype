@@ -33,7 +33,7 @@ app.use('/client/assets', express.static(__dirname + '/client/assets'));
 app.use(bodyParser());
 app.use(cookieParser());
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "valoria.us");
+  res.header("Access-Control-Allow-Origin", "https://www.valoria.us");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
