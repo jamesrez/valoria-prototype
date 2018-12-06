@@ -1,6 +1,7 @@
 //Packages
 const express = require('express');
 const app = express();
+const cors = require('cors');
 const ExpressPeerServer = require('peer').ExpressPeerServer;
 const server = require('http').Server(app);
 const peerServer = ExpressPeerServer(server);
@@ -31,11 +32,7 @@ app.use('/client/scripts', express.static(__dirname + '/client/scripts'));
 app.use('/client/assets', express.static(__dirname + '/client/assets'));
 app.use(bodyParser());
 app.use(cookieParser());
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin");
-  next();
-});
+app.use(cors());
 app.use('/peerjs', peerServer);
 
 //Check that a user is logged in
