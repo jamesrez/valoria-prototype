@@ -10,11 +10,15 @@ script(src='/components/dimension/object/object.js')
 .dimension
   include thing/thing
   .environment
-    .things
-    .users
-    .objects
-  audio.voiceStream(autoplay="autoplay")
-    source
+    .movingEnvironment
+      .things
+      .users
+      .objects
+    .fixedEnvironment
+      .fixedThings
+  .voiceStreams
+    audio.voiceStream(autoplay="autoplay")
+      source
       
   #thisUser
     img#thisUserAvatar

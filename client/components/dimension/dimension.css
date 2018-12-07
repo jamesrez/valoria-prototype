@@ -71,3 +71,14 @@ img{
   top : 50;
   left : 50;
 }
+
+.movingEnvironment{
+  position: absolute;
+}
+
+.fixedEnvironment{
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}

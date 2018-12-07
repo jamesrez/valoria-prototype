@@ -41,6 +41,8 @@ function addNewThing(thing){
   things[thing.elemId].pos = thing.pos;
   things[thing.elemId].width = thing.width;
   things[thing.elemId].height = thing.height;
+  things[thing.elemId].widthPercent = thing.widthPercent;
+  things[thing.elemId].heightPercent = thing.heightPercent;
   things[thing.elemId].color = thing.color;
   things[thing.elemId].kind = thing.kind;
   things[thing.elemId].image = thing.image;
@@ -48,6 +50,7 @@ function addNewThing(thing){
   things[thing.elemId].audio = thing.audio;
   things[thing.elemId].creator = thing.creator;
   things[thing.elemId].isPrivate = thing.isPrivate;
+  things[thing.elemId].isFixed = thing.isFixed;
   things[thing.elemId].renderAtPos(thing.kind);
 }
 
@@ -60,6 +63,8 @@ class Thing {
     this.dimension = null;
     this.width = 100;
     this.height = 100;
+    this.widthPercent = null;
+    this.heightPercent = null;
     this.color = '#557062';
     this.pos = {
       x : null,
@@ -77,13 +82,16 @@ class Thing {
     newThing.attr('id', this.elemId);
     newThing.css('display', 'flex');
     newThing.css({
-      left : this.pos.x,
-      top : this.pos.y,
+      left : this.pos.x || this.pos.xPercent,
+      top : this.pos.y || this.pos.yPercent,
       backgroundColor : this.color,
-      width : this.width,
-      height : this.height,
+      width : this.width || this.widthPercent,
+      height : this.height ? this.height : this.heightPercent,
       backgroundImage : `url("${this.image}")`
     })
+    if(this.pos.x != null){
+      newThing.css("left", this.pos.x)
+    }
     if(this.video){
       newThing.find('.thingVideo').css('display', 'block');
       newThing.find('.thingVideo').attr('src', this.video);
@@ -93,7 +101,11 @@ class Thing {
       newThing.find('.thingAudio').attr('src', this.audio);
     }
     newThing.find('.thingPrivateInput').attr('checked', this.isPrivate);
-    newThing.appendTo('.things');
+    if(this.isFixed){
+      newThing.appendTo('.fixedThings');
+    }else{
+      newThing.appendTo('.things');
+    }
     newThing.resizable({
       handles: 'e, s, w, se, sw',
       stop : (e, ui) => this.updateSize(ui),
@@ -149,31 +161,37 @@ $(document).ready(() => {
   })
 
 ////////////////////EVENT LISTENERS///////////////
-  //ENTER EDIT MODE ON MOUSE ENTER
-  $(document).on('mouseenter', '.thing', (e) => {
-    thingBeingEdited = e.currentTarget.id;
-    editMode = true;
-    $('#thisUserAvatar').css('display', 'none');
-    $(`#${thingBeingEdited}`).css('cursor', 'grab');
-    $(`#${thingBeingEdited}`).find('.thingToolbox').css('display','flex')
-    if(textBeingDragged){
-      $(`#${thingBeingEdited}`).css('border', '2px solid yellow');
+  //ENTER EDIT MODE ON Click
+  $(document).on('click', '.thing', (e) => {
+    if(!userIsTyping){
+      thingBeingEdited = e.currentTarget.id;
+      editMode = true;
+      $('#thisUserAvatar').css('display', 'none');
+      $(`#${thingBeingEdited}`).css('cursor', 'grab');
+      $(`#${thingBeingEdited}`).find('.thingToolbox').css('display','flex')
+      if(textBeingDragged){
+        $(`#${thingBeingEdited}`).css('border', '2px solid yellow');
+      }
     }
   })
-  //EXIT EDIT MODE ON MOUSE LEAVE
-  $(document).on('mouseleave', '.thing', (e) => {
-    if(!thingBeingDragged){
-      editMode = false;
-      $('#thisUserAvatar').css('display', 'block');
-      $(`#${thingBeingEdited}`).css('cursor', 'none');
-      $(`#${thingBeingEdited}`).find('.thingToolbox').css('display','none')
-      $(`#${thingBeingEdited}`).find('.thingMediaContainer').css('display','none')
-      $(`#${thingBeingEdited}`).find('.thingSettingsContainer').css('display','none')
-      if(textBeingDragged){
-        $(`#${thingBeingEdited}`).css('border', '0px solid yellow');
+  //EXIT EDIT MODE ON Clicking outside thing
+  $(document).on('click', (e) => {
+    if(!thingBeingDragged && thingBeingEdited && e.target.id != thingBeingEdited){
+      if(!e.target.className.includes('partOfThing')){
+        editMode = false;
+        $('#thisUserAvatar').css('display', 'block');
+        $(`#${thingBeingEdited}`).css('cursor', 'none');
+        $(`#${thingBeingEdited}`).find('.thingToolbox').css('display','none')
+        $(`#${thingBeingEdited}`).find('.thingMediaContainer').css('display','none')
+        $(`#${thingBeingEdited}`).find('.thingSettingsContainer').css('display','none')
+        if(textBeingDragged){
+          $(`#${thingBeingEdited}`).css('border', '0px solid yellow');
+        }
       }
     }else{
-      things[thingBeingDragged].updatePos(mousePosition);
+      if(thingBeingDragged){
+        things[thingBeingDragged].updatePos(mousePosition);
+      }
     }
   });
   //Release Text on thing

@@ -12,23 +12,23 @@ include console/console
 .thing.prototype
   .thingToolbox
     .thingTools
-      input.thingColorInput
-      .thingMediaBtn Media
-      .thingSettingsBtn Settings
+      input.thingColorInput.partOfThing
+      .thingMediaBtn.partOfThing Media
+      .thingSettingsBtn.partOfThing Settings
     .thingMediaContainer
       .thingImageForm
-        input.thingImageInput(placeholder="Link to Image")
-        .thingImageInputBtn Set to Image
+        input.thingImageInput.partOfThing(placeholder="Link to Image")
+        .thingImageInputBtn.partOfThing Set to Image
       .thingVideoForm
-        input.thingVideoInput(placeholder="Link to Video")
-        .thingVideoInputBtn Embed Video
+        input.thingVideoInput.partOfThing(placeholder="Link to Video")
+        .thingVideoInputBtn.partOfThing Embed Video
       .thingAudioForm
-        input.thingAudioInput(placeholder="Embed Audio Link")
-        .thingAudioInputBtn Embed Audio
+        input.thingAudioInput.partOfThing(placeholder="Embed Audio Link")
+        .thingAudioInputBtn.partOfThing Embed Audio
     .thingSettingsContainer
       .thingPrivateForm
-        input.thingPrivateInput(type="checkbox")
-        .thingPrivateLabel Thing is Private
-      .thingDeleteBtn Delete Thing
-  iframe.thingVideo
-  iframe.thingAudio(allow="autoplay")
+        input.thingPrivateInput.partOfThing(type="checkbox")
+        .thingPrivateLabel.partOfThing Thing is Private
+      .thingDeleteBtn.partOfThing Delete Thing
+  iframe.thingVideo.partOfThing
+  iframe.thingAudio.partOfThing(allow="autoplay")

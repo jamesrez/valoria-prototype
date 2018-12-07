@@ -19,6 +19,10 @@ $(document).on('mouseup', '.consoleContainer', (e) => {
   $(`#${thingId}`).find('.consoleContent').focus();
 });
 
+$(document).on('blur', '.consoleContent', (e) => {
+  userIsTyping = false;
+})
+
 //Socket listeners
 socket.on('New console', data => {
   addNewConsole(data.thing, data.console)

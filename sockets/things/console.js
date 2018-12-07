@@ -10,11 +10,15 @@ module.exports = (io, socket, onlineUsers) => {
       if(dimension){
         let newConsoleThing = new Thing();
         newConsoleThing.elemId = `console${dimension.thingCount}`;
-        newConsoleThing.pos = data.pos;
-        newConsoleThing.width = 500;
+        newConsoleThing.pos = {
+          x : 50,
+          yPercent : "90%"
+        };
+        newConsoleThing.widthPercent = "90%";
         newConsoleThing.height = 50;
         newConsoleThing.kind = 'console';
         newConsoleThing.color = 'rgba(0,0,0,0)';
+        newConsoleThing.isFixed = true;
         newConsoleThing.save().then((consoleThing) => {
           let newConsole = new Console();
           newConsole.thingId = consoleThing._id;

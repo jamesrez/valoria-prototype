@@ -1,7 +1,7 @@
 .console{
   border : 1px solid white;
   width: 90%;
-  height: 80%;
+  min-height: 80%;
   background-color: #121212;
 }
 

@@ -130,10 +130,12 @@ socket.on('Load Online Users', (users) => {
     })
     onlineUsers[id] = users[id];
     peerCall = peer.call(users[id].voiceId, thisAudioStream);
-    peerCall.on('stream', (stream) => {
-      console.log(stream)
-      $('.voiceStream')[0].srcObject = stream;
-    })
+    if(peerCall){
+      peerCall.on('stream', (stream) => {
+        console.log("Listening to Stream: " + stream)
+        $('.voiceStream')[0].srcObject = stream;
+      })
+    }
   }
 });
 

@@ -32,7 +32,7 @@ function moveScreen(direction){
       $('.dimension').css({
         backgroundPosition : `${bpx} ${bpy}`
       });
-      $('.environment').css({
+      $('.movingEnvironment').css({
         left : bpx,
         top : bpy
       })
@@ -81,7 +81,7 @@ class ScrollZone {
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
-          $('.environment').css({
+          $('.movingEnvironment').css({
             left : bpx,
             top : bpy
           })
@@ -93,7 +93,7 @@ class ScrollZone {
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
-          $('.environment').css({
+          $('.movingEnvironment').css({
             left : bpx,
             top : bpy
           })
@@ -105,7 +105,7 @@ class ScrollZone {
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
-          $('.environment').css({
+          $('.movingEnvironment').css({
             left : bpx,
             top : bpy
           })
@@ -117,7 +117,7 @@ class ScrollZone {
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
-          $('.environment').css({
+          $('.movingEnvironment').css({
             left : bpx,
             top : bpy
           })
@@ -131,7 +131,7 @@ class ScrollZone {
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
-          $('.environment').css({
+          $('.movingEnvironment').css({
             left : bpx,
             top : bpy
           })
@@ -145,7 +145,7 @@ class ScrollZone {
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
-          $('.environment').css({
+          $('.movingEnvironment').css({
             left : bpx,
             top : bpy
           })
@@ -159,7 +159,7 @@ class ScrollZone {
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
-          $('.environment').css({
+          $('.movingEnvironment').css({
             left : bpx,
             top : bpy
           })
@@ -173,7 +173,7 @@ class ScrollZone {
           $('.dimension').css({
             backgroundPosition : `${bpx} ${bpy}`
           });
-          $('.environment').css({
+          $('.movingEnvironment').css({
             left : bpx,
             top : bpy
           })
